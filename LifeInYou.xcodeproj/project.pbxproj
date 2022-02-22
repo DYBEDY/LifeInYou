@@ -9,21 +9,47 @@
 /* Begin PBXBuildFile section */
 		06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8427C57B08000B6E5F /* AppDelegate.swift */; };
 		06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */; };
-		06D6EA8927C57B08000B6E5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8827C57B08000B6E5F /* ViewController.swift */; };
+		06D6EA8927C57B08000B6E5F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8827C57B08000B6E5F /* StartViewController.swift */; };
 		06D6EA8C27C57B08000B6E5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8A27C57B08000B6E5F /* Main.storyboard */; };
 		06D6EA8E27C57B0A000B6E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8D27C57B0A000B6E5F /* Assets.xcassets */; };
 		06D6EA9127C57B0A000B6E5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8F27C57B0A000B6E5F /* LaunchScreen.storyboard */; };
+		06D6EA9927C57B84000B6E5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */; };
+		06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */; };
+		06D6EA9F27C5822E000B6E5F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9E27C5822E000B6E5F /* MainViewController.swift */; };
+		06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA027C58274000B6E5F /* TaskListViewController.swift */; };
+		06D6EAA327C582D1000B6E5F /* WelcomeSettongsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA227C582D1000B6E5F /* WelcomeSettongsModel.swift */; };
+		06D6EAA627C582FC000B6E5F /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA527C582FC000B6E5F /* TaskList.swift */; };
+		06D6EAA827C58317000B6E5F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA727C58317000B6E5F /* User.swift */; };
+		06D6EAAA27C58343000B6E5F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA927C58343000B6E5F /* DatabaseManager.swift */; };
+		06D6EAAD27C583A1000B6E5F /* ExtensionWorkWithDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */; };
+		06D6EAB027C583D5000B6E5F /* TaskListAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAAF27C583D5000B6E5F /* TaskListAlertController.swift */; };
+		06D6EAB227C58DFD000B6E5F /* testVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EAB127C58DFA000B6E5F /* testVideo.mp4 */; };
+		6AD08F09363A0F6FACFC1258 /* Pods_LifeInYou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE0A7DA42FD6B3C4F5966E2 /* Pods_LifeInYou.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		06D6EA8127C57B08000B6E5F /* LifeInYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeInYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06D6EA8427C57B08000B6E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		06D6EA8827C57B08000B6E5F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		06D6EA8827C57B08000B6E5F /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		06D6EA8B27C57B08000B6E5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		06D6EA8D27C57B0A000B6E5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		06D6EA9027C57B0A000B6E5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		06D6EA9227C57B0A000B6E5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		06D6EA9E27C5822E000B6E5F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		06D6EAA027C58274000B6E5F /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
+		06D6EAA227C582D1000B6E5F /* WelcomeSettongsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSettongsModel.swift; sourceTree = "<group>"; };
+		06D6EAA527C582FC000B6E5F /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
+		06D6EAA727C58317000B6E5F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		06D6EAA927C58343000B6E5F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionWorkWithDate.swift; sourceTree = "<group>"; };
+		06D6EAAF27C583D5000B6E5F /* TaskListAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListAlertController.swift; sourceTree = "<group>"; };
+		06D6EAB127C58DFA000B6E5F /* testVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testVideo.mp4; sourceTree = "<group>"; };
+		20DED25DC1E86322DBD017B1 /* Pods-LifeInYou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeInYou.debug.xcconfig"; path = "Target Support Files/Pods-LifeInYou/Pods-LifeInYou.debug.xcconfig"; sourceTree = "<group>"; };
+		6BE0A7DA42FD6B3C4F5966E2 /* Pods_LifeInYou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LifeInYou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E0F1020024956D3890EAEA3 /* Pods-LifeInYou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeInYou.release.xcconfig"; path = "Target Support Files/Pods-LifeInYou/Pods-LifeInYou.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AD08F09363A0F6FACFC1258 /* Pods_LifeInYou.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +69,8 @@
 			children = (
 				06D6EA8327C57B08000B6E5F /* LifeInYou */,
 				06D6EA8227C57B08000B6E5F /* Products */,
+				446B3653361AD6F728F90B9A /* Pods */,
+				4E9E16ED96BEBA816B3C4438 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +85,83 @@
 		06D6EA8327C57B08000B6E5F /* LifeInYou */ = {
 			isa = PBXGroup;
 			children = (
-				06D6EA8427C57B08000B6E5F /* AppDelegate.swift */,
-				06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */,
-				06D6EA8827C57B08000B6E5F /* ViewController.swift */,
-				06D6EA8A27C57B08000B6E5F /* Main.storyboard */,
-				06D6EA8D27C57B0A000B6E5F /* Assets.xcassets */,
-				06D6EA8F27C57B0A000B6E5F /* LaunchScreen.storyboard */,
-				06D6EA9227C57B0A000B6E5F /* Info.plist */,
+				06D6EA9D27C57F82000B6E5F /* ViewControllers */,
+				06D6EAA427C582DC000B6E5F /* Models */,
+				06D6EAAB27C5834E000B6E5F /* DataManager */,
+				06D6EAAE27C583B2000B6E5F /* Extensions */,
+				06D6EA9A27C57D40000B6E5F /* SupportingFiles */,
 			);
 			path = LifeInYou;
+			sourceTree = "<group>";
+		};
+		06D6EA9A27C57D40000B6E5F /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				06D6EA8427C57B08000B6E5F /* AppDelegate.swift */,
+				06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */,
+				06D6EA8A27C57B08000B6E5F /* Main.storyboard */,
+				06D6EA8D27C57B0A000B6E5F /* Assets.xcassets */,
+				06D6EAB127C58DFA000B6E5F /* testVideo.mp4 */,
+				06D6EA8F27C57B0A000B6E5F /* LaunchScreen.storyboard */,
+				06D6EA9227C57B0A000B6E5F /* Info.plist */,
+				06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		06D6EA9D27C57F82000B6E5F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				06D6EA8827C57B08000B6E5F /* StartViewController.swift */,
+				06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */,
+				06D6EA9E27C5822E000B6E5F /* MainViewController.swift */,
+				06D6EAA027C58274000B6E5F /* TaskListViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		06D6EAA427C582DC000B6E5F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				06D6EAA227C582D1000B6E5F /* WelcomeSettongsModel.swift */,
+				06D6EAA527C582FC000B6E5F /* TaskList.swift */,
+				06D6EAA727C58317000B6E5F /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		06D6EAAB27C5834E000B6E5F /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				06D6EAA927C58343000B6E5F /* DatabaseManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		06D6EAAE27C583B2000B6E5F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */,
+				06D6EAAF27C583D5000B6E5F /* TaskListAlertController.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		446B3653361AD6F728F90B9A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				20DED25DC1E86322DBD017B1 /* Pods-LifeInYou.debug.xcconfig */,
+				7E0F1020024956D3890EAEA3 /* Pods-LifeInYou.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		4E9E16ED96BEBA816B3C4438 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BE0A7DA42FD6B3C4F5966E2 /* Pods_LifeInYou.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +171,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06D6EA9527C57B0A000B6E5F /* Build configuration list for PBXNativeTarget "LifeInYou" */;
 			buildPhases = (
+				89B84DD38ADD8A9CEB115835 /* [CP] Check Pods Manifest.lock */,
 				06D6EA7D27C57B08000B6E5F /* Sources */,
 				06D6EA7E27C57B08000B6E5F /* Frameworks */,
 				06D6EA7F27C57B08000B6E5F /* Resources */,
+				EBC11B0822A89F09039FED77 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,20 +226,73 @@
 			files = (
 				06D6EA9127C57B0A000B6E5F /* LaunchScreen.storyboard in Resources */,
 				06D6EA8E27C57B0A000B6E5F /* Assets.xcassets in Resources */,
+				06D6EA9927C57B84000B6E5F /* GoogleService-Info.plist in Resources */,
+				06D6EAB227C58DFD000B6E5F /* testVideo.mp4 in Resources */,
 				06D6EA8C27C57B08000B6E5F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		89B84DD38ADD8A9CEB115835 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LifeInYou-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EBC11B0822A89F09039FED77 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LifeInYou/Pods-LifeInYou-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LifeInYou/Pods-LifeInYou-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LifeInYou/Pods-LifeInYou-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		06D6EA7D27C57B08000B6E5F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06D6EA8927C57B08000B6E5F /* ViewController.swift in Sources */,
+				06D6EAA627C582FC000B6E5F /* TaskList.swift in Sources */,
+				06D6EA8927C57B08000B6E5F /* StartViewController.swift in Sources */,
+				06D6EAAA27C58343000B6E5F /* DatabaseManager.swift in Sources */,
+				06D6EAB027C583D5000B6E5F /* TaskListAlertController.swift in Sources */,
+				06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */,
 				06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */,
 				06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */,
+				06D6EAA827C58317000B6E5F /* User.swift in Sources */,
+				06D6EAA327C582D1000B6E5F /* WelcomeSettongsModel.swift in Sources */,
+				06D6EAAD27C583A1000B6E5F /* ExtensionWorkWithDate.swift in Sources */,
+				06D6EA9F27C5822E000B6E5F /* MainViewController.swift in Sources */,
+				06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +436,7 @@
 		};
 		06D6EA9627C57B0A000B6E5F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 20DED25DC1E86322DBD017B1 /* Pods-LifeInYou.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -291,12 +444,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3HS3UN4N9J;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LifeInYou/Info.plist;
+				INFOPLIST_FILE = LifeInYou/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,12 +460,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		06D6EA9727C57B0A000B6E5F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E0F1020024956D3890EAEA3 /* Pods-LifeInYou.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -319,12 +474,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3HS3UN4N9J;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LifeInYou/Info.plist;
+				INFOPLIST_FILE = LifeInYou/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -334,7 +490,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
