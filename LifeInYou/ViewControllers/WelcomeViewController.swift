@@ -351,7 +351,7 @@ private func addDoneButtonTo(_ textFields: UITextField...) {
                                         action: nil)
 
     numberToolbar.items = [flexBarButton, doneButton]
-    
+    print("ok")
 }
 
 @objc private func tapDone() {
