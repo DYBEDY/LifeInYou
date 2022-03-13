@@ -103,7 +103,7 @@ class TaskListViewController: UITableViewController {
         }
         
         let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, isDone in
-//            self.editPressed(at: indexPath)
+            self.editPressed(at: indexPath)
             tableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)
             }
@@ -164,7 +164,7 @@ extension TaskListViewController {
             "userid": user.uid
         ], merge: true)
           
-        
+        self.tableView.reloadData()
 
     }
 
@@ -176,26 +176,51 @@ extension TaskListViewController {
         tableView.deleteRows(at: [indexPath], with: .automatic)
 //        DatabaseManager.shared.delete(current: task, by: user)
         db.collection("users").document("\(user.uid)").collection("tasks").document("\(task.name)").delete()
+        
+        self.tableView.reloadData()
     }
     
     
-    func editPressed(at indexPath: IndexPath) -> Bool {
+    func editPressed(at indexPath: IndexPath) {
           editTaskAlert(with: "Edit", and: "Do you want to edit yours task?", and: indexPath)
-          return true
+          
       }
     
     
     private func editTaskAlert(with title: String, and message: String, and indexPath: IndexPath){
           let taskText = taskLists[indexPath.row]
+          let oldText = taskLists[indexPath.row]
           let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         
           let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
-//              guard let currentUser = Auth.auth().currentUser else { return }
-//              let user = User(user: currentUser)
+              guard let currentUser = Auth.auth().currentUser else { return }
+              let user = User(user: currentUser)
               
               guard let task = alert.textFields?.first?.text else { return }
+
+             
+              let db = Firestore.firestore()
+              let newTask = TaskList(name: task)
+              
+              
+              db.collection("users").document("\(user.uid)").collection("tasks").document("\(oldText.name)").delete()
+              db.collection("users").document("\(user.uid)").collection("tasks").document("\(newTask.name)").setData([
+                  "task" : newTask.name,
+                  "userid": user.uid
+              ], merge: true)
+
+              
               taskText.name = task
+              
+             
+              
+              
+     
+                
+              
+              
+              
 //              DatabaseManager.shared.edit(taskText, newValue: taskText.name, by: user)
               self.tableView.reloadData()
 

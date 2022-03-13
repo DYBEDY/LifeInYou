@@ -399,7 +399,7 @@ private func showAlert(tittle: String, message: String) {
     
     alert.addAction(alertAction)
     present(alert, animated: true)
-    print("ok")
+    
 }
 }
 
