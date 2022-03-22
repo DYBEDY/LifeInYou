@@ -14,14 +14,76 @@ class DatabaseManager {
     static let shared = DatabaseManager()
     
     
-    private let database = Firestore.firestore()
+    private let db = Firestore.firestore()
     private init() {}
     
-    
+  
     
     func validateNewUser(with email: String, completion: @escaping (Bool) -> Void) {
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        
+    }
+    
+    func inserNewTask(by user: User, task: String) {
+        let newTask = TaskList(name: task)
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(newTask.name)").setData([
+                "task" : newTask.name,
+                "userid": user.uid,
+                "date" : newTask.date
+            ], merge: true)
+        }
+      
+    }
+    
+    func insertSecondTask(by user: User, fromTask: String, task: String, note: String) {
+        let fromTask = TaskList(name: fromTask)
+        let newTask = Task(name: task, note: note)
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").setData([
+                "task" : newTask.name,
+                "note" : newTask.note,
+                "date" : newTask.date,
+                "isComplete" : newTask.isComplete
+
+            ])
+        }
+    }
+    
+    
+    
+    
+    func doneTask(_ task: TaskList, by user: User) {
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("tasks").document("\(task.name)").setData([
+                "task" : task.name,
+                "userid": user.uid
+//                "isDone": task.isComplete.toggle()
+            ], merge: true)
+        }
+    }
+ 
+    
+    func delete(current task: TaskList, by user: User) {
+//        database.database.reference(withPath: "users").child(String(user.uid)).child("tasks").child(task.name).removeValue()
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").delete()
+        }
+    }
+    
+    func editTask(by user: User, oldTask: String, newTask: String) {
+        let oldTask = TaskList(name: oldTask)
+        let newTask = TaskList(name: newTask)
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(oldTask.name)").delete()
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(newTask.name)").setData([
+                "task" : newTask.name,
+                "userid": user.uid,
+                "date" : newTask.date
+            ], merge: true)
+        }
+    }
         
 //
 //
@@ -48,12 +110,10 @@ class DatabaseManager {
 //            "userId": task.userId])
 //
 //    }
+      
 //
 //
-//
-//    func delete(current task: TaskList, by user: User) {
-//        database.database.reference(withPath: "users").child(String(user.uid)).child("tasks").child(task.name).removeValue()
-//    }
+
 //
 //
     
@@ -76,5 +136,5 @@ class DatabaseManager {
 //    }
 //
 }
-}
+
 

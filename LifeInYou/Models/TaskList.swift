@@ -17,36 +17,52 @@ class TaskList: Equatable {
     
     var name: String
     var userId: String
-   
+    var date = Date()
+    var tasks = Array<Task>()
     
     
-    init(name: String, userId: String) {
+    init(name: String, userId: String, date: Date) {
         self.name = name
         self.userId = userId
-//        self.ref = nil
+        self.date = date
+
     }
     
-    
-//    init(snapshot: DataSnapshot) {
-//        let snapshotValue = snapshot.value as! [String: Any]
-//        name = snapshotValue["name"] as! String
-//        userId = snapshotValue["userId"] as! String
-//        ref = snapshot.ref
-//    }
     
     init(name: String) {
         self.name = name
         self.userId = ""
-//        self.ref = nil
-        
+
     }
 }
 
-class Task {
+class Task: Equatable {
+    static func == (lhs: Task, rhs: Task) -> Bool {
+        return lhs.name == rhs.name && lhs.note == rhs.note && lhs.isComplete == rhs.isComplete
+    }
+    
     var name = ""
     var note = ""
     var date = Date()
     var isComplete = false
+ 
+    
+    init(name: String, note: String, isComplete: Bool) {
+        self.name = name
+        self.note = note
+        self.isComplete = isComplete
+    }
+    
+    init (name: String, note: String) {
+        self.name = name
+        self.note = note
+    }
+    init (name: String) {
+        self.name = ""
+    }
+    init (note: String) {
+        self.note = ""
+    }
 }
 
 

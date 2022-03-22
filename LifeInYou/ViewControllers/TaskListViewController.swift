@@ -13,36 +13,22 @@ import FirebaseFirestore
 class TaskListViewController: UITableViewController {
     var taskLists = Array<TaskList>()
     var currentUser: User!
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let currentUser = Auth.auth().currentUser else { return }
         let user = User(user: currentUser)
-        let db = Firestore.firestore()
+
         
-        
-//        db.collection("users").document("\(user.uid)").collection("tasks").getDocuments { snapshot, error in
-//            var tasks = Array<TaskList>()
-//            if let error = error {
-//                print("Error: \(error)")
-//            } else {
-//                for document in snapshot!.documents {
-//
-//
-//                    print("\(document.documentID) => \(document.data())")
-//
-//                }
-//
-//            }
-//        }
-           
-        db.collection("users").document("\(user.uid)").collection("tasks").order(by: "task", descending: true)
-        db.collection("users").document("\(user.uid)").collection("tasks").getDocuments { snapshot, error in
+    
+        db.collection("users").document("\(user.uid)").collection("taskList").order(by: "task", descending: true)
+        db.collection("users").document("\(user.uid)").collection("taskList").getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
@@ -57,17 +43,6 @@ class TaskListViewController: UITableViewController {
                 
             }
         }
-           
-        
-        
-     
-        
-////
-//        DatabaseManager.shared.fetchData(to: user) { taskList in
-//            self.taskLists = taskList
-//            self.tableView.reloadData()
-//        }
-       
     }
     
     
@@ -84,17 +59,27 @@ class TaskListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TasksListCell", for: indexPath)
+//        var content = cell.defaultContentConfiguration()
+//        let taskList = taskLists[indexPath.row]
+//        content.text = taskList.name
+//
+//
+//        if taskList.isComplete == false {
+//
+//            cell.accessoryType = .none
+//        } else {
+//            cell.accessoryType = .checkmark
+//        }
+//
+//
+//        cell.contentConfiguration = content
         
-        var content = cell.defaultContentConfiguration()
         let taskList = taskLists[indexPath.row]
-        content.text = taskList.name
-//        content.secondaryText = "\(taskList.tasks.count)"
-        cell.contentConfiguration = content
-        
+        cell.configure(with: taskList)
         return cell
     }
     
-    // MARK: - Table View Data Source
+    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
@@ -112,6 +97,7 @@ class TaskListViewController: UITableViewController {
         
         let doneAction = UIContextualAction(style: .normal, title: "Done") { _, _, isDone in
 //            StorageManager.shared.done(taskList)
+            self.doneTask(indexPath: indexPath)
             tableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)
         }
@@ -126,7 +112,19 @@ class TaskListViewController: UITableViewController {
     @IBAction func addTapped(_ sender: UIBarButtonItem) {
         showAlert()
     }
+    
+    //MARK: - Navigation
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        guard let taskVC = segue.destination as? TaskViewController else { return }
+        let taskList = taskLists[indexPath.row]
+        taskVC.taskList = taskList
+    }
 }
+
+
+
 
 
 extension TaskListViewController {
@@ -154,28 +152,46 @@ extension TaskListViewController {
     private func saveFunc(taskList: String) {
         guard let currentUser = Auth.auth().currentUser else { return }
         let user = User(user: currentUser)
-        let db = Firestore.firestore()
         let newTask = TaskList(name: taskList)
         self.taskLists.append(newTask)
         self.tableView.insertRows(at: [IndexPath(row: self.taskLists.count - 1, section: 0)], with: .automatic)
 //        DatabaseManager.shared.insertNewTask(by: user, task: TaskList(name: newTask.name, userId: user.uid))
-        db.collection("users").document("\(user.uid)").collection("tasks").document("\(newTask.name)").setData([
-            "task" : newTask.name,
-            "userid": user.uid
-        ], merge: true)
+//        db.collection("users").document("\(user.uid)").collection("tasks").document("\(newTask.name)").setData([
+//            "task" : newTask.name,
+//            "userid": user.uid
+//        ], merge: true)
           
+        DatabaseManager.shared.inserNewTask(by: user, task: taskList)
         self.tableView.reloadData()
 
     }
 
+    private func doneTask(indexPath: IndexPath) {
+        let currentTask = taskLists[indexPath.row]
+            guard let currentUser = Auth.auth().currentUser else { return }
+            let user = User(user: currentUser)
+//        currentTask.isComplete.toggle()
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("tasks").document("\(currentTask.name)").setData([
+                "task" : currentTask.name,
+                "userid": user.uid
+//                "isDone": currentTask.isComplete
+            ], merge: true)
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     private func deleteFunc(at indexPath: IndexPath) {
         guard let currentUser = Auth.auth().currentUser else { return }
         let user = User(user: currentUser)
         let task = taskLists.remove(at: indexPath.row)
-        let db = Firestore.firestore()
         tableView.deleteRows(at: [indexPath], with: .automatic)
-//        DatabaseManager.shared.delete(current: task, by: user)
-        db.collection("users").document("\(user.uid)").collection("tasks").document("\(task.name)").delete()
+        DatabaseManager.shared.delete(current: task, by: user)
         
         self.tableView.reloadData()
     }
@@ -189,7 +205,7 @@ extension TaskListViewController {
     
     private func editTaskAlert(with title: String, and message: String, and indexPath: IndexPath){
           let taskText = taskLists[indexPath.row]
-          let oldText = taskLists[indexPath.row]
+          let oldTask = taskLists[indexPath.row]
           let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         
@@ -199,32 +215,15 @@ extension TaskListViewController {
               
               guard let task = alert.textFields?.first?.text else { return }
 
-             
-              let db = Firestore.firestore()
               let newTask = TaskList(name: task)
               
-              
-              db.collection("users").document("\(user.uid)").collection("tasks").document("\(oldText.name)").delete()
-              db.collection("users").document("\(user.uid)").collection("tasks").document("\(newTask.name)").setData([
-                  "task" : newTask.name,
-                  "userid": user.uid
-              ], merge: true)
-
-              
+              DatabaseManager.shared.editTask(by: user, oldTask: oldTask.name, newTask: newTask.name)
               taskText.name = task
-              
-             
-              
-              
-     
-                
-              
-              
-              
-//              DatabaseManager.shared.edit(taskText, newValue: taskText.name, by: user)
               self.tableView.reloadData()
 
           }
+        
+        
 
           let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
 
