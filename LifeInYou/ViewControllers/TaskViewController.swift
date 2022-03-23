@@ -14,27 +14,26 @@ import FirebaseFirestore
 class TaskViewController: UITableViewController {
     let db = Firestore.firestore()
     var taskList: TaskList!
-    var tasks = Array<TaskList>()
+    var tasks = Array<Task>()
     
+    let user: User! = {
+        guard let currentUser = Auth.auth().currentUser else { return nil }
+        return User(user: currentUser)
+    }()
     
-    private var currentTasks = Array<Task>()
-    private var completedTasks = Array<Task>()
+    private var currentTasks: [Task] {
+        tasks.filter { !$0.isComplete }
+    }
+    
+    private var completedTasks: [Task] {
+        tasks.filter { $0.isComplete }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = taskList.name
-        
-        currentTasks = taskList.tasks.filter({ task in
-            task.isComplete == false
-        })
-        
-        completedTasks = taskList.tasks.filter({ task in
-            task.isComplete == true
-        })
-        
-        
-        
+
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -45,30 +44,31 @@ class TaskViewController: UITableViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        guard let currentUser = Auth.auth().currentUser else { return }
-        let user = User(user: currentUser)
-
-        
-    
+    private func updateTasks(_ user: User) {
         db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").order(by: "task", descending: true)
         db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
-                        self.currentTasks = snapshot.documents.map { d in
+                        self.tasks = snapshot.documents.map { d in
+                            print(d) // FIXME: d["name"]
                             return Task(name: d["task"] as? String ?? "")
                         }
-                        self.tableView.reloadData()
                     }
-                  
+                    
                 }
             } else {
                 
             }
         }
-     
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateTasks(user)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     
@@ -177,11 +177,22 @@ extension TaskViewController {
         guard let currentUser = Auth.auth().currentUser else { return }
         let user = User(user: currentUser)
         DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: task.name, note: task.note)
+        
+//        tableView.performBatchUpdates {
+//            updateTasks(user)
+//            let rowIndex = IndexPath(row: currentTasks.firstIndex(of: task) ?? 0, section: 0)
+//            tableView.insertRows(at: [rowIndex], with: .automatic)
+//        }
 
-
-        let rowIndex = IndexPath(row: currentTasks.firstIndex(of: task) ?? 0, section: 0)
-        tableView.insertRows(at: [rowIndex], with: .automatic)
-
+        updateTasks(user)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.tableView.performBatchUpdates {
+                let rowIndex = IndexPath(row: self?.currentTasks.firstIndex(of: task) ?? 0, section: 0)
+                self?.tableView.insertRows(at: [rowIndex], with: .automatic)
+                //self?.tableView.reloadData()
+            }
+        }
+        
     }
     
     

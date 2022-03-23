@@ -7,8 +7,8 @@
 
 
 import Foundation
-import Firebase
-import FirebaseFirestore
+//import Firebase
+//import FirebaseFirestore
 
 class TaskList: Equatable {
     static func == (lhs: TaskList, rhs: TaskList) -> Bool {
@@ -41,28 +41,17 @@ class Task: Equatable {
         return lhs.name == rhs.name && lhs.note == rhs.note && lhs.isComplete == rhs.isComplete
     }
     
-    var name = ""
-    var note = ""
+    var name: String
+    var note: String
     var date = Date()
-    var isComplete = false
+    var isComplete: Bool
  
-    
-    init(name: String, note: String, isComplete: Bool) {
+    init(name: String = "", note: String = "", isComplete: Bool = false) {
         self.name = name
         self.note = note
         self.isComplete = isComplete
     }
     
-    init (name: String, note: String) {
-        self.name = name
-        self.note = note
-    }
-    init (name: String) {
-        self.name = ""
-    }
-    init (note: String) {
-        self.note = ""
-    }
 }
 
 
