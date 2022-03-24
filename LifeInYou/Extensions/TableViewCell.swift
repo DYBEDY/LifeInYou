@@ -13,6 +13,10 @@ extension UITableViewCell {
             task.isComplete == false
         }
         
+        var completedTasks: [Task] {
+            taskList.tasks
+        }
+        
             var content = defaultContentConfiguration()
             
             content.text = taskList.name
@@ -24,7 +28,7 @@ extension UITableViewCell {
                 content.secondaryText = nil
                 accessoryType = .checkmark
             } else {
-                content.secondaryText = "\(currentTasks.count)"
+                content.secondaryText = "\(completedTasks.count)"
                 accessoryType = .none
             }
             

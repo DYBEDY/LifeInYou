@@ -52,7 +52,9 @@ class TaskViewController: UITableViewController {
                     DispatchQueue.main.async {
                         self.tasks = snapshot.documents.map { d in
                             print(d) // FIXME: d["name"]
-                            return Task(name: d["task"] as? String ?? "")
+//                            return Task(name: d["task"] as? String ?? "")
+                            return Task(name: d["task"] as? String ?? "",
+                                        note: d["note"] as? String ?? "")
                         }
                     }
                     
@@ -81,6 +83,7 @@ class TaskViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         section == 0 ? currentTasks.count : completedTasks.count
+        
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -183,7 +186,6 @@ extension TaskViewController {
 //            let rowIndex = IndexPath(row: currentTasks.firstIndex(of: task) ?? 0, section: 0)
 //            tableView.insertRows(at: [rowIndex], with: .automatic)
 //        }
-
         updateTasks(user)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             self?.tableView.performBatchUpdates {

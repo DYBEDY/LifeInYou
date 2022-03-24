@@ -15,18 +15,19 @@ class TaskListViewController: UITableViewController {
     var currentUser: User!
     let db = Firestore.firestore()
     
+    
+    let user: User! = {
+        guard let currentUser = Auth.auth().currentUser else { return nil }
+        return User(user: currentUser)
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        guard let currentUser = Auth.auth().currentUser else { return }
-        let user = User(user: currentUser)
-
-        
     
+    private func updateTaskList(_ user: User) {
         db.collection("users").document("\(user.uid)").collection("taskList").order(by: "task", descending: true)
         db.collection("users").document("\(user.uid)").collection("taskList").getDocuments { snapshot, error in
             if error == nil {
@@ -43,6 +44,12 @@ class TaskListViewController: UITableViewController {
                 
             }
         }
+    }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        updateTaskList(user)
     }
     
     

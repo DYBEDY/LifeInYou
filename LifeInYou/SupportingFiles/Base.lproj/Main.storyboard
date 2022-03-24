@@ -55,6 +55,10 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wb7-SV-C0J">
                                                 <rect key="frame" x="0.0" y="69" width="116" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="116" id="SeN-ab-KXB"/>
+                                                    <constraint firstAttribute="height" constant="32" id="eSH-JG-wTW"/>
+                                                </constraints>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Регистрация">
                                                     <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
@@ -66,6 +70,7 @@
                                             </button>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="wb7-SV-C0J" secondAttribute="bottom" id="clS-Ge-8i7"/>
                                             <constraint firstAttribute="height" constant="101" id="i1J-Nu-7nH"/>
                                             <constraint firstAttribute="width" constant="116" id="lVp-KA-93e"/>
                                         </constraints>
@@ -538,7 +543,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="jtR-Kl-5U8"/>
+        <segue reference="VNk-6f-RjA"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

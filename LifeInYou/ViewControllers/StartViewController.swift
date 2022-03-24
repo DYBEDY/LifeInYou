@@ -35,7 +35,8 @@ class StartViewController: UIViewController {
         super.viewDidLoad()
 //        playVideo()
         
-       
+//        emailTextField.delegate = self
+//        passwordTextField.delegate = self
         
         infoLabel.alpha = 0
         
@@ -145,6 +146,11 @@ class StartViewController: UIViewController {
         videoLayer.bringSubviewToFront(infoLabel)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches , with:event)
+        view.endEditing(true)
+    }
 
 }
+
 

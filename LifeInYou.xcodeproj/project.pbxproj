@@ -19,7 +19,7 @@
 		06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */; };
 		06D6EA9F27C5822E000B6E5F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9E27C5822E000B6E5F /* MainViewController.swift */; };
 		06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA027C58274000B6E5F /* TaskListViewController.swift */; };
-		06D6EAA327C582D1000B6E5F /* WelcomeSettongsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA227C582D1000B6E5F /* WelcomeSettongsModel.swift */; };
+		06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA227C582D1000B6E5F /* WelcomeSettingsModel.swift */; };
 		06D6EAA627C582FC000B6E5F /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA527C582FC000B6E5F /* TaskList.swift */; };
 		06D6EAA827C58317000B6E5F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA727C58317000B6E5F /* User.swift */; };
 		06D6EAAA27C58343000B6E5F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA927C58343000B6E5F /* DatabaseManager.swift */; };
@@ -44,7 +44,7 @@
 		06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		06D6EA9E27C5822E000B6E5F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		06D6EAA027C58274000B6E5F /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
-		06D6EAA227C582D1000B6E5F /* WelcomeSettongsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSettongsModel.swift; sourceTree = "<group>"; };
+		06D6EAA227C582D1000B6E5F /* WelcomeSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSettingsModel.swift; sourceTree = "<group>"; };
 		06D6EAA527C582FC000B6E5F /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
 		06D6EAA727C58317000B6E5F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		06D6EAA927C58343000B6E5F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		06D6EAA427C582DC000B6E5F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				06D6EAA227C582D1000B6E5F /* WelcomeSettongsModel.swift */,
+				06D6EAA227C582D1000B6E5F /* WelcomeSettingsModel.swift */,
 				06D6EAA527C582FC000B6E5F /* TaskList.swift */,
 				06D6EAA727C58317000B6E5F /* User.swift */,
 			);
@@ -297,7 +297,7 @@
 				06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */,
 				06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */,
 				06D6EAA827C58317000B6E5F /* User.swift in Sources */,
-				06D6EAA327C582D1000B6E5F /* WelcomeSettongsModel.swift in Sources */,
+				06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */,
 				06D6EAAD27C583A1000B6E5F /* ExtensionWorkWithDate.swift in Sources */,
 				06D6EA9F27C5822E000B6E5F /* MainViewController.swift in Sources */,
 				06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */,
