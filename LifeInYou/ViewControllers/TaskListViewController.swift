@@ -11,7 +11,7 @@ import FirebaseFirestore
 
 
 class TaskListViewController: UITableViewController {
-    var taskLists = Array<TaskList>()
+    var taskLists: [TaskList] = []
     var currentUser: User!
     let db = Firestore.firestore()
     
@@ -140,12 +140,6 @@ extension TaskListViewController {
         let alert = UIAlertController.createAlert(withTitle: title, andMessage: "Please set title for new task list")
 
         alert.action(with: taskList) { newValue in
-//            guard let currentUser = Auth.auth().currentUser else { return }
-//            let user = User(user: currentUser)
-//            if let taskList = taskList, let completion = completion {
-//
-//                completion()
-//            } else {
             self.saveFunc(taskList: newValue)
             }
         present(alert, animated: true)
@@ -162,12 +156,7 @@ extension TaskListViewController {
         let newTask = TaskList(name: taskList)
         self.taskLists.append(newTask)
         self.tableView.insertRows(at: [IndexPath(row: self.taskLists.count - 1, section: 0)], with: .automatic)
-//        DatabaseManager.shared.insertNewTask(by: user, task: TaskList(name: newTask.name, userId: user.uid))
-//        db.collection("users").document("\(user.uid)").collection("tasks").document("\(newTask.name)").setData([
-//            "task" : newTask.name,
-//            "userid": user.uid
-//        ], merge: true)
-          
+
         DatabaseManager.shared.inserNewTask(by: user, task: taskList)
         self.tableView.reloadData()
 

@@ -50,8 +50,37 @@ class DatabaseManager {
             ])
         }
     }
-    
-    
+//    
+//    func insertUndoneTask(by user: User, fromTask: String, task: String, note: String) {
+//        let fromTask = TaskList(name: fromTask)
+//        let newTask = Task(name: task, note: note)
+//        DispatchQueue.main.async {
+//            self.db.collection("users").document("\(user.uid)").collection("taskList")
+//                .document("\(fromTask.name)").collection("tasks").document("Undone").collection("tasks").document("\(newTask.name)").setData([
+//                "task" : newTask.name,
+//                "note" : newTask.note,
+//                "date" : newTask.date,
+//                "isComplete" : newTask.isComplete
+//
+//            ])
+//        }
+//    }
+//    
+//    func insertDoneTask(by user: User, fromTask: String, task: String, note: String) {
+//        let fromTask = TaskList(name: fromTask)
+//        let newTask = Task(name: task, note: note)
+//        DispatchQueue.main.async {
+//            self.db.collection("users").document("\(user.uid)").collection("taskList")
+//                .document("\(fromTask.name)").collection("tasks").document("Done").collection("tasks").document("\(newTask.name)").setData([
+//                "task" : newTask.name,
+//                "note" : newTask.note,
+//                "date" : newTask.date,
+//                "isComplete" : newTask.isComplete.toggle()
+//
+//            ])
+//        }
+//    }
+//    
     
     
     func doneTask(_ task: TaskList, by user: User) {
@@ -66,11 +95,25 @@ class DatabaseManager {
  
     
     func delete(current task: TaskList, by user: User) {
-//        database.database.reference(withPath: "users").child(String(user.uid)).child("tasks").child(task.name).removeValue()
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").delete()
         }
     }
+    
+    func deleteSecondTask(current task: Task, from document: String, by user: User) {
+        let currentTask = TaskList(name: document)
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(currentTask.name)").collection("tasks").document("\(task.name)").delete()
+    }
+    }
+    
+//    func deleteSecondTask(by user: User, fromTask: String, task: String) {
+//        let fromTask = TaskList(name: fromTask)
+//        let newTask = Task(name: task)
+//        DispatchQueue.main.async {
+//            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").delete()
+//        }
+//    }
     
     func editTask(by user: User, oldTask: String, newTask: String) {
         let oldTask = TaskList(name: oldTask)

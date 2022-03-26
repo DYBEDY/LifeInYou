@@ -474,7 +474,7 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="08V-BR-oxF" id="mnv-BA-Mm2"/>
+                            <outlet property="dataSource" destination="08V-BR-oxF" id="gJp-yM-MoC"/>
                             <outlet property="delegate" destination="08V-BR-oxF" id="tla-yc-Xq3"/>
                         </connections>
                     </tableView>

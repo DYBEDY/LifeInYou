@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UIKit
 import Firebase
 import FirebaseFirestore
 
@@ -15,37 +16,29 @@ class TaskViewController: UITableViewController {
     let db = Firestore.firestore()
     var taskList: TaskList!
 
-    var tasks = Array<Task>()
+    var tasks: [Task] = []
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
     }()
 
-//    private var currentTasks: [Task] {
-//        tasks.filter { !$0.isComplete }
-//    }
-//
-//    private var completedTasks: [Task] {
-//        tasks.filter { $0.isComplete == true }
-//    }
+    private var currentTasks: [Task] {
+        tasks.filter { !$0.isComplete }
+    }
+
+    private var completedTasks: [Task] {
+        tasks.filter { $0.isComplete == true }
+    }
+
     
-    private var currentTasks: Array<Task>!
-    private var completedTasks: Array<Task>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = taskList.name
 
-        currentTasks = taskList.tasks.filter({ task in
-            task.isComplete == true
-        })
 
-        completedTasks = taskList.tasks.filter({ task in
-            task.isComplete == false
-        })
-        
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -54,7 +47,16 @@ class TaskViewController: UITableViewController {
         navigationItem.rightBarButtonItems = [addButton, editButtonItem]
         
         
+        
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     private func updateTasks(_ user: User) {
         db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").order(by: "task", descending: true)
@@ -66,8 +68,11 @@ class TaskViewController: UITableViewController {
                             print(d) // FIXME: d["name"]
 //                            return Task(name: d["task"] as? String ?? "")
                             return Task(name: d["task"] as? String ?? "",
-                                        note: d["note"] as? String ?? "")
+                                        note: d["note"] as? String ?? "",
+                                        isComplete: d["isComplete"] as? Bool ?? true
+                            )
                         }
+                        self.tableView.reloadData()
                     }
                     
                 }
@@ -77,14 +82,13 @@ class TaskViewController: UITableViewController {
         }
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        updateTasks(user)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-//            self?.tableView.reloadData()
-//        }
-//    }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        updateTasks(user)
+
+    }
     
     
     // MARK: - Table view data source
@@ -120,22 +124,28 @@ class TaskViewController: UITableViewController {
         ? currentTasks[indexPath.row]
         : completedTasks[indexPath.row]
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            //        StorageManager.shared.delete(task)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [self] _, _, _ in
+            DatabaseManager.shared.deleteSecondTask(current: task, from: self.taskList.name, by: self.user)
+            tasks.removeAll { taskNew in
+                task == taskNew
+            }
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.tableView.reloadData()
         }
         
         let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, isDone in
-            self.showAlert(with: task) {
+            self.editPressed(at: indexPath)
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                isDone(true)
             }
-            isDone(true)
-        }
+            
+            
+        
         
         let doneTitle = indexPath.section == 0 ? "Done" : "Undone"
         
         let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
-            //        StorageManager.shared.done(task)
+//                    StorageManager.shared.done(task)
             let indexPathForCurrentTask = IndexPath(
                 row: self.currentTasks.firstIndex(of: task) ?? 0,
                 section: 0
@@ -144,12 +154,12 @@ class TaskViewController: UITableViewController {
                 row: self.completedTasks.firstIndex(of: task) ?? 0,
                 section: 1
             )
-            
+
             let destinationIndexRow = indexPath.section == 0
             ? indexPathForCompletedTask
             : indexPathForCurrentTask
             tableView.moveRow(at: indexPath, to: destinationIndexRow)
-            
+
             isDone(true)
         }
         
@@ -189,37 +199,68 @@ extension TaskViewController {
     
     private func saveTask(withName name: String, andNote note: String) {
         let task = Task(name: name, note: note)
-//        guard let currentUser = Auth.auth().currentUser else { return }
-//        let user = User(user: currentUser)
-        DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: task.name, note: task.note)
-        
+
         tableView.performBatchUpdates {
-            updateTasks(user)
-            let rowIndex = IndexPath(row: currentTasks.firstIndex(of: task) ?? 0, section: 0)
+            let rowIndex = IndexPath(row: tasks.firstIndex(of: task) ?? 0, section: 0)
             tableView.insertRows(at: [rowIndex], with: .automatic)
+            tasks.append(task)
+            
         }
-//        updateTasks(user)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-//            self?.tableView.performBatchUpdates {
-//                let rowIndex = IndexPath(row: self?.currentTasks.firstIndex(of: task) ?? 0, section: 0)
-//                self?.tableView.insertRows(at: [rowIndex], with: .automatic)
-//                //self?.tableView.reloadData()
-//            }
-//        }
         
-    }
+        DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: task.name, note: task.note)
+        tableView.reloadData()
+        updateTasks(user)
+
+}
+    func editPressed(at indexPath: IndexPath) {
+          editTaskAlert(with: "Edit", and: "Do you want to edit yours task?", and: indexPath)
+          
+      }
     
     
-//        private func saveFunc(withName name: String, andNote note: String) {
-//            guard let currentUser = Auth.auth().currentUser else { return }
-//            let user = User(user: currentUser)
-//            let newTask = Task(name: name, note: note)
-//            self.currentTasks.append(newTask)
-//            self.tableView.insertRows(at: [IndexPath(row: self.currentTasks.count - 1, section: 0)], with: .automatic)
+    private func editTaskAlert(with title: String, and message: String, and indexPath: IndexPath) {
+//          let taskText = tasks[indexPath.row]
+        let taskText = indexPath.section == 0
+        ? currentTasks[indexPath.row]
+        : completedTasks[indexPath.row]
+         
+          let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        
+          let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
+              guard let task = alert.textFields?.first?.text else { return }
+              
+//              let newTask = Task(name: task)
+              
+//              DatabaseManager.shared.editTask(by: user, oldTask: oldTask.name, newTask: newTask.name)
+              taskText.name = task
+              
+              self.tableView.reloadData()
+//              self.updateTasks(self.user)
+
+          }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+
+
+        alert.addAction(editAction)
+        alert.addAction(cancelAction)
+        alert.addTextField { textField in
+            textField.text = taskText.name
+        }
+        alert.addTextField { textField in
+            textField.text = taskText.note
+        }
+        present(alert, animated: true)
+    
+}
+    
+    
+    
+//    private func deleteFunc(at indexPath: IndexPath) {
+//        let task = tasks.remove(at: indexPath.row)
+//        DatabaseManager.shared.deleteSecondTask(current: task, from: taskList.name, by: user)
+//        tableView.deleteRows(at: [indexPath], with: .automatic)
 //
-//
-//            DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: name, note: note)
-////            self.tableView.reloadData()
-//
-//        }
+//        self.tableView.reloadData()
+//    }
 }

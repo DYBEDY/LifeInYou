@@ -13,6 +13,8 @@ extension UITableViewCell {
             task.isComplete == false
         }
         
+        
+        
         var completedTasks: [Task] {
             taskList.tasks
         }
@@ -21,7 +23,7 @@ extension UITableViewCell {
             
             content.text = taskList.name
             
-            if taskList.tasks.isEmpty {
+            if  taskList.tasks.isEmpty {
                 content.secondaryText = "0"
                 accessoryType = .none
             } else if currentTasks.isEmpty {
