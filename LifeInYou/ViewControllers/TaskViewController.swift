@@ -145,7 +145,9 @@ class TaskViewController: UITableViewController {
         let doneTitle = indexPath.section == 0 ? "Done" : "Undone"
         
         let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
-//                    StorageManager.shared.done(task)
+
+          
+            
             let indexPathForCurrentTask = IndexPath(
                 row: self.currentTasks.firstIndex(of: task) ?? 0,
                 section: 0
@@ -158,9 +160,35 @@ class TaskViewController: UITableViewController {
             let destinationIndexRow = indexPath.section == 0
             ? indexPathForCompletedTask
             : indexPathForCurrentTask
-            tableView.moveRow(at: indexPath, to: destinationIndexRow)
+            task.isComplete.toggle()
+            
+            
+                DatabaseManager.shared.isDoneTask(by: self.user, fromTask: self.taskList, task: task)
+            
+        
+            
+            
+//            DispatchQueue.main.async {
+//                self.db.collection("users").document("\(self.user.uid)").collection("taskList").document("\(self.taskList.name)").collection("tasks").document("\(task.name)").setData([
+//                    "task" : task.name,
+//                    "note" : task.note,
+//                    "date" : task.date,
+//                    "isComplete" : task.isComplete
+//                ])
+//                print(task.name, task.isComplete)
+//            }
+           
+        
 
+            
+          
+            
+            
+            
+            self.tableView.moveRow(at: indexPath, to: destinationIndexRow)
+            
             isDone(true)
+            
         }
         
         editAction.backgroundColor = .orange
@@ -223,22 +251,38 @@ extension TaskViewController {
         let taskText = indexPath.section == 0
         ? currentTasks[indexPath.row]
         : completedTasks[indexPath.row]
+        
+        
+        
+       
+        
          
           let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         
           let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
               guard let task = alert.textFields?.first?.text else { return }
+              guard let note = alert.textFields?.last?.text else { return }
               
-//              let newTask = Task(name: task)
+              let newTask = Task(name: task)
+              let oldTask = taskText.name
+              let newNote = Task(note: note)
+
               
-//              DatabaseManager.shared.editTask(by: user, oldTask: oldTask.name, newTask: newTask.name)
+              
+              DatabaseManager.shared.editSecondTask(by: self.user, in: self.taskList.name,
+                                                    oldTask: oldTask, newTask: newTask.name,
+                                                    newNote: newNote.note)
+              
               taskText.name = task
+              taskText.note = note
+              
               
               self.tableView.reloadData()
 //              self.updateTasks(self.user)
 
           }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
 
 
@@ -256,11 +300,5 @@ extension TaskViewController {
     
     
     
-//    private func deleteFunc(at indexPath: IndexPath) {
-//        let task = tasks.remove(at: indexPath.row)
-//        DatabaseManager.shared.deleteSecondTask(current: task, from: taskList.name, by: user)
-//        tableView.deleteRows(at: [indexPath], with: .automatic)
-//
-//        self.tableView.reloadData()
-//    }
+    
 }

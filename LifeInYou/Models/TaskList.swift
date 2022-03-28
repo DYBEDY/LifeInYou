@@ -34,6 +34,12 @@ class TaskList: Equatable {
         self.userId = ""
 
     }
+    init(name: String, tasks: [Task]) {
+        self.name = name
+        self.tasks = tasks
+        self.userId = ""
+}
+    
 }
 
 class Task: Equatable {

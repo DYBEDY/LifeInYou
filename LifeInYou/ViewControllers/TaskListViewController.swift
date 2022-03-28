@@ -12,6 +12,7 @@ import FirebaseFirestore
 
 class TaskListViewController: UITableViewController {
     var taskLists: [TaskList] = []
+    var taskList: TaskList!
     var currentUser: User!
     let db = Firestore.firestore()
     
@@ -45,7 +46,8 @@ class TaskListViewController: UITableViewController {
             }
         }
     }
-        
+    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
