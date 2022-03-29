@@ -37,7 +37,7 @@ class StartViewController: UIViewController {
         
 //        emailTextField.delegate = self
 //        passwordTextField.delegate = self
-        
+       
         infoLabel.alpha = 0
         
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in

@@ -14,9 +14,11 @@ import FirebaseFirestore
 
 class TaskViewController: UITableViewController {
     let db = Firestore.firestore()
+    
+    
     var taskList: TaskList!
 
-    var tasks: [Task] = []
+//    var tasks: [Task] = []
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
@@ -24,11 +26,11 @@ class TaskViewController: UITableViewController {
     }()
 
     private var currentTasks: [Task] {
-        tasks.filter { !$0.isComplete }
+        taskList.tasks.filter { !$0.isComplete }
     }
 
     private var completedTasks: [Task] {
-        tasks.filter { $0.isComplete == true }
+        taskList.tasks.filter { $0.isComplete  }
     }
 
     
@@ -37,7 +39,8 @@ class TaskViewController: UITableViewController {
         super.viewDidLoad()
         
         title = taskList.name
-
+        
+        updateTasks(user)
 
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -49,27 +52,20 @@ class TaskViewController: UITableViewController {
         
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
+
     private func updateTasks(_ user: User) {
-        db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").order(by: "task", descending: true)
+//        db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").order(by: "task", descending: true)
         db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
-                        self.tasks = snapshot.documents.map { d in
-                            print(d) // FIXME: d["name"]
+                        self.taskList.tasks = snapshot.documents.map { d in
+                            print("docs from cache \(d)")
 //                            return Task(name: d["task"] as? String ?? "")
                             return Task(name: d["task"] as? String ?? "",
                                         note: d["note"] as? String ?? "",
-                                        isComplete: d["isComplete"] as? Bool ?? true
+                                        isComplete: d["isComplete"] as? Bool ?? false
                             )
                         }
                         self.tableView.reloadData()
@@ -81,16 +77,7 @@ class TaskViewController: UITableViewController {
             }
         }
     }
-    
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        updateTasks(user)
-
-    }
-    
-    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -126,7 +113,7 @@ class TaskViewController: UITableViewController {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [self] _, _, _ in
             DatabaseManager.shared.deleteSecondTask(current: task, from: self.taskList.name, by: self.user)
-            tasks.removeAll { taskNew in
+            taskList.tasks.removeAll { taskNew in
                 task == taskNew
             }
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -165,7 +152,7 @@ class TaskViewController: UITableViewController {
             
                 DatabaseManager.shared.isDoneTask(by: self.user, fromTask: self.taskList, task: task)
             
-        
+           
             
             
 //            DispatchQueue.main.async {
@@ -229,15 +216,15 @@ extension TaskViewController {
         let task = Task(name: name, note: note)
 
         tableView.performBatchUpdates {
-            let rowIndex = IndexPath(row: tasks.firstIndex(of: task) ?? 0, section: 0)
+            let rowIndex = IndexPath(row: taskList.tasks.firstIndex(of: task) ?? 0, section: 0)
             tableView.insertRows(at: [rowIndex], with: .automatic)
-            tasks.append(task)
+            taskList.tasks.append(task)
             
         }
         
         DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: task.name, note: task.note)
         tableView.reloadData()
-        updateTasks(user)
+        
 
 }
     func editPressed(at indexPath: IndexPath) {

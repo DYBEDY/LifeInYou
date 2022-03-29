@@ -18,7 +18,7 @@ class TaskList: Equatable {
     var name: String
     var userId: String
     var date = Date()
-    var tasks = Array<Task>()
+    var tasks = [Task]()
     
     
     init(name: String, userId: String, date: Date) {

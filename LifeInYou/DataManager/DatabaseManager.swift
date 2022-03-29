@@ -52,8 +52,6 @@ class DatabaseManager {
     }
     
     func isDoneTask(by user: User, fromTask: TaskList, task: Task) {
-//        let task = Task(name: task)
-//        task.isComplete.toggle()
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(task.name)").setData([
                 "task" : task.name,
@@ -62,7 +60,6 @@ class DatabaseManager {
                 "isComplete" : task.isComplete
             ])
             
-            print(task.name, task.isComplete)
         }
     }
 

@@ -11,9 +11,12 @@ import FirebaseFirestore
 
 
 class TaskListViewController: UITableViewController {
+    
     var taskLists: [TaskList] = []
-    var taskList: TaskList!
-    var currentUser: User!
+   
+    
+    
+    
     let db = Firestore.firestore()
     
     
@@ -25,6 +28,9 @@ class TaskListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateTaskList(user)
+       
+        
     }
     
     
@@ -41,18 +47,26 @@ class TaskListViewController: UITableViewController {
                     }
                   
                 }
-            } else {
-                
             }
         }
     }
     
+   
+    
+    
+    private func updateTasks(_ user: User) {
+   
+    }
+
+    
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        updateTaskList(user)
+        tableView.reloadData()
     }
+     
+  
+    
     
     
 
@@ -68,30 +82,46 @@ class TaskListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TasksListCell", for: indexPath)
-//        var content = cell.defaultContentConfiguration()
-//        let taskList = taskLists[indexPath.row]
-//        content.text = taskList.name
-//
-//
-//        if taskList.isComplete == false {
-//
-//            cell.accessoryType = .none
-//        } else {
-//            cell.accessoryType = .checkmark
-//        }
-//
-//
-//        cell.contentConfiguration = content
         
-        let taskList = taskLists[indexPath.row]
-        cell.configure(with: taskList)
+        let task = taskLists[indexPath.row]
+       
+        cell.configure(with: task)
+ 
+        
+        print(task.tasks.count)
+//        db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").getDocuments { snapshot, error in
+//            if error == nil {
+//                if let snapshot = snapshot {
+//                    DispatchQueue.main.async {
+//                        task.tasks = snapshot.documents.map { d in
+//                            print("docs from cache \(d)")
+////                            return Task(name: d["task"] as? String ?? "")
+//                            return Task(name: d["task"] as? String ?? "",
+//                                        note: d["note"] as? String ?? "",
+//                                        isComplete: d["isComplete"] as? Bool ?? false
+//                            )
+//
+//                        }
+////                        self.tableView.reloadData()
+//                    }
+//
+//                }
+//            } else {
+//
+//            }
+//
+//        }
+        
+        
+        
         return cell
+        
     }
     
     
+    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             self.deleteFunc(at: indexPath)
 
         }
@@ -122,14 +152,14 @@ class TaskListViewController: UITableViewController {
         showAlert()
     }
     
-    //MARK: - Navigation
 
+    //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let indexPath = tableView.indexPathForSelectedRow else { return }
         guard let taskVC = segue.destination as? TaskViewController else { return }
         let taskList = taskLists[indexPath.row]
         taskVC.taskList = taskList
-    }
+            }
 }
 
 
@@ -237,6 +267,4 @@ extension TaskListViewController {
 
     
 }
-
-
 

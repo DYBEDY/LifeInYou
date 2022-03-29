@@ -140,7 +140,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XFp-Pi-40n" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="nlE-mD-odV" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="433" y="801"/>
+            <point key="canvasLocation" x="429" y="806"/>
         </scene>
         <!--Знакомство-->
         <scene sceneID="sa1-Zs-Cf0">
@@ -418,7 +418,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="08V-BR-oxF" kind="show" id="61F-EK-4Oh"/>
+                                    <segue destination="08V-BR-oxF" kind="show" identifier="showTasks" id="61F-EK-4Oh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
