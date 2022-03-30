@@ -37,7 +37,7 @@ class StartViewController: UIViewController {
         
 //        emailTextField.delegate = self
 //        passwordTextField.delegate = self
-       
+        playVideo()
         infoLabel.alpha = 0
         
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
@@ -48,9 +48,7 @@ class StartViewController: UIViewController {
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        playVideo()
-    }
+  
   
   
     func displayWarningLabel(with text: String) {
@@ -81,6 +79,10 @@ class StartViewController: UIViewController {
         }
         dismiss(animated: true, completion: nil)
 }
+    
+
+    
+    
     
     @IBAction func registrButtonPressed() {
     }

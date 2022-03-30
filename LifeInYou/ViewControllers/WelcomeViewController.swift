@@ -160,7 +160,7 @@ extension WelcomeViewController {
     
     private func applySettingsForFirstScreen() {
         backBarButtonItem.image = nil
-        backBarButtonItem.title = ""
+        backBarButtonItem.title = "Вернуться"
         
         titleLabel.isHidden = false
         
@@ -312,7 +312,9 @@ extension WelcomeViewController {
     }
         
     private func getPreviousScreen() {
-        if currentStepIndex == 1 {
+        if currentStepIndex == 0 {
+            dismiss(animated: true)
+        } else if currentStepIndex == 1 {
             currentStepIndex -= 1
             setupUI()
         } else if currentStepIndex == 2 {

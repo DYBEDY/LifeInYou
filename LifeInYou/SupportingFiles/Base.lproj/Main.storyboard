@@ -34,12 +34,22 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="sL0-mn-I6G">
-                                        <rect key="frame" x="149" y="710" width="116" height="101"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Пользователь не найден" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="C6Y-IL-dtL">
+                                        <rect key="frame" x="20" y="50" width="374" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.42109659420000001" green="1" blue="0.59365972469999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="uCn-Ur-BPN">
+                                        <rect key="frame" x="113" y="670" width="188" height="115"/>
                                         <subviews>
                                             <button opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPm-78-Psm">
-                                                <rect key="frame" x="0.0" y="0.0" width="116" height="38"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="188" height="46"/>
                                                 <color key="backgroundColor" red="0.93047856959999997" green="1" blue="0.95120195029999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="188" id="A5j-0h-YCI"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="GRQ-Nf-QCV"/>
+                                                </constraints>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Вход">
                                                     <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="20"/>
@@ -54,10 +64,10 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wb7-SV-C0J">
-                                                <rect key="frame" x="0.0" y="69" width="116" height="32"/>
+                                                <rect key="frame" x="14" y="69" width="160" height="46"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="116" id="SeN-ab-KXB"/>
-                                                    <constraint firstAttribute="height" constant="32" id="eSH-JG-wTW"/>
+                                                    <constraint firstAttribute="height" constant="46" id="mYt-dd-fzC"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="zFm-NW-Fod"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Регистрация">
@@ -70,28 +80,21 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="wb7-SV-C0J" secondAttribute="bottom" id="clS-Ge-8i7"/>
-                                            <constraint firstAttribute="height" constant="101" id="i1J-Nu-7nH"/>
-                                            <constraint firstAttribute="width" constant="116" id="lVp-KA-93e"/>
+                                            <constraint firstAttribute="height" constant="115" id="Ctw-ht-bTL"/>
+                                            <constraint firstAttribute="width" constant="188" id="hJa-aP-2k5"/>
                                         </constraints>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Пользователь не найден" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="C6Y-IL-dtL">
-                                        <rect key="frame" x="20" y="50" width="374" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.42109659420000001" green="1" blue="0.59365972469999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="labelColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="C6Y-IL-dtL" secondAttribute="trailing" constant="20" id="83A-hG-nvd"/>
-                                    <constraint firstAttribute="bottom" secondItem="sL0-mn-I6G" secondAttribute="bottom" constant="85" id="Bvi-oG-e77"/>
+                                    <constraint firstItem="uCn-Ur-BPN" firstAttribute="top" secondItem="gvo-ZR-m3n" secondAttribute="bottom" constant="50" id="C9o-3h-XKW"/>
                                     <constraint firstItem="C6Y-IL-dtL" firstAttribute="leading" secondItem="tpT-6u-dxY" secondAttribute="leading" constant="20" id="FbF-y5-AlZ"/>
+                                    <constraint firstItem="gvo-ZR-m3n" firstAttribute="top" secondItem="tpT-6u-dxY" secondAttribute="top" constant="501" id="Kt8-p6-Kfw"/>
                                     <constraint firstItem="gvo-ZR-m3n" firstAttribute="leading" secondItem="tpT-6u-dxY" secondAttribute="leading" constant="40" id="QxK-Sn-mIC"/>
+                                    <constraint firstItem="uCn-Ur-BPN" firstAttribute="centerX" secondItem="tpT-6u-dxY" secondAttribute="centerX" id="SXt-k3-NLL"/>
                                     <constraint firstItem="C6Y-IL-dtL" firstAttribute="top" secondItem="tpT-6u-dxY" secondAttribute="top" constant="50" id="g4i-3E-6em"/>
-                                    <constraint firstItem="sL0-mn-I6G" firstAttribute="top" secondItem="gvo-ZR-m3n" secondAttribute="bottom" constant="90" id="he6-I4-YUD"/>
                                     <constraint firstAttribute="trailing" secondItem="gvo-ZR-m3n" secondAttribute="trailing" constant="40" id="kAs-zI-UKQ"/>
-                                    <constraint firstItem="sL0-mn-I6G" firstAttribute="centerX" secondItem="tpT-6u-dxY" secondAttribute="centerX" id="sMS-94-F8n"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -105,7 +108,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="buttonStack" destination="sL0-mn-I6G" id="9eP-Fq-RET"/>
+                        <outlet property="buttonStack" destination="uCn-Ur-BPN" id="xdp-Zz-UbZ"/>
                         <outlet property="emailTextField" destination="SHK-TD-W87" id="nlS-u6-7pJ"/>
                         <outlet property="infoLabel" destination="C6Y-IL-dtL" id="Oqa-ZS-V6J"/>
                         <outlet property="loginButton" destination="pPm-78-Psm" id="aPj-Q9-Bpw"/>
@@ -142,7 +145,7 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kSm-Nn-0WC"/>
-                        <color key="backgroundColor" red="0.26887605628188771" green="0.3400652194958832" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.032453906716031274" green="0.041046588764733903" blue="0.12070210774739583" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="PZ0-KA-EfM" firstAttribute="centerY" secondItem="Nrh-5X-JaO" secondAttribute="centerY" id="ALb-4q-hYz"/>
                             <constraint firstItem="PZ0-KA-EfM" firstAttribute="centerX" secondItem="Nrh-5X-JaO" secondAttribute="centerX" id="y8e-y8-E7V"/>
@@ -358,6 +361,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Вернуться" id="JDK-ED-zo7">
                             <connections>
                                 <action selector="backButtonPressed:" destination="HWQ-c1-wD5" id="1ld-h8-Cbv"/>
+                                <segue destination="XnL-1D-Jfd" kind="unwind" unwindAction="unwindFor:towards:" id="uaa-Ax-NVu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -382,6 +386,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4oE-bs-mbb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="XnL-1D-Jfd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-742" y="65"/>
         </scene>
@@ -576,7 +581,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="jtR-Kl-5U8"/>
+        <segue reference="VNk-6f-RjA"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="calendar" catalog="system" width="128" height="106"/>

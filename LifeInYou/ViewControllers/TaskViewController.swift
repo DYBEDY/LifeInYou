@@ -209,8 +209,17 @@ class TaskViewController: UITableViewController {
         editAction.backgroundColor = .orange
         doneAction.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         
+        
+        
+        
+        if task.isComplete == false {
+            doneAction.image = UIImage(systemName: "checkmark")
+        } else {
+            doneAction.image = UIImage(systemName: "arrowshape.turn.up.backward")
+        }
+        
         editAction.image = UIImage(systemName: "pencil.circle.fill")
-        doneAction.image = UIImage(systemName: "checkmark")
+        
         deleteAction.image = UIImage(systemName: "trash.fill")
         
         return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
