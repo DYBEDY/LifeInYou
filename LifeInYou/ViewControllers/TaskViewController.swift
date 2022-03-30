@@ -13,12 +13,16 @@ import FirebaseFirestore
 
 
 class TaskViewController: UITableViewController {
+    
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    
+    
     let db = Firestore.firestore()
     
     
     var taskList: TaskList!
 
-//    var tasks: [Task] = []
+
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
@@ -37,26 +41,30 @@ class TaskViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = taskList.name
         
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
         updateTasks(user)
-
+        
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(addButtonPressed)
         )
+       
+        
+        setEditing(false, animated: true)
+
         navigationItem.rightBarButtonItems = [addButton, editButtonItem]
-        
-        
-        
     }
   
-
+    
+    
     private func updateTasks(_ user: User) {
 //        db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").order(by: "task", descending: true)
-        db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").getDocuments { snapshot, error in
+        db.collection("users").document("\(user.uid)").collection("taskList").document("\(taskList.name)").collection("tasks").order(by: "date", descending: false).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
@@ -65,16 +73,35 @@ class TaskViewController: UITableViewController {
 //                            return Task(name: d["task"] as? String ?? "")
                             return Task(name: d["task"] as? String ?? "",
                                         note: d["note"] as? String ?? "",
+                                        date: d["date"] as? Date ?? .now,
                                         isComplete: d["isComplete"] as? Bool ?? false
                             )
                         }
                         self.tableView.reloadData()
+                        self.activityIndicator.isHidden = true
+                        self.activityIndicator.stopAnimating()
                     }
                     
                 }
             } else {
                 
             }
+        }
+        
+        
+       
+    }
+    
+    
+   override func setEditing (_ editing:Bool, animated:Bool) {
+        super.setEditing(editing,animated:animated)
+        if (self.isEditing) {
+//            self.editButtonItem.title = "Готово"
+            self.editButtonItem.image = UIImage(systemName: "checkmark")
+        }
+        else {
+//            self.editButtonItem.title = "Изменить"
+            self.editButtonItem.image = UIImage(systemName: "pencil.circle")
         }
     }
 
@@ -90,7 +117,8 @@ class TaskViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "CURRENT TASKS" : "COMPLETED TASKS"
+        
+        section == 0 ? "ТЕКУЩИЕ ЗАДАЧИ" : "ЗАВЕРШЕННЫЕ ЗАДАЧИ"
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,7 +139,7 @@ class TaskViewController: UITableViewController {
         ? currentTasks[indexPath.row]
         : completedTasks[indexPath.row]
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [self] _, _, _ in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [self] _, _, _ in
             DatabaseManager.shared.deleteSecondTask(current: task, from: self.taskList.name, by: self.user)
             taskList.tasks.removeAll { taskNew in
                 task == taskNew
@@ -120,7 +148,7 @@ class TaskViewController: UITableViewController {
             self.tableView.reloadData()
         }
         
-        let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, isDone in
+        let editAction = UIContextualAction(style: .normal, title: "Изменить") { _, _, isDone in
             self.editPressed(at: indexPath)
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 isDone(true)
@@ -129,7 +157,7 @@ class TaskViewController: UITableViewController {
             
         
         
-        let doneTitle = indexPath.section == 0 ? "Done" : "Undone"
+        let doneTitle = indexPath.section == 0 ? "Готово" : "Вернуть"
         
         let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
 
@@ -181,6 +209,10 @@ class TaskViewController: UITableViewController {
         editAction.backgroundColor = .orange
         doneAction.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         
+        editAction.image = UIImage(systemName: "pencil.circle.fill")
+        doneAction.image = UIImage(systemName: "checkmark")
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        
         return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
     }
     
@@ -197,9 +229,9 @@ class TaskViewController: UITableViewController {
 
 extension TaskViewController {
     private func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
-        let title = task != nil ? "Edit Task" : "New Task"
+        let title = task != nil ? "Изменить задачу" : "Новая задача"
         
-        let alert = UIAlertController.createAlert(withTitle: title, andMessage: "What do you want to do?")
+        let alert = UIAlertController.createAlert(withTitle: title, andMessage: "Что вы хотите сделать?")
         
         alert.action(with: task) { newValue, note in
             if let _ = task, let _ = completion {
@@ -228,7 +260,7 @@ extension TaskViewController {
 
 }
     func editPressed(at indexPath: IndexPath) {
-          editTaskAlert(with: "Edit", and: "Do you want to edit yours task?", and: indexPath)
+          editTaskAlert(with: "Изменить", and: "Хотите редактировать задачу?", and: indexPath)
           
       }
     
@@ -247,7 +279,7 @@ extension TaskViewController {
           let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         
-          let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
+          let editAction = UIAlertAction(title: "Изменить", style: .default) { _ in
               guard let task = alert.textFields?.first?.text else { return }
               guard let note = alert.textFields?.last?.text else { return }
               
@@ -270,7 +302,7 @@ extension TaskViewController {
 
           }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
 
 
         alert.addAction(editAction)

@@ -26,6 +26,7 @@ extension UITableViewCell {
         content.text = taskList.name
         
         
+        
         if  taskList.tasks.isEmpty {
             content.secondaryText = "0"
             accessoryType = .none

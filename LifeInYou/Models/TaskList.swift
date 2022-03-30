@@ -39,6 +39,11 @@ class TaskList: Equatable {
         self.tasks = tasks
         self.userId = ""
 }
+    init(name: String, date: Date) {
+        self.name = name
+        self.date = date
+        self.userId = ""
+    }
     
 }
 
@@ -55,6 +60,12 @@ class Task: Equatable {
     init(name: String = "", note: String = "", isComplete: Bool = false) {
         self.name = name
         self.note = note
+        self.isComplete = isComplete
+    }
+    init(name: String = "", note: String = "", date: Date, isComplete: Bool = false) {
+        self.name = name
+        self.note = note
+        self.date = date
         self.isComplete = isComplete
     }
     
