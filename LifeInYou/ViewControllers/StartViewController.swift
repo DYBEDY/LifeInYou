@@ -12,10 +12,7 @@ import Firebase
 
 
 class StartViewController: UIViewController {
-
-    
     @IBOutlet var infoLabel: UILabel!
-    
     @IBOutlet var videoLayer: UIView!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
@@ -30,14 +27,15 @@ class StartViewController: UIViewController {
     private var playerItem: AVPlayerItem!
     private var playerLooper: AVPlayerLooper!
    
-   
+    var activeTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        playVideo()
         
 //        emailTextField.delegate = self
 //        passwordTextField.delegate = self
-        playVideo()
+        
         infoLabel.alpha = 0
         
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
@@ -45,31 +43,26 @@ class StartViewController: UIViewController {
                     self?.performSegue(withIdentifier: "tabBarSegue", sender: nil)
                 }
             }
-
-    }
-    
-  
-  
-  
-    func displayWarningLabel(with text: String) {
-        infoLabel.text = text
         
-        UIView.animate(withDuration: 3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) { [weak self] in
-            self?.infoLabel.alpha = 1
-        } completion: { [weak self] complete in
-            self?.infoLabel.alpha = 0
-        }
-
+        registerForKeyboardNotification()
+       
     }
     
     
+ 
+  
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        playVideo()
         emailTextField.text = ""
         passwordTextField.text = ""
     }
     
+    
+    
+    
+
     
     @IBAction  func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: StartViewController) {
     do {
@@ -108,7 +101,16 @@ class StartViewController: UIViewController {
     }
     
     
+    func displayWarningLabel(with text: String) {
+        infoLabel.text = text
+        
+        UIView.animate(withDuration: 3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) { [weak self] in
+            self?.infoLabel.alpha = 1
+        } completion: { [weak self] complete in
+            self?.infoLabel.alpha = 0
+        }
 
+    }
     
 //    func playVideo() {
 //        guard let path = Bundle.main.path(forResource: "testVideo", ofType: "mp4") else { return }
@@ -148,11 +150,83 @@ class StartViewController: UIViewController {
         videoLayer.bringSubviewToFront(infoLabel)
     }
     
+    
+
+}
+
+//MARK: - Show content settings
+
+extension StartViewController: UITextFieldDelegate {
+   
+    
+    
+    func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    
+        
+    }
+    
+    @objc func keyboardWillShow(sender: NSNotification) {
+        guard let userInfo = sender.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let currentTextField = UIResponder.currentFirst() as? UITextField  else { return }
+             
+        
+        let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
+        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+        
+        if textFieldBottomY > keyboardTopY {
+            let textBoxY = convertedTextFieldFrame.origin.y
+            let newFrameY = (textBoxY - keyboardTopY / 2) * -1
+            view.frame.origin.y = newFrameY
+        }
+      
+    }
+    
+    
+
+    @objc func keyboardWillHide(sender: NSNotification) {
+         self.view.frame.origin.y = 0
+
+    }
+    
+   
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField :
+            passwordTextField.becomeFirstResponder()
+        default:
+            emailTextField.becomeFirstResponder()
+            
+        }
+        return true
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches , with:event)
         view.endEditing(true)
     }
-
 }
 
-
+extension UIResponder {
+    private struct Static {
+        static weak var responder: UIResponder?
+    }
+    
+    static func currentFirst() -> UIResponder? {
+        Static.responder = nil
+        UIApplication.shared.sendAction(#selector(UIResponder._trap), to: nil, from: nil, for: nil)
+        return Static.responder
+    }
+    
+    @objc private func _trap() {
+        Static.responder = self
+    }
+    
+    
+}

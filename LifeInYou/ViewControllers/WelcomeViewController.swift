@@ -60,7 +60,13 @@ class WelcomeViewController: UIViewController {
         
         nameTextField.returnKeyType = .next
         addDoneButtonTo(userNameTextField,dateOfBirthdayTextFied, secondPasswordTextField)
+        
     }
+    
+    
+    
+    
+    
     
     @IBAction func menButtonPressed() {
         isMen = true
