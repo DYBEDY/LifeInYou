@@ -7,6 +7,10 @@
 
 import UIKit
 
+
+typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> Void)
+
+
 class NewTableViewCell: UITableViewCell {
     
     @IBOutlet var taskNameLabel: UILabel!
@@ -15,6 +19,11 @@ class NewTableViewCell: UITableViewCell {
     @IBOutlet var progressOfDoneTasks: UIProgressView!
     
     @IBOutlet var progressOfDoneTasksLabel: UILabel!
+    
+    
+ 
+    var didSelectClosure: DidSelectClosure?
+    var index: Int?
     
     
     var taskList: TaskList! {
@@ -36,6 +45,8 @@ class NewTableViewCell: UITableViewCell {
 
     }
 
+   
+     
     
     
     
@@ -51,11 +62,17 @@ class NewTableViewCell: UITableViewCell {
 
         progressOfDoneTasksLabel.text = "\(current.count) из \(taskList.tasks.count)"
     }
+    
+    
+    
+    
 
 }
 
 
 extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         taskList.tasks.count == 0 ? 1 : taskList.tasks.count
@@ -72,19 +89,29 @@ extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource
         }
         cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
         cell.layer.cornerRadius = 20
+        
+
         return cell
     }
     
+
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "section", for: indexPath) as? SectionHeaderReusableView {
-//            sectionHeader.addButtone.titleLabel?.text = "555"
                return sectionHeader
            }
            return UICollectionReusableView()
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        didSelectClosure?(index, indexPath.row)
+    }
+    
+    
+    
+  
 }
 
 
@@ -116,3 +143,6 @@ extension NewTableViewCell: UICollectionViewDelegateFlowLayout {
         19
     }
 }
+
+
+

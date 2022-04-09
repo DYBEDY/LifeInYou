@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 
 
-class TaskListViewController: UITableViewController {
+class TaskListViewController: UITableViewController, UICollectionViewDelegate {
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
@@ -84,6 +84,15 @@ class TaskListViewController: UITableViewController {
     }
     
     
+    func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
+        newVC.task = task
+        
+        navigationController?.pushViewController(newVC, animated: true)
+        
+    }
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -99,12 +108,26 @@ class TaskListViewController: UITableViewController {
         let task = taskLists[indexPath.row]
         cell.configure(with: task)
         cell.taskList = task
+//        cell.tasksCollection.delegate = self
+//        cell.tasksCollection.dataSource = self
+//        
         
         
-
+        cell.didSelectClosure = { tabIndex, collIndex in
+            let currentTask = task.tasks[collIndex ?? 0]
+            self.moveOnTaskViewController(tIndex: indexPath.row, cIndex: collIndex ?? 0, task: currentTask)
+            
+            
+        }
+        
        
         return cell
     }
+    
+
+
+
+    
     
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -158,6 +181,7 @@ class TaskListViewController: UITableViewController {
         let taskList = taskLists[indexPath.row]
         taskVC.taskList = taskList
     }
+    
 }
 
 
