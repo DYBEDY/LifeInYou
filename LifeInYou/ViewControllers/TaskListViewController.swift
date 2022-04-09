@@ -18,6 +18,7 @@ class TaskListViewController: UITableViewController {
     
     let db = Firestore.firestore()
     
+    
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
@@ -32,7 +33,7 @@ class TaskListViewController: UITableViewController {
         
         
         updateTaskList(user)
-        
+     
     }
     
     
@@ -45,7 +46,7 @@ class TaskListViewController: UITableViewController {
                             let task = TaskList(name: d["task"] as? String ?? "",
                                                 date: d["date"] as? Date ?? .now
                             )
-                            
+
                             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").getDocuments { snapshot, error in
                                 if error == nil {
                                     if let snapshot = snapshot {
@@ -60,24 +61,26 @@ class TaskListViewController: UITableViewController {
                                         self.tableView.reloadData()
                                         print("========\(self.taskLists.count)=======")
                                     }
-                                    
+
                                 }
                             }
                             return task
                         }
-                        
+
                     }
                 }
             }
         }
     }
     
+  
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
-        updateTaskList(user)
+
     }
     
     
@@ -88,12 +91,18 @@ class TaskListViewController: UITableViewController {
     }
     
     
+   
+
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TasksListCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TasksListCell", for: indexPath) as! NewTableViewCell
         let task = taskLists[indexPath.row]
-        
         cell.configure(with: task)
+        cell.taskList = task
         
+        
+
+       
         return cell
     }
     

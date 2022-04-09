@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		06144DD427E54F0D0046AC72 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06144DD327E54F0D0046AC72 /* TableViewCell.swift */; };
 		06144DD827E6AC410046AC72 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06144DD727E6AC410046AC72 /* TaskViewController.swift */; };
+		0620A8C52800DED5008AF338 /* NewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8C42800DED5008AF338 /* NewTableViewCell.swift */; };
+		0620A8C72800E6B5008AF338 /* NewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8C62800E6B5008AF338 /* NewCollectionViewCell.swift */; };
+		0620A8C928011386008AF338 /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8C828011385008AF338 /* SectionHeaderReusableView.swift */; };
 		06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8427C57B08000B6E5F /* AppDelegate.swift */; };
 		06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */; };
 		06D6EA8927C57B08000B6E5F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8827C57B08000B6E5F /* StartViewController.swift */; };
 		06D6EA8C27C57B08000B6E5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8A27C57B08000B6E5F /* Main.storyboard */; };
-		06D6EA8E27C57B0A000B6E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8D27C57B0A000B6E5F /* Assets.xcassets */; };
 		06D6EA9127C57B0A000B6E5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8F27C57B0A000B6E5F /* LaunchScreen.storyboard */; };
 		06D6EA9927C57B84000B6E5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */; };
 		06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */; };
@@ -32,12 +34,14 @@
 /* Begin PBXFileReference section */
 		06144DD327E54F0D0046AC72 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		06144DD727E6AC410046AC72 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
+		0620A8C42800DED5008AF338 /* NewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTableViewCell.swift; sourceTree = "<group>"; };
+		0620A8C62800E6B5008AF338 /* NewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCollectionViewCell.swift; sourceTree = "<group>"; };
+		0620A8C828011385008AF338 /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		06D6EA8127C57B08000B6E5F /* LifeInYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeInYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06D6EA8427C57B08000B6E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		06D6EA8827C57B08000B6E5F /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		06D6EA8B27C57B08000B6E5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		06D6EA8D27C57B0A000B6E5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		06D6EA9027C57B0A000B6E5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		06D6EA9227C57B0A000B6E5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -68,6 +72,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0620A8C32800DC9B008AF338 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				06144DD327E54F0D0046AC72 /* TableViewCell.swift */,
+				0620A8C42800DED5008AF338 /* NewTableViewCell.swift */,
+				0620A8C62800E6B5008AF338 /* NewCollectionViewCell.swift */,
+				0620A8C828011385008AF338 /* SectionHeaderReusableView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		06D6EA7827C57B08000B6E5F = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +108,7 @@
 				06D6EAA427C582DC000B6E5F /* Models */,
 				06D6EAAB27C5834E000B6E5F /* DataManager */,
 				06D6EAAE27C583B2000B6E5F /* Extensions */,
+				0620A8C32800DC9B008AF338 /* Cells */,
 				06D6EA9A27C57D40000B6E5F /* SupportingFiles */,
 			);
 			path = LifeInYou;
@@ -104,7 +120,6 @@
 				06D6EA8427C57B08000B6E5F /* AppDelegate.swift */,
 				06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */,
 				06D6EA8A27C57B08000B6E5F /* Main.storyboard */,
-				06D6EA8D27C57B0A000B6E5F /* Assets.xcassets */,
 				06D6EAB127C58DFA000B6E5F /* testVideo.mp4 */,
 				06D6EA8F27C57B0A000B6E5F /* LaunchScreen.storyboard */,
 				06D6EA9227C57B0A000B6E5F /* Info.plist */,
@@ -148,7 +163,6 @@
 			children = (
 				06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */,
 				06D6EAAF27C583D5000B6E5F /* AlertController.swift */,
-				06144DD327E54F0D0046AC72 /* TableViewCell.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -231,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				06D6EA9127C57B0A000B6E5F /* LaunchScreen.storyboard in Resources */,
-				06D6EA8E27C57B0A000B6E5F /* Assets.xcassets in Resources */,
 				06D6EA9927C57B84000B6E5F /* GoogleService-Info.plist in Resources */,
 				06D6EAB227C58DFD000B6E5F /* testVideo.mp4 in Resources */,
 				06D6EA8C27C57B08000B6E5F /* Main.storyboard in Resources */,
@@ -293,8 +306,11 @@
 				06D6EA8927C57B08000B6E5F /* StartViewController.swift in Sources */,
 				06D6EAAA27C58343000B6E5F /* DatabaseManager.swift in Sources */,
 				06D6EAB027C583D5000B6E5F /* AlertController.swift in Sources */,
+				0620A8C52800DED5008AF338 /* NewTableViewCell.swift in Sources */,
+				0620A8C72800E6B5008AF338 /* NewCollectionViewCell.swift in Sources */,
 				06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */,
 				06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */,
+				0620A8C928011386008AF338 /* SectionHeaderReusableView.swift in Sources */,
 				06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */,
 				06D6EAA827C58317000B6E5F /* User.swift in Sources */,
 				06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */,

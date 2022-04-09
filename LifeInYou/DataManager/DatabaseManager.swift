@@ -62,10 +62,9 @@ class DatabaseManager {
         }
     }
     
+   
     
-    
-    
-    
+
     //MARK: - Task Methods
 
     func insertSecondTask(by user: User, fromTask: String, task: String, note: String) {
