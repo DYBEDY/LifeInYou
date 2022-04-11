@@ -9,6 +9,10 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 
+protocol TestViewControllerDelegate {
+    func getTaskListName(_ taskList: TaskList)
+}
+
 
 class TestViewController: UIViewController {
     let db = Firestore.firestore()
@@ -95,6 +99,15 @@ extension TestViewController {
         DatabaseManager.shared.insertNewtask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "")
     }
     
+    
+    
+}
+
+
+extension TestViewController: TestViewControllerDelegate {
+    func getTaskListName(_ taskList: TaskList) {
+        self.taskList = taskList
+    }
     
     
 }

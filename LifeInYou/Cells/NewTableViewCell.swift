@@ -20,8 +20,7 @@ class NewTableViewCell: UITableViewCell {
     
     @IBOutlet var progressOfDoneTasksLabel: UILabel!
     
-    
- 
+  
     var didSelectClosure: DidSelectClosure?
     var index: Int?
     
@@ -65,8 +64,7 @@ class NewTableViewCell: UITableViewCell {
         progressOfDoneTasksLabel.text = "\(current.count) из \(taskList.tasks.count)"
     }
     
-    
-    
+   
     
 
 }
@@ -100,6 +98,8 @@ extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "section", for: indexPath) as? SectionHeaderReusableView {
+            
+            
             return sectionHeader
         }
         

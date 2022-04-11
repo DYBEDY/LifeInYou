@@ -10,6 +10,10 @@ import Firebase
 import FirebaseFirestore
 
 
+protocol TaskListViewControllerDelegate {
+    func getTaskListName(_ taskList: TaskList)
+}
+
 class TaskListViewController: UITableViewController, UICollectionViewDelegate {
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -18,12 +22,12 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
     
     let db = Firestore.firestore()
     
-    
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
     }()
     
+    var delegate: TestViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()

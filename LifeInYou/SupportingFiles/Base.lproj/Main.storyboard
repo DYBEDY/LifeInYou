@@ -525,8 +525,8 @@
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
                                                         <connections>
-                                                            <action selector="addButton" destination="r32-IH-sB5" eventType="touchUpInside" id="KIp-KN-INa"/>
-                                                            <segue destination="AsT-hH-Gtf" kind="presentation" identifier="addTask" id="8BL-5l-zhi"/>
+                                                            <action selector="addButton" destination="cSV-ts-hoA" eventType="touchUpInside" id="o7I-GE-mQr"/>
+                                                            <segue destination="AsT-hH-Gtf" kind="presentation" identifier="addTask" id="oVQ-jF-SV3"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -534,9 +534,6 @@
                                                     <constraint firstItem="a1H-b4-FmP" firstAttribute="centerX" secondItem="cSV-ts-hoA" secondAttribute="centerX" id="NFl-Ta-65l"/>
                                                     <constraint firstItem="a1H-b4-FmP" firstAttribute="centerY" secondItem="cSV-ts-hoA" secondAttribute="centerY" id="PFs-S4-8eO"/>
                                                 </constraints>
-                                                <connections>
-                                                    <outlet property="addButtone" destination="a1H-b4-FmP" id="hhv-bi-FU4"/>
-                                                </connections>
                                             </collectionReusableView>
                                         </collectionView>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="qTO-Tp-jGe">
@@ -608,7 +605,6 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I3K-f0-JGN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="r32-IH-sB5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2589.5999999999999" y="800.14992503748135"/>
         </scene>
@@ -781,7 +777,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HYo-0F-tJz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4263" y="831"/>
+            <point key="canvasLocation" x="4754" y="851"/>
         </scene>
         <!--Цели-->
         <scene sceneID="ZvO-As-CxS">
@@ -842,7 +838,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8BL-5l-zhi"/>
+        <segue reference="oVQ-jF-SV3"/>
         <segue reference="VNk-6f-RjA"/>
     </inferredMetricsTieBreakers>
     <resources>
