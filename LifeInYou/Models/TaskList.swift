@@ -69,6 +69,14 @@ class Task: Equatable {
         self.isComplete = isComplete
     }
     
+    init(name: String = "") {
+        self.name = name
+        self.note = ""
+        self.date = Date()
+        self.isComplete = false
+        
+    }
+    
 }
 
 

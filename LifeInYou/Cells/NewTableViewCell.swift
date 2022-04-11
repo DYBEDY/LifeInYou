@@ -26,6 +26,8 @@ class NewTableViewCell: UITableViewCell {
     var index: Int?
     
     
+    
+    
     var taskList: TaskList! {
         didSet {
             taskNameLabel.text = taskList.name
@@ -75,14 +77,13 @@ extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        taskList.tasks.count == 0 ? 1 : taskList.tasks.count
+        taskList.tasks.count == 0 ? 0 : taskList.tasks.count
     }
     
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as! NewCollectionViewCell
-        
         
         if taskList.tasks.count != 0 {
         cell.taskNameLabel.text = taskList.tasks[indexPath.row].name
@@ -99,8 +100,10 @@ extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "section", for: indexPath) as? SectionHeaderReusableView {
-               return sectionHeader
-           }
+            return sectionHeader
+        }
+        
+       
            return UICollectionReusableView()
     }
     

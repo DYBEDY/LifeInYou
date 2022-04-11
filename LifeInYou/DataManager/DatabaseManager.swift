@@ -63,6 +63,29 @@ class DatabaseManager {
     }
     
    
+//    MARK: - New Task Methods
+    
+    func insertNewtask(by user: User, fromTask: String, task: String) {
+        let fromTask = TaskList(name: fromTask)
+        let newTask = Task(name: task)
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").setData([
+                "task" : newTask.name,
+                "note" : newTask.note,
+                "date" : newTask.date,
+                "isComplete" : newTask.isComplete
+                
+            ])
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
 
     //MARK: - Task Methods

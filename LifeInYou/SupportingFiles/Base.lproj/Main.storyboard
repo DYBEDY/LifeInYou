@@ -526,7 +526,7 @@
                                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
                                                         <connections>
                                                             <action selector="addButton" destination="r32-IH-sB5" eventType="touchUpInside" id="KIp-KN-INa"/>
-                                                            <segue destination="AsT-hH-Gtf" kind="presentation" id="8BL-5l-zhi"/>
+                                                            <segue destination="AsT-hH-Gtf" kind="presentation" identifier="addTask" id="8BL-5l-zhi"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -721,6 +721,7 @@
                     <navigationItem key="navigationItem" id="veb-Bd-0e2"/>
                     <connections>
                         <outlet property="dateOfCompletionTextFied" destination="JWe-nA-kTp" id="Bow-Ic-PhH"/>
+                        <outlet property="doneButton" destination="cdv-NG-WYj" id="1Tg-Bg-sPF"/>
                         <outlet property="imageOfTask" destination="dXE-Ju-DLY" id="sPo-KU-58l"/>
                         <outlet property="nameOfTaskLabel" destination="JA2-cx-O5k" id="DeG-MN-2Cj"/>
                         <outlet property="taskTextField" destination="nag-rF-eKe" id="eVt-Z0-NN9"/>
@@ -841,7 +842,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="YKM-tO-G9e"/>
+        <segue reference="8BL-5l-zhi"/>
         <segue reference="VNk-6f-RjA"/>
     </inferredMetricsTieBreakers>
     <resources>

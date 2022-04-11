@@ -56,8 +56,7 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
                                                         isComplete: d["isComplete"] as? Bool ?? false
                                             )
                                         }
-                                        self.activityIndicator.isHidden = true
-                                        self.activityIndicator.stopAnimating()
+                                        
                                         self.tableView.reloadData()
                                         print("========\(self.taskLists.count)=======")
                                     }
@@ -71,6 +70,8 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
                 }
             }
         }
+        self.activityIndicator.isHidden = true
+        self.activityIndicator.stopAnimating()
     }
     
   
@@ -84,12 +85,16 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
     }
     
     
-    func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task) {
+    func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task, taskList: TaskList) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
-        newVC.task = task
         
-        navigationController?.pushViewController(newVC, animated: true)
+        newVC.task = task 
+        newVC.taskList = taskList
+        
+        
+        navigationController?.present(newVC, animated: true)
+
         
     }
     
@@ -108,25 +113,25 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
         let task = taskLists[indexPath.row]
         cell.configure(with: task)
         cell.taskList = task
-//        cell.tasksCollection.delegate = self
-//        cell.tasksCollection.dataSource = self
-//        
         
-        
+    
         cell.didSelectClosure = { tabIndex, collIndex in
             let currentTask = task.tasks[collIndex ?? 0]
-            self.moveOnTaskViewController(tIndex: indexPath.row, cIndex: collIndex ?? 0, task: currentTask)
+            self.moveOnTaskViewController(tIndex: indexPath.row, cIndex: collIndex ?? 0, task: currentTask, taskList: task)
             
             
         }
-        
-       
         return cell
     }
     
 
-
-
+  
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        guard let newVC = segue.destination as? TestViewController else { return }
+        let taskList = taskLists[indexPath.row]
+        newVC.taskList = taskList
+    }
     
     
     
@@ -175,12 +180,7 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
     
     
     //MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        guard let taskVC = segue.destination as? TaskViewController else { return }
-        let taskList = taskLists[indexPath.row]
-        taskVC.taskList = taskList
-    }
+ 
     
 }
 
