@@ -11,10 +11,17 @@ import FirebaseFirestore
 
 
 protocol TaskListViewControllerDelegate {
-    func getTaskListName(_ taskList: TaskList)
+    func moveOntheNextView(_ index: Int, taskList: TaskList)
 }
 
-class TaskListViewController: UITableViewController, UICollectionViewDelegate {
+class TaskListViewController: UITableViewController, UICollectionViewDelegate,TaskListViewControllerDelegate {
+   
+    
+    func moveOntheNextView() {
+        print("CHAMPION LEGUE")
+    }
+    
+   
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
@@ -27,7 +34,7 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
         return User(user: currentUser)
     }()
     
-    var delegate: TestViewControllerDelegate!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,15 +74,17 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
 
                                 }
                             }
+                            self.activityIndicator.isHidden = true
+                            self.activityIndicator.stopAnimating()
                             return task
+                            
                         }
 
                     }
                 }
             }
         }
-        self.activityIndicator.isHidden = true
-        self.activityIndicator.stopAnimating()
+        
     }
     
   
@@ -91,16 +100,31 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
     
     func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task, taskList: TaskList) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+       
         guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
-        
+       
         newVC.task = task 
         newVC.taskList = taskList
         
         
         navigationController?.present(newVC, animated: true)
-
-        
     }
+    
+    
+    func moveOntheNextView(_ index: Int, taskList: TaskList) {
+        print(taskList.name)
+        print(index)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+       
+        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
+       
+        
+        newVC.taskList = taskList
+        
+        
+        navigationController?.present(newVC, animated: true)
+    }
+  
     
     // MARK: - Table view data source
     
@@ -118,25 +142,28 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
         cell.configure(with: task)
         cell.taskList = task
         
-    
+        
+        cell.delegate = self
+        cell.delegate?.moveOntheNextView(indexPath.row, taskList: task)
         cell.didSelectClosure = { tabIndex, collIndex in
             let currentTask = task.tasks[collIndex ?? 0]
-            self.moveOnTaskViewController(tIndex: indexPath.row, cIndex: collIndex ?? 0, task: currentTask, taskList: task)
-            
-            
+            self.moveOnTaskViewController(tIndex: tabIndex ?? 0, cIndex: collIndex ?? 0, task: currentTask, taskList: task)
         }
+       
+        
+    
         return cell
     }
     
 
   
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        guard let newVC = segue.destination as? TestViewController else { return }
-        let taskList = taskLists[indexPath.row]
-        newVC.taskList = taskList
-    }
-    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+//        guard let newVC = segue.destination as? TestViewController else { return }
+//        let taskList = taskLists[indexPath.row]
+//        newVC.taskList = taskList
+//    }
+
     
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -175,6 +202,10 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate {
         } else {
             return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     

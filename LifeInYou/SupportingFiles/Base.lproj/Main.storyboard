@@ -526,7 +526,6 @@
                                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
                                                         <connections>
                                                             <action selector="addButton" destination="cSV-ts-hoA" eventType="touchUpInside" id="o7I-GE-mQr"/>
-                                                            <segue destination="AsT-hH-Gtf" kind="presentation" identifier="addTask" id="oVQ-jF-SV3"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -838,7 +837,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oVQ-jF-SV3"/>
         <segue reference="VNk-6f-RjA"/>
     </inferredMetricsTieBreakers>
     <resources>

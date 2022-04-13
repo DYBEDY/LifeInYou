@@ -9,9 +9,6 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 
-protocol TestViewControllerDelegate {
-    func getTaskListName(_ taskList: TaskList)
-}
 
 
 class TestViewController: UIViewController {
@@ -27,7 +24,7 @@ class TestViewController: UIViewController {
     @IBOutlet var doneButton: UIButton!
     
     
-    var taskList: TaskList!
+    var taskList: TaskList?
     var task: Task?
     
     let user: User! = {
@@ -50,7 +47,9 @@ class TestViewController: UIViewController {
         
         dateOfCompletionTextFied.delegate = self
         completionDateofTask()
-        print("\(taskList.name)")
+        
+        
+        print("\(taskList?.name ?? "----")")
        
     }
     
@@ -60,8 +59,11 @@ class TestViewController: UIViewController {
     }
     
 
+  
+    
 }
 
+    
 
 extension TestViewController: UITextFieldDelegate {
     func completionDateofTask() {
@@ -95,19 +97,13 @@ extension TestViewController: UITextFieldDelegate {
 extension TestViewController {
     // insertNewTask
     
-    func insertNewTask() {
-        DatabaseManager.shared.insertNewtask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "")
-    }
+//    func insertNewTask() {
+//        DatabaseManager.shared.insertNewtask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "")
+//    }
     
     
     
 }
 
 
-extension TestViewController: TestViewControllerDelegate {
-    func getTaskListName(_ taskList: TaskList) {
-        self.taskList = taskList
-    }
-    
-    
-}
+

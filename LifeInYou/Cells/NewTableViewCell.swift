@@ -11,7 +11,9 @@ import UIKit
 typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> Void)
 
 
-class NewTableViewCell: UITableViewCell {
+class NewTableViewCell: UITableViewCell, TaskListViewControllerDelegate {
+   
+    
     
     @IBOutlet var taskNameLabel: UILabel!
     @IBOutlet var tasksCollection: UICollectionView!
@@ -24,6 +26,7 @@ class NewTableViewCell: UITableViewCell {
     var didSelectClosure: DidSelectClosure?
     var index: Int?
     
+    var delegate: TaskListViewControllerDelegate?
     
     
     
@@ -47,9 +50,7 @@ class NewTableViewCell: UITableViewCell {
     }
 
    
-     
-    
-    
+   
     
     func configure(with taskList: TaskList) {
 
@@ -62,9 +63,15 @@ class NewTableViewCell: UITableViewCell {
         progressOfDoneTasks.setProgress(totalProgress, animated: true)
 
         progressOfDoneTasksLabel.text = "\(current.count) из \(taskList.tasks.count)"
+        
+        
     }
     
    
+    func moveOntheNextView(_ index: Int, taskList: TaskList) {
+        delegate?.moveOntheNextView(index, taskList: taskList)
+        print(taskList.name)
+    }
     
 
 }
@@ -98,19 +105,23 @@ extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "section", for: indexPath) as? SectionHeaderReusableView {
-            
+            sectionHeader.delegateTest = self
             
             return sectionHeader
         }
         
-       
-           return UICollectionReusableView()
+        return UICollectionReusableView()
     }
     
+   
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         didSelectClosure?(index, indexPath.row)
+    
+       
     }
+    
     
     
     
