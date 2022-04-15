@@ -11,7 +11,11 @@ import FirebaseFirestore
 
 
 
-class TestViewController: UIViewController {
+class TestViewController: UIViewController{
+   
+    
+    
+    
     let db = Firestore.firestore()
     
     @IBOutlet var imageOfTask: UIImageView!
@@ -23,9 +27,10 @@ class TestViewController: UIViewController {
     
     @IBOutlet var doneButton: UIButton!
     
+  
     
-    var taskList: TaskList?
-    var task: Task?
+    var taskList: TaskList!
+    var task: Task!
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
@@ -34,7 +39,11 @@ class TestViewController: UIViewController {
     
     let completionDatePicker = UIDatePicker()
     
+    
 
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,17 +54,19 @@ class TestViewController: UIViewController {
             doneButton.setTitle("Добавить задачу", for: .normal)
         }
         
-        dateOfCompletionTextFied.delegate = self
+        
         completionDateofTask()
         
         
-        print("\(taskList?.name ?? "----")")
-       
     }
     
-
+    
+  
+    
+    
     @IBAction func doneButtonPressed() {
-//      insertNewTask()
+        insertNewTask()
+        
     }
     
 
@@ -97,13 +108,22 @@ extension TestViewController: UITextFieldDelegate {
 extension TestViewController {
     // insertNewTask
     
-//    func insertNewTask() {
-//        DatabaseManager.shared.insertNewtask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "")
-//    }
+    func insertNewTask() {
+        DatabaseManager.shared.insertNewtask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "")
+        print(taskTextField.text ?? "zero")
+        
+        
+        
+    }
     
-    
-    
+
 }
 
 
+
+
+    
+    
+
+    
 

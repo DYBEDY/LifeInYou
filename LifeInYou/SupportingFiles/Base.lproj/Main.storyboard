@@ -432,7 +432,7 @@
         <!--Мои цели-->
         <scene sceneID="Zvl-9z-Z95">
             <objects>
-                <tableViewController id="Px4-5I-b3N" customClass="TaskListViewController" customModule="LifeInYou" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TaskListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Px4-5I-b3N" customClass="TaskListViewController" customModule="LifeInYou" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="409" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Lwf-bz-fTa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -533,6 +533,9 @@
                                                     <constraint firstItem="a1H-b4-FmP" firstAttribute="centerX" secondItem="cSV-ts-hoA" secondAttribute="centerX" id="NFl-Ta-65l"/>
                                                     <constraint firstItem="a1H-b4-FmP" firstAttribute="centerY" secondItem="cSV-ts-hoA" secondAttribute="centerY" id="PFs-S4-8eO"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outlet property="addButtonText" destination="a1H-b4-FmP" id="9F2-cY-ksT"/>
+                                                </connections>
                                             </collectionReusableView>
                                         </collectionView>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="qTO-Tp-jGe">

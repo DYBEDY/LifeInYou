@@ -10,6 +10,9 @@ import UIKit
 
 
 class SectionHeaderReusableView: UICollectionReusableView, TaskListViewControllerDelegate {
+    
+    @IBOutlet var addButtonText: UIButton!
+    
    
     
    
@@ -20,11 +23,12 @@ class SectionHeaderReusableView: UICollectionReusableView, TaskListViewControlle
     @IBAction func addButton() {
     
 //        delegateTest?.moveOntheNextView(index ?? 0, taskList: taskList ?? TaskList(name: ""))
-        moveOntheNextView(index ?? 0, taskList: taskList ?? TaskList(name: "NOPe"))
+        moveOntheNextView(taskList: taskList ?? TaskList(name: "NOPe"))
+        
     }
     
-    func moveOntheNextView(_ index: Int, taskList: TaskList) {
-        delegateTest?.moveOntheNextView(index, taskList: taskList)
+    func moveOntheNextView(taskList: TaskList) {
+        delegateTest?.moveOntheNextView(taskList: taskList)
     }
 }
 

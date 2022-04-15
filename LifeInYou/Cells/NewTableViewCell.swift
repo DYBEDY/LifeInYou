@@ -14,6 +14,8 @@ typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> V
 class NewTableViewCell: UITableViewCell, TaskListViewControllerDelegate {
    
     
+   
+    
     
     @IBOutlet var taskNameLabel: UILabel!
     @IBOutlet var tasksCollection: UICollectionView!
@@ -64,15 +66,15 @@ class NewTableViewCell: UITableViewCell, TaskListViewControllerDelegate {
 
         progressOfDoneTasksLabel.text = "\(current.count) из \(taskList.tasks.count)"
         
-        
+       
     }
     
    
-    func moveOntheNextView(_ index: Int, taskList: TaskList) {
-        delegate?.moveOntheNextView(index, taskList: taskList)
-        print(taskList.name)
+    func moveOntheNextView(taskList: TaskList) {
+        delegate?.moveOntheNextView(taskList: taskList)
     }
     
+   
 
 }
 
@@ -96,7 +98,7 @@ extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource
         cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
         cell.layer.cornerRadius = 20
         
-
+       
         return cell
     }
     
@@ -107,6 +109,9 @@ extension NewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "section", for: indexPath) as? SectionHeaderReusableView {
             sectionHeader.delegateTest = self
             
+            sectionHeader.taskList = taskList
+            
+
             return sectionHeader
         }
         

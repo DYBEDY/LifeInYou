@@ -11,18 +11,22 @@ import FirebaseFirestore
 
 
 protocol TaskListViewControllerDelegate {
-    func moveOntheNextView(_ index: Int, taskList: TaskList)
+    func moveOntheNextView(taskList: TaskList)
+    
+    
 }
 
-class TaskListViewController: UITableViewController, UICollectionViewDelegate,TaskListViewControllerDelegate {
-   
-    
-    func moveOntheNextView() {
-        print("CHAMPION LEGUE")
+
+
+class TaskListViewController: UITableViewController, UICollectionViewDelegate, TaskListViewControllerDelegate {
+    func update() {
+        print("kokoko")
     }
     
    
     
+  
+   
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var taskLists: [TaskList] = []
@@ -36,11 +40,13 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate,Ta
     
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
+      
+       
         
         
         updateTaskList(user)
@@ -49,6 +55,8 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate,Ta
     
     
     private func updateTaskList(_ user: User) {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: false).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
@@ -58,7 +66,7 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate,Ta
                                                 date: d["date"] as? Date ?? .now
                             )
 
-                            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").getDocuments { snapshot, error in
+                            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").order(by: "date", descending: false).getDocuments { snapshot, error in
                                 if error == nil {
                                     if let snapshot = snapshot {
                                         task.tasks = snapshot.documents.map { d in
@@ -67,7 +75,7 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate,Ta
                                                         isComplete: d["isComplete"] as? Bool ?? false
                                             )
                                         }
-                                        
+                                       
                                         self.tableView.reloadData()
                                         print("========\(self.taskLists.count)=======")
                                     }
@@ -86,16 +94,16 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate,Ta
         }
         
     }
-    
   
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        updateTaskList(user)
         tableView.reloadData()
-
     }
+    
+    
     
     
     func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task, taskList: TaskList) {
@@ -111,19 +119,25 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate,Ta
     }
     
     
-    func moveOntheNextView(_ index: Int, taskList: TaskList) {
+    
+    
+    func moveOntheNextView(taskList: TaskList) {
         print(taskList.name)
-        print(index)
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-       
-        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
-       
         
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+
+        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
+
+
         newVC.taskList = taskList
         
-        
+
+
         navigationController?.present(newVC, animated: true)
+//        navigationController?.show(newVC, sender: nil)
     }
+    
+   
   
     
     // MARK: - Table view data source
@@ -141,10 +155,11 @@ class TaskListViewController: UITableViewController, UICollectionViewDelegate,Ta
         let task = taskLists[indexPath.row]
         cell.configure(with: task)
         cell.taskList = task
-        
-        
+        cell.tasksCollection.reloadData()
         cell.delegate = self
-        cell.delegate?.moveOntheNextView(indexPath.row, taskList: task)
+      
+        
+        
         cell.didSelectClosure = { tabIndex, collIndex in
             let currentTask = task.tasks[collIndex ?? 0]
             self.moveOnTaskViewController(tIndex: tabIndex ?? 0, cIndex: collIndex ?? 0, task: currentTask, taskList: task)
@@ -310,4 +325,7 @@ extension TaskListViewController {
     
     
 }
+
+
+    
 
