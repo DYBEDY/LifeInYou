@@ -10,12 +10,8 @@ import Firebase
 import FirebaseFirestore
 
 
-
-class TestViewController: UIViewController{
-   
-    
-    
-    
+class TestViewController: UIViewController {
+       
     let db = Firestore.firestore()
     
     @IBOutlet var imageOfTask: UIImageView!
@@ -27,7 +23,7 @@ class TestViewController: UIViewController{
     
     @IBOutlet var doneButton: UIButton!
     
-  
+    
     
     var taskList: TaskList!
     var task: Task!
@@ -38,7 +34,7 @@ class TestViewController: UIViewController{
     }()
     
     let completionDatePicker = UIDatePicker()
-    
+  
     
 
     
@@ -66,11 +62,27 @@ class TestViewController: UIViewController{
     
     @IBAction func doneButtonPressed() {
         insertNewTask()
-        
+        dismiss(animated: true)
     }
     
-
-  
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let allTasksVC = presentingViewController as? AllTasksViewController else { return }
+        
+        if allTasksVC.becomeFirstResponder() {
+            allTasksVC.updateTaskList(user)
+            allTasksVC.tableView.reloadData()
+        } else {
+            print("fbdfbfdmbdfbdfbfdb")
+        }
+        
+        
+        
+        
+        print("\(String(describing: presentingViewController))")
+    }
     
 }
 

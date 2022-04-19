@@ -7,10 +7,10 @@
 
 import UIKit
 
-class NewCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var taskNameLabel: UILabel!
-    
-
-}
- 
+//class NewCollectionViewCell: UICollectionViewCell {
+//@IBOutlet var taskNameLabel: UILabel!
+//    
+//
+//}
+// 
 
