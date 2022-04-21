@@ -16,8 +16,16 @@ protocol AllTasksDelegate {
     func presentSecondView(taskList: TaskList)
 }
 
-class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate   {
+
+protocol AllTask2Delegate {
+    func updateValue()
+}
+
+class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate {
     
+    func updateValue() {
+        updateTaskList(user, tableView: tableView)
+    }
     
    
     
@@ -27,8 +35,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     var taskLists: [TaskList] = []
     
     let db = Firestore.firestore()
-    
-    
+
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
@@ -41,7 +48,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         tableView.dataSource = self
         
         
-        updateTaskList(user)
+        updateTaskList(user, tableView: tableView)
     }
     
     
@@ -52,10 +59,10 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     }
     
     
-    func updateTaskList(_ user: User) {
+    func updateTaskList(_ user: User, tableView: UITableView) {
 //        activityIndicator.isHidden = false
 //        activityIndicator.startAnimating()
-        self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: false).getDocuments { snapshot, error in
+        self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
@@ -64,17 +71,17 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
                                                 date: d["date"] as? Date ?? .now
                             )
 
-                            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").order(by: "date", descending: false).getDocuments { snapshot, error in
+                            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").order(by: "date", descending: true).getDocuments { snapshot, error in
                                 if error == nil {
                                     if let snapshot = snapshot {
                                         task.tasks = snapshot.documents.map { d in
                                             return Task(name: d["task"] as? String ?? "",
-                                                        note: d["note"] as? String ?? "",
+                                                        completionDate: d["completionDate"] as? String ?? "",
                                                         isComplete: d["isComplete"] as? Bool ?? false
                                             )
                                         }
                                        
-                                        self.tableView.reloadData()
+                                            tableView.reloadData()
                                         print("========\(self.taskLists.count)=======")
                                     }
 
@@ -97,11 +104,18 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateTaskList(user)
+        updateTaskList(user, tableView: tableView)
         tableView.reloadData()
     }
     
    
+    
+   
+    @IBAction  func unwindTest(for unwindSegue: UIStoryboardSegue, towards subsequentVC: AllTasksViewController) {
+        self.updateTaskList(user, tableView: tableView)
+}
+    
+ 
     
     
     func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task, taskList: TaskList) {
@@ -110,8 +124,11 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
        
         newVC.task = task
         newVC.taskList = taskList
+        newVC.delegate = self
         
         self.navigationController?.present(newVC, animated: true)
+      
+   
     
     }
     
@@ -126,6 +143,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         newVC.taskList = taskList
     
         self.navigationController?.present(newVC, animated: true)
+      
 
     }
     
@@ -287,7 +305,7 @@ extension AllTasksViewController {
             DatabaseManager.shared.inserNewTask(by: self.user, task: newTask.name)
             
             for task in oldTask.tasks {
-                DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: newTask.name, task: task.name, note: task.note)
+                DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: newTask.name, task: task.name, completionDate: task.completionDate)
                 DatabaseManager.shared.deleteSecondTask(current: task, from: oldTask.name, by: self.user)
             }
             

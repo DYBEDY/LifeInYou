@@ -49,29 +49,29 @@ class TaskList: Equatable {
 
 class Task: Equatable {
     static func == (lhs: Task, rhs: Task) -> Bool {
-        return lhs.name == rhs.name && lhs.note == rhs.note && lhs.isComplete == rhs.isComplete
+        return lhs.name == rhs.name && lhs.completionDate == rhs.completionDate && lhs.isComplete == rhs.isComplete
     }
     
     var name: String
-    var note: String
+    var completionDate: String
     var date = Date()
     var isComplete: Bool
  
-    init(name: String = "", note: String = "", isComplete: Bool = false) {
+    init(name: String = "", completionDate: String = "", isComplete: Bool = false) {
         self.name = name
-        self.note = note
+        self.completionDate = completionDate
         self.isComplete = isComplete
     }
-    init(name: String = "", note: String = "", date: Date, isComplete: Bool = false) {
+    init(name: String = "", completionDate: String = "", date: Date, isComplete: Bool = false) {
         self.name = name
-        self.note = note
+        self.completionDate = completionDate
         self.date = date
         self.isComplete = isComplete
     }
     
     init(name: String = "") {
         self.name = name
-        self.note = ""
+        self.completionDate = ""
         self.date = Date()
         self.isComplete = false
         

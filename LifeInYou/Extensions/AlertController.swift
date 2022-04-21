@@ -118,7 +118,7 @@ extension UIAlertController {
         
         addTextField { textField in
             textField.placeholder = "Заметка"
-            textField.text = task?.note
+//            textField.text = task?.note
         }
     }
 }

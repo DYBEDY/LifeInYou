@@ -10,7 +10,10 @@ import Firebase
 import FirebaseFirestore
 
 
+
+
 class TestViewController: UIViewController {
+    
        
     let db = Firestore.firestore()
     
@@ -23,11 +26,14 @@ class TestViewController: UIViewController {
     
     @IBOutlet var doneButton: UIButton!
     
+    @IBOutlet var editButton: UIButton!
+    @IBOutlet var deleteButton: UIButton!
     
-    
+    var actionForButton = true
+    var delegate: AllTask2Delegate?
     var taskList: TaskList!
     var task: Task!
-    
+   
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
@@ -46,42 +52,76 @@ class TestViewController: UIViewController {
         nameOfTaskLabel.text = task?.name ?? ""
         taskTextField.text = task?.name ?? ""
         
-        if task?.name == nil {
-            doneButton.setTitle("Добавить задачу", for: .normal)
-        }
-        
-        
         completionDateofTask()
+        setupVC()
         
+    
         
     }
     
-    
-  
-    
-    
-    @IBAction func doneButtonPressed() {
-        insertNewTask()
-        dismiss(animated: true)
-    }
-    
-    
-    
+   
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        guard let allTasksVC = presentingViewController as? AllTasksViewController else { return }
-        
-        if allTasksVC.becomeFirstResponder() {
-            allTasksVC.updateTaskList(user)
-            allTasksVC.tableView.reloadData()
-        } else {
-            print("fbdfbfdmbdfbdfbfdb")
+        delegate?.updateValue()
+    }
+    
+    
+    
+    
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+    }
+    
+    
+    
+    
+    @IBAction func editButtonPressed(_ sender: Any) {
+        if editButton.titleLabel?.text == "Готово" {
+            delegate?.updateValue()
+            dismiss(animated: true)
         }
+        setupButton()
         
-        
-        
-        
-        print("\(String(describing: presentingViewController))")
+    }
+    
+    @IBAction func doneButtonPressed() {
+        if doneButton.titleLabel?.text == "Добавить задачу" {
+            insertNewTask()
+        } else {
+            deleteTask()
+        }
+    }
+    
+    
+    
+    func setupVC() {
+        if task?.name != nil {
+            doneButton.isHidden = true
+            taskTextField.isEnabled = false
+            dateOfCompletionTextFied.isEnabled = false
+            
+        } else {
+            doneButton.setTitle("Добавить задачу", for: .normal)
+        }
+    }
+    
+    func setupButton() {
+        actionForButton.toggle()
+        if actionForButton == false {
+            editButton.setTitle("Готово", for: .normal)
+            doneButton.isHidden = false
+            doneButton.setImage(UIImage(systemName: "trash"), for: .normal)
+            doneButton.setTitle("", for: .normal)
+            taskTextField.isEnabled = true
+            dateOfCompletionTextFied.isEnabled = true
+            
+        } else {
+            editButton.setTitle("Изм.", for: .normal)
+            doneButton.isHidden = true
+            doneButton.setTitle("", for: .normal)
+            taskTextField.isEnabled = false
+            dateOfCompletionTextFied.isEnabled = false
+            editTask()
+        }
     }
     
 }
@@ -121,14 +161,17 @@ extension TestViewController {
     // insertNewTask
     
     func insertNewTask() {
-        DatabaseManager.shared.insertNewtask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "")
+        DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
         print(taskTextField.text ?? "zero")
-        
-        
-        
     }
     
-
+    func deleteTask() {
+        DatabaseManager.shared.deleteTaskFromCollection(current: taskTextField.text ?? "", from: taskList.name, by: user)
+    }
+    
+    func editTask() {
+        DatabaseManager.shared.editCollectionTask(by: user, in: taskList.name, oldTask: task.name, newTask: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
+    }
 }
 
 

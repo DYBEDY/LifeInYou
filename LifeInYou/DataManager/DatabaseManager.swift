@@ -65,86 +65,112 @@ class DatabaseManager {
    
 //    MARK: - New Task Methods
     
-    func insertNewtask(by user: User, fromTask: String, task: String) {
-        let fromTask = TaskList(name: fromTask)
-        let newTask = Task(name: task)
+        func insertSecondTask(by user: User, fromTask: String, task: String, completionDate: String) {
+            let fromTask = TaskList(name: fromTask)
+            let newTask = Task(name: task, completionDate: completionDate)
+            DispatchQueue.main.async {
+                self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").setData([
+                    "task" : newTask.name,
+                    "completionDate" : newTask.completionDate,
+                    "date" : newTask.date,
+                    "isComplete" : newTask.isComplete
+                    
+                ])
+            }
+        }
+        
+        
+    func deleteTaskFromCollection(current task: String, from document: String, by user: User) {
+        let currentTask = TaskList(name: document)
+        let task = Task(name: task)
         DispatchQueue.main.async {
-            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").setData([
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(currentTask.name)").collection("tasks").document("\(task.name)").delete()
+        }
+    }
+
+        
+        
+    func editCollectionTask(by user: User,in task: String, oldTask: String, newTask: String, completionDate: String) {
+        let oldTask = Task(name: oldTask)
+        let newTask = Task(name: newTask)
+        let completionDate = Task(completionDate: completionDate)
+        let task = TaskList(name: task)
+
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(oldTask.name)").delete()
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").setData([
                 "task" : newTask.name,
-                "note" : newTask.note,
+                "completionDate" : completionDate.completionDate,
                 "date" : newTask.date,
                 "isComplete" : newTask.isComplete
-                
             ])
         }
     }
-    
-    
-    
-    
-    
+        
     
     
     
     
 
-    //MARK: - Task Methods
+//MARK: - Task Methods
+    
+    
 
-    func insertSecondTask(by user: User, fromTask: String, task: String, note: String) {
+    func insertSecondTaskk(by user: User, fromTask: String, task: String, note: String) {
         let fromTask = TaskList(name: fromTask)
-        let newTask = Task(name: task, note: note)
+        let newTask = Task(name: task, completionDate: note)
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").setData([
                 "task" : newTask.name,
-                "note" : newTask.note,
+                "note" : newTask.completionDate,
                 "date" : newTask.date,
                 "isComplete" : newTask.isComplete
-                
+
             ])
         }
     }
-    
+
     func deleteSecondTask(current task: Task, from document: String, by user: User) {
         let currentTask = TaskList(name: document)
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(currentTask.name)").collection("tasks").document("\(task.name)").delete()
         }
     }
-    
-    
+
+
     func editSecondTask(by user: User,in task: String, oldTask: String, newTask: String, newNote: String) {
         let oldTask = Task(name: oldTask)
         let newTask = Task(name: newTask)
-        let newNote = Task(note: newNote)
+        let newNote = Task(completionDate: newNote)
         let task = TaskList(name: task)
-        
+
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(oldTask.name)").delete()
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").setData([
                 "task" : newTask.name,
-                "note" : newNote.note,
+                "note" : newNote.completionDate,
                 "date" : newTask.date,
                 "isComplete" : newTask.isComplete
             ])
         }
     }
-    
-    
+
+
     func isDoneTask(by user: User, fromTask: TaskList, task: Task) {
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(task.name)").setData([
                 "task" : task.name,
-                "note" : task.note,
+                "note" : task.completionDate,
                 "date" : task.date,
                 "isComplete" : task.isComplete
             ])
-            
+
         }
     }
-    
+
 }
-        
-    
+
+
     
 
 
