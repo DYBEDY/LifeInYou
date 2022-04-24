@@ -11,5 +11,6 @@ target 'LifeInYou' do
 pod 'FirebaseUI/Auth'
 pod 'Firebase/Firestore'
 pod 'Firebase/Core'
+pod 'Firebase/Storage'
 
 end

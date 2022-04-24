@@ -72,7 +72,6 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         }
         cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
         cell.layer.cornerRadius = 20
-        
         return cell
     }
     

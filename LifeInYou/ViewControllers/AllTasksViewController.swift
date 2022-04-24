@@ -75,10 +75,18 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
                                 if error == nil {
                                     if let snapshot = snapshot {
                                         task.tasks = snapshot.documents.map { d in
+                                            
                                             return Task(name: d["task"] as? String ?? "",
                                                         completionDate: d["completionDate"] as? String ?? "",
-                                                        isComplete: d["isComplete"] as? Bool ?? false
-                                            )
+                                                        date: d["date"] as? Date ?? Date(),
+                                                        isComplete: d["isComplete"] as? Bool ?? false,
+                                                        imageURL: d["imageURL"] as? String ?? ""
+                                                        )
+//                                            return Task(name: d["task"] as? String ?? "",
+//                                                        completionDate: d["completionDate"] as? String ?? "",
+//                                                        isComplete: d["isComplete"] as? Bool ?? false,
+//
+//                                            )
                                         }
                                        
                                             tableView.reloadData()
@@ -111,9 +119,9 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
    
     
    
-    @IBAction  func unwindTest(for unwindSegue: UIStoryboardSegue, towards subsequentVC: AllTasksViewController) {
-        self.updateTaskList(user, tableView: tableView)
-}
+//    @IBAction  func unwindTest(for unwindSegue: UIStoryboardSegue, towards subsequentVC: AllTasksViewController) {
+//        self.updateTaskList(user, tableView: tableView)
+//}
     
  
     
@@ -141,7 +149,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
         
         newVC.taskList = taskList
-    
+        newVC.delegate = self
         self.navigationController?.present(newVC, animated: true)
       
 

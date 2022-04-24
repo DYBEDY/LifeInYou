@@ -56,17 +56,21 @@ class Task: Equatable {
     var completionDate: String
     var date = Date()
     var isComplete: Bool
- 
-    init(name: String = "", completionDate: String = "", isComplete: Bool = false) {
+    var imageURL: String
+    
+    init(name: String = "", completionDate: String = "", isComplete: Bool = false, imageUrl: String = "") {
         self.name = name
         self.completionDate = completionDate
         self.isComplete = isComplete
+        self.imageURL = imageUrl
+        
     }
-    init(name: String = "", completionDate: String = "", date: Date, isComplete: Bool = false) {
+    init(name: String = "", completionDate: String = "", date: Date, isComplete: Bool = false, imageURL: String) {
         self.name = name
         self.completionDate = completionDate
         self.date = date
         self.isComplete = isComplete
+        self.imageURL = imageURL
     }
     
     init(name: String = "") {
@@ -74,7 +78,7 @@ class Task: Equatable {
         self.completionDate = ""
         self.date = Date()
         self.isComplete = false
-        
+        self.imageURL = ""
     }
     
 }
