@@ -9,12 +9,15 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 import Firebase
+import FirebaseStorage
 
 class DatabaseManager {
     static let shared = DatabaseManager()
     
     
     private let db = Firestore.firestore()
+   
+
     private init() {}
     
     
@@ -65,20 +68,39 @@ class DatabaseManager {
    
 //    MARK: - New Task Methods
     
-        func insertSecondTask(by user: User, fromTask: String, task: String, completionDate: String) {
+    func insertSecondTask(by user: User, fromTask: String, task: String, completionDate: String) {
             let fromTask = TaskList(name: fromTask)
             let newTask = Task(name: task, completionDate: completionDate)
+//            newTask.imageURL = url
             DispatchQueue.main.async {
                 self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").setData([
                     "task" : newTask.name,
                     "completionDate" : newTask.completionDate,
                     "date" : newTask.date,
-                    "isComplete" : newTask.isComplete
+                    "isComplete" : newTask.isComplete,
+                    "imageURL" : newTask.imageURL
                     
                 ])
             }
         }
         
+    
+    
+    func insertPhoto(by user: User, fromTask: String, task: String, completionDate: String, url: String) {
+            let fromTask = TaskList(name: fromTask)
+            let newTask = Task(name: task, completionDate: completionDate)
+            newTask.imageURL = url
+            DispatchQueue.main.async {
+                self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(newTask.name)").setData([
+                    "task" : newTask.name,
+                    "completionDate" : newTask.completionDate,
+                    "date" : newTask.date,
+                    "isComplete" : newTask.isComplete,
+                    "imageURL" : newTask.imageURL
+                    
+                ])
+            }
+        }
         
     func deleteTaskFromCollection(current task: String, from document: String, by user: User) {
         let currentTask = TaskList(name: document)
@@ -102,11 +124,39 @@ class DatabaseManager {
                 "task" : newTask.name,
                 "completionDate" : completionDate.completionDate,
                 "date" : newTask.date,
-                "isComplete" : newTask.isComplete
+                "isComplete" : newTask.isComplete,
+                "imageURL" : newTask.imageURL
             ])
         }
     }
         
+    
+//MARK: - Photo Methods
+    func upload(user: String, fromTask: String, task: String, photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        let fromTask = TaskList(name: fromTask)
+        let newTask = Task(name: task)
+        
+        let ref = Storage.storage().reference().child("users").child(user).child("taskList").child(fromTask.name).child(newTask.name)
+
+        guard let imageData = photo.jpegData(compressionQuality: 0.5) else { return }
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        ref.putData(imageData, metadata: metadata) { metadata, error in
+            guard let _ = metadata else {
+                completion(.failure(error!))
+                return
+            }
+        ref.downloadURL { url, error in
+                guard let url = url else {
+                    completion(.failure(error!))
+                    return
+                }
+                completion(.success(url))
+            }
+        }
+    }
+
     
     
     

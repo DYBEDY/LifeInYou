@@ -52,6 +52,7 @@ class TestViewController: UIViewController {
     var delegate: AllTask2Delegate?
     var taskList: TaskList!
     var task: Task!
+    var url: String?
     
     var activityIndicator = UIActivityIndicatorView()
 
@@ -61,20 +62,17 @@ class TestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         taskTextField.text = task?.name ?? ""
-
-        activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-//        activityIndicator.isHidden = false
-        activityIndicator.center = imageOfTask.center
-        activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
-        view.addSubview(activityIndicator)
-        
-        
         completionDateofTask()
+        setupActivityIndicator()
         setupVC()
+       
         
-
+//        if task?.imageURL != ""  {
+//            downloadImage()
+//        } else {
+//            imageOfTask.image = UIImage(systemName: "photo.artframe")
+//            activityIndicator.stopAnimating()
+//        }
        
        
     }
@@ -111,6 +109,8 @@ class TestViewController: UIViewController {
     @IBAction func doneButtonPressed() {
         if doneButton.titleLabel?.text == "Добавить задачу" {
             insertNewTask()
+//            insertNewPhoto()
+            whenPushNewPhoto()
             dismiss(animated: true)
             delegate?.updateValue()
         } else {
@@ -121,19 +121,35 @@ class TestViewController: UIViewController {
     }
     
     
-    
+    func setupActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+        activityIndicator.center = imageOfTask.center
+        activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+    }
     
     
     func setupVC() {
-        if task?.name != nil {
+        if task?.name != nil && task?.imageURL != "" {
             doneButton.isHidden = true
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
-            imageOfTask.image = nil
+            addPhotoButton.isHidden = true
             downloadImage()
+        } else if task?.name != nil && task?.imageURL == ""  {
+            doneButton.isHidden = true
+            addPhotoButton.isHidden = true
+            taskTextField.isEnabled = false
+            dateOfCompletionTextFied.isEnabled = false
             
+            imageOfTask.image = UIImage(systemName: "photo.artframe")
+            self.activityIndicator.stopAnimating()
         } else {
             doneButton.setTitle("Добавить задачу", for: .normal)
+            imageOfTask.image = UIImage(systemName: "photo.artframe")
+            self.activityIndicator.stopAnimating()
             
         }
     }
@@ -144,7 +160,9 @@ class TestViewController: UIViewController {
             editButton.setTitle("Готово", for: .normal)
             doneButton.isHidden = false
             doneButton.setImage(UIImage(systemName: "trash"), for: .normal)
+            doneButton.imageView?.tintColor = .red
             doneButton.setTitle("", for: .normal)
+            addPhotoButton.isHidden = false
             taskTextField.isEnabled = true
             dateOfCompletionTextFied.isEnabled = true
             
@@ -154,13 +172,17 @@ class TestViewController: UIViewController {
             doneButton.setTitle("", for: .normal)
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
+            addPhotoButton.isHidden = true
+            
             editTask()
+            whenPushNewPhoto()
+
         }
     }
     
     
     func upload(user: String, task: String, photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-        let ref = Storage.storage().reference().child("users").child(user).child("taskList").child(self.taskList.name).child(self.task.name)
+        let ref = Storage.storage().reference().child("users").child(user).child("taskList").child(self.taskList.name).child(self.taskTextField.text ?? "")
 
         guard let imageData = imageOfTask.image?.jpegData(compressionQuality: 0.5) else { return }
         let metadata = StorageMetadata()
@@ -182,6 +204,20 @@ class TestViewController: UIViewController {
     }
     
     
+    func whenPushNewPhoto() {
+        if imageOfTask.image != UIImage(systemName: "photo.artframe") {
+            insertNewPhoto()
+        } else {
+            return
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     func downloadImage() {
         let ref = Storage.storage().reference().child("users").child(user.uid).child("taskList").child(self.taskList.name).child(self.task.name).storage.reference(forURL: task.imageURL)
        
@@ -201,6 +237,7 @@ class TestViewController: UIViewController {
     
 
 extension TestViewController: UITextFieldDelegate {
+    
     func completionDateofTask() {
         dateOfCompletionTextFied.inputView = completionDatePicker
         completionDatePicker.datePickerMode = .date
@@ -230,7 +267,6 @@ extension TestViewController: UITextFieldDelegate {
 
 //MARK: - Work With FireStore
 extension TestViewController {
-    // insertNewTask
     
     func insertNewTask() {
         DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
@@ -247,8 +283,26 @@ extension TestViewController {
 }
 
 
+//MARK: - Work With Photo
+extension TestViewController {
+    func insertNewPhoto() {
+        DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
+            switch result {
 
-
+            case .success(let url):
+//                DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
+                
+                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+    
+    
+}
     
     
 //MARK: - UIImagePickerController
@@ -258,34 +312,35 @@ extension TestViewController: UINavigationControllerDelegate, UIImagePickerContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        guard let imageData = image.pngData() else { return }
-        
-        let ref = Storage.storage().reference().child("users").child(user.uid).child("taskList").child(self.taskList.name).child(self.task.name)
-        ref.putData(imageData, metadata: nil) { _, error in
-            guard error == nil else {
-                print("faild tp upload")
-                return
-            }
-            ref.downloadURL { url, error in
-                guard let url = url else {
-                    
-                    return
-                }
-                let image = UIImage(data: imageData)
-                self.imageOfTask.image = image
-                print(url)
-                self.task.imageURL = url.absoluteString
-                self.db.collection("users").document("\(self.user.uid)").collection("taskList").document("\(self.taskList.name)").collection("tasks").document("\(self.task.name)").setData([
-                    "task" : self.task.name,
-                    "completionDate" : self.task.completionDate,
-                    "date" : self.task.date,
-                    "isComplete" : self.task.isComplete,
-                    "imageURL" : self.task.imageURL
-                    
-                ])
-            }
-            
-        }
+//        guard let imageData = image.pngData() else { return }
+//
+//        let ref = Storage.storage().reference().child("users").child(user.uid).child("taskList").child(self.taskList.name).child(self.task.name)
+//        ref.putData(imageData, metadata: nil) { _, error in
+//            guard error == nil else {
+//                print("faild tp upload")
+//                return
+//            }
+//            ref.downloadURL { url, error in
+//                guard let url = url else {
+//
+//                    return
+//                }
+//                let image = UIImage(data: imageData)
+//                self.imageOfTask.image = image
+//                print(url)
+//                self.task.imageURL = url.absoluteString
+//                self.db.collection("users").document("\(self.user.uid)").collection("taskList").document("\(self.taskList.name)").collection("tasks").document("\(self.task.name)").setData([
+//                    "task" : self.task.name,
+//                    "completionDate" : self.task.completionDate,
+//                    "date" : self.task.date,
+//                    "isComplete" : self.task.isComplete,
+//                    "imageURL" : self.task.imageURL
+//
+//                ])
+//            }
+//
+//        }
+        imageOfTask.image = image
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -296,22 +351,4 @@ extension TestViewController: UINavigationControllerDelegate, UIImagePickerContr
 
 
 
-//let ref = Storage.storage().reference().child("users").child(user).child("taskList").child(self.taskList.name).child(self.task.name)
-//
-//guard let imageData = imageOfTask.image?.jpegData(compressionQuality: 0.5) else { return }
-//let metadata = StorageMetadata()
-//metadata.contentType = "image/jpeg"
-//
-//ref.putData(imageData, metadata: metadata) { metadata, error in
-//    guard let _ = metadata else {
-//        completion(.failure(error!))
-//        return
-//    }
-//    ref.downloadURL { url, error in
-//        guard let url = url else {
-//            completion(.failure(error!))
-//            return
-//        }
-//        completion(.success(url))
-//    }
-//}
+

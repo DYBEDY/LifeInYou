@@ -80,8 +80,9 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
                                                         completionDate: d["completionDate"] as? String ?? "",
                                                         date: d["date"] as? Date ?? Date(),
                                                         isComplete: d["isComplete"] as? Bool ?? false,
-                                                        imageURL: d["imageURL"] as? String ?? ""
+                                                        imageURL: d["imageURL"] as? String ?? "https://"
                                                         )
+                                            
 //                                            return Task(name: d["task"] as? String ?? "",
 //                                                        completionDate: d["completionDate"] as? String ?? "",
 //                                                        isComplete: d["isComplete"] as? Bool ?? false,
@@ -91,12 +92,14 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
                                        
                                             tableView.reloadData()
                                         print("========\(self.taskLists.count)=======")
+                                       
                                     }
 
                                 }
                             }
 //                            self.activityIndicator.isHidden = true
 //                            self.activityIndicator.stopAnimating()
+                           
                             return task
                             
                         }
@@ -133,6 +136,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         newVC.task = task
         newVC.taskList = taskList
         newVC.delegate = self
+        newVC.url = ""
         
         self.navigationController?.present(newVC, animated: true)
       
@@ -147,6 +151,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
+        
         
         newVC.taskList = taskList
         newVC.delegate = self
