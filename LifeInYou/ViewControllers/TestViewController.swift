@@ -65,16 +65,11 @@ class TestViewController: UIViewController {
         completionDateofTask()
         setupActivityIndicator()
         setupVC()
-       
         
-//        if task?.imageURL != ""  {
-//            downloadImage()
-//        } else {
-//            imageOfTask.image = UIImage(systemName: "photo.artframe")
-//            activityIndicator.stopAnimating()
-//        }
-       
-       
+        
+        registerForKeyboardNotification()
+        taskTextField.delegate = self
+        dateOfCompletionTextFied.delegate = self
     }
     
    
@@ -238,6 +233,7 @@ class TestViewController: UIViewController {
 
 extension TestViewController: UITextFieldDelegate {
     
+    
     func completionDateofTask() {
         dateOfCompletionTextFied.inputView = completionDatePicker
         completionDatePicker.datePickerMode = .date
@@ -261,6 +257,61 @@ extension TestViewController: UITextFieldDelegate {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
         dateOfCompletionTextFied.text = formatter.string(from: completionDatePicker.date)
+    }
+    
+    //MARK: - Move TF when tapped
+    
+    func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShoww(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHidee(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+    }
+    
+    @objc func keyboardWillShoww(sender: NSNotification) {
+        guard let userInfo = sender.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let currentTextField = UIResponder.currentFirst() as? UITextField  else { return }
+        
+        
+        let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
+        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+        
+        if textFieldBottomY > keyboardTopY {
+            let textBoxY = convertedTextFieldFrame.origin.y
+            let newFrameY = (textBoxY - keyboardTopY / 2) * -1
+            view.frame.origin.y = newFrameY
+            
+        }
+        
+    }
+    
+    
+    
+    @objc func keyboardWillHidee(sender: NSNotification) {
+        self.view.frame.origin.y = 0
+        
+    }
+    
+    
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case taskTextField :
+            dateOfCompletionTextFied.becomeFirstResponder()
+        default:
+            taskTextField.becomeFirstResponder()
+            
+        }
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches , with:event)
+        view.endEditing(true)
     }
 }
 
@@ -288,16 +339,14 @@ extension TestViewController {
     func insertNewPhoto() {
         DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
             switch result {
-
             case .success(let url):
-//                DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
-                
                 DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
             case .failure(let error):
                 print(error)
             }
         }
     }
+    
     
     
     
@@ -312,34 +361,6 @@ extension TestViewController: UINavigationControllerDelegate, UIImagePickerContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-//        guard let imageData = image.pngData() else { return }
-//
-//        let ref = Storage.storage().reference().child("users").child(user.uid).child("taskList").child(self.taskList.name).child(self.task.name)
-//        ref.putData(imageData, metadata: nil) { _, error in
-//            guard error == nil else {
-//                print("faild tp upload")
-//                return
-//            }
-//            ref.downloadURL { url, error in
-//                guard let url = url else {
-//
-//                    return
-//                }
-//                let image = UIImage(data: imageData)
-//                self.imageOfTask.image = image
-//                print(url)
-//                self.task.imageURL = url.absoluteString
-//                self.db.collection("users").document("\(self.user.uid)").collection("taskList").document("\(self.taskList.name)").collection("tasks").document("\(self.task.name)").setData([
-//                    "task" : self.task.name,
-//                    "completionDate" : self.task.completionDate,
-//                    "date" : self.task.date,
-//                    "isComplete" : self.task.isComplete,
-//                    "imageURL" : self.task.imageURL
-//
-//                ])
-//            }
-//
-//        }
         imageOfTask.image = image
     }
     
@@ -349,6 +370,68 @@ extension TestViewController: UINavigationControllerDelegate, UIImagePickerContr
 }
     
 
+
+
+
+//MARK: - Show content settings
+
+//extension TestViewController: UITextFieldDelegate {
+//
+//
+//
+//    func registerForKeyboardNotification() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//
+//
+//    }
+//
+//    @objc func keyboardWillShow(sender: NSNotification) {
+//        guard let userInfo = sender.userInfo,
+//              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+//              let currentTextField = UIResponder.currentFirst() as? UITextField  else { return }
+//
+//
+//        let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+//        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
+//        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+//
+//        if textFieldBottomY > keyboardTopY {
+//            let textBoxY = convertedTextFieldFrame.origin.y
+//            let newFrameY = (textBoxY - keyboardTopY / 2) * -1
+//            view.frame.origin.y = newFrameY
+//        }
+//
+//    }
+//
+//
+//
+//    @objc func keyboardWillHide(sender: NSNotification) {
+//         self.view.frame.origin.y = 0
+//
+//    }
+//
+//
+//
+//
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        switch textField {
+//        case emailTextField :
+//            passwordTextField.becomeFirstResponder()
+//        default:
+//            emailTextField.becomeFirstResponder()
+//
+//        }
+//        return true
+//    }
+//
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        super.touchesBegan(touches , with:event)
+//        view.endEditing(true)
+//    }
+//}
+//
 
 
 
