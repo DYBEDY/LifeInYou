@@ -108,12 +108,27 @@ class TestViewController: UIViewController {
     @IBAction func doneButtonPressed() {
         if doneButton.titleLabel?.text == "Добавить задачу" {
             insertNewTask()
-            dismiss(animated: true)
             delegate?.updateValue()
+            activityIndicator = UIActivityIndicatorView(style: .medium)
+            activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+            activityIndicator.center = view.center
+            activityIndicator.backgroundColor = .gray
+            activityIndicator.layer.cornerRadius = 5
+            activityIndicator.startAnimating()
+            activityIndicator.hidesWhenStopped = true
+            view.addSubview(activityIndicator)
+            self.view.addSubview(self.activityIndicator)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+               
+                self?.dismiss(animated: true)
+                
+            }
+            
+            
         } else {
             deleteTask()
-            dismiss(animated: true)
             delegate?.updateValue()
+            dismiss(animated: true)
         }
     }
     
@@ -121,6 +136,7 @@ class TestViewController: UIViewController {
     func setupActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+        
         activityIndicator.center = imageOfTask.center
         activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true

@@ -117,6 +117,7 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
             }
         } else {
             cell.photoOfTask.image = nil
+            cell.indicator.stopAnimating()
         }
         
 //        cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
