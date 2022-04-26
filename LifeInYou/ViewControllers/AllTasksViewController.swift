@@ -21,13 +21,17 @@ protocol AllTask2Delegate {
     func updateValue()
 }
 
-class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate {
-    
-    func updateValue() {
-        updateTaskList(user, tableView: tableView)
+
+protocol AllTask3Delegate {
+    func update()
+}
+
+
+class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate, AllTask3Delegate {
+    func update() {
+        print("KOKOKOKOKOKOO")
     }
     
-   
     
     @IBOutlet var tableView: UITableView!
     
@@ -35,7 +39,10 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     var taskLists: [TaskList] = []
     
     let db = Firestore.firestore()
-
+   
+    let vcCell = AllTasksTableViewCell()
+   
+    
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
@@ -82,15 +89,11 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
                                                         isComplete: d["isComplete"] as? Bool ?? false,
                                                         imageURL: d["imageURL"] as? String ?? "https://"
                                                         )
-                                            
-//                                            return Task(name: d["task"] as? String ?? "",
-//                                                        completionDate: d["completionDate"] as? String ?? "",
-//                                                        isComplete: d["isComplete"] as? Bool ?? false,
-//
-//                                            )
+                                                                 
                                         }
-                                       
-                                            tableView.reloadData()
+                                        
+                                        tableView.reloadData()
+                                        
                                         print("========\(self.taskLists.count)=======")
                                        
                                     }
@@ -117,6 +120,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         super.viewWillAppear(animated)
         updateTaskList(user, tableView: tableView)
         tableView.reloadData()
+        
     }
     
    
@@ -139,9 +143,6 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         newVC.url = ""
         
         self.navigationController?.present(newVC, animated: true)
-      
-   
-    
     }
     
 
@@ -156,10 +157,12 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         newVC.taskList = taskList
         newVC.delegate = self
         self.navigationController?.present(newVC, animated: true)
-      
-
     }
     
+    
+    func updateValue() {
+        updateTaskList(user, tableView: tableView)
+    }
     
   
     
@@ -180,7 +183,8 @@ extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
         let task = taskLists[indexPath.row]
         cell.configure(with: task)
         cell.taskList = task
-        cell.collectionOfTasks.reloadData()
+//        cell.collectionOfTasks.reloadData()
+         
         cell.delegate = self
       
         

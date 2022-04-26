@@ -6,20 +6,34 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestore
 
 typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> Void)
 
-class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
+
+
+class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate {
+    func update() {
+        cellDelegate?.update()
+        print("KOKOKO")
+    }
+    
+    
+    
+    
     
     @IBOutlet var taskNameLabel: UILabel!
     @IBOutlet var progressOfCompletionTasks: UIProgressView!
     @IBOutlet var completionTasksLabel: UILabel!
     @IBOutlet var collectionOfTasks: UICollectionView!
     
+    
     var didSelectClosure: DidSelectClosure?
     var index: Int?
     
     var delegate: AllTasksDelegate?
+    var cellDelegate: AllTask3Delegate?
     
     let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
@@ -29,21 +43,32 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
             collectionOfTasks.reloadData()
         }
     }
- 
+    
+    let user: User! = {
+        guard let currentUser = Auth.auth().currentUser else { return nil }
+        return User(user: currentUser)
+    }()
+    
+   
 
     override func awakeFromNib() {
         super.awakeFromNib()
         
         collectionOfTasks.delegate = self
         collectionOfTasks.dataSource = self
+       
     }
 
     
-    func configure(with taskList: TaskList) {
 
+    
+    
+    func configure(with taskList: TaskList) {
         var current: [Task] {
             taskList.tasks.filter { $0.isComplete  }
         }
+        
+        
         
         let totalProgress = Float(current.count) / Float(taskList.tasks.count)
         progressOfCompletionTasks.setProgress(totalProgress, animated: true)
@@ -53,7 +78,11 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
 
     func presentSecondView(taskList: TaskList) {
         delegate?.presentSecondView(taskList: taskList)
+        
     }
+    
+    
+
     
 }
 
@@ -66,12 +95,34 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TasksCollectionViewCell", for: indexPath) as! TasksCollectionViewCell
+        let task = taskList.tasks[indexPath.item]
+        
+       
         
         if taskList.tasks.count != 0 {
-        cell.nameOfTaskLabel.text = taskList.tasks[indexPath.row].name
+            cell.nameOfTaskLabel.text = task.name
         }
-        cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
+        
+        if task.imageURL != "" {
+            DatabaseManager.shared.downloadImage(user: user.uid, fromTask: self.taskList, task: task) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        cell.photoOfTask.image = image
+                        cell.indicator.stopAnimating()
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        } else {
+            cell.photoOfTask.image = nil
+        }
+        
+//        cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
         cell.layer.cornerRadius = 20
+        cell.layer.borderWidth = 5
+        cell.layer.borderColor = .init(red: 255/255, green: 250/255, blue: 205/255, alpha: 1)
         return cell
     }
     
@@ -91,9 +142,10 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         didSelectClosure?(index, indexPath.row)
+       
     }
     
-    
+   
 }
 
 

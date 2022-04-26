@@ -62,6 +62,7 @@ class TestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         taskTextField.text = task?.name ?? ""
+        dateOfCompletionTextFied.text = task?.completionDate ?? ""
         completionDateofTask()
         setupActivityIndicator()
         setupVC()
@@ -70,6 +71,9 @@ class TestViewController: UIViewController {
         registerForKeyboardNotification()
         taskTextField.delegate = self
         dateOfCompletionTextFied.delegate = self
+        
+        
+        
     }
     
    
@@ -95,7 +99,7 @@ class TestViewController: UIViewController {
     
     @IBAction func editButtonPressed(_ sender: Any) {
         if editButton.titleLabel?.text == "Готово" {
-            delegate?.updateValue()
+//            delegate?.updateValue()
         }
         setupButton()
         
@@ -104,8 +108,6 @@ class TestViewController: UIViewController {
     @IBAction func doneButtonPressed() {
         if doneButton.titleLabel?.text == "Добавить задачу" {
             insertNewTask()
-//            insertNewPhoto()
-            whenPushNewPhoto()
             dismiss(animated: true)
             delegate?.updateValue()
         } else {
@@ -176,28 +178,6 @@ class TestViewController: UIViewController {
     }
     
     
-    func upload(user: String, task: String, photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-        let ref = Storage.storage().reference().child("users").child(user).child("taskList").child(self.taskList.name).child(self.taskTextField.text ?? "")
-
-        guard let imageData = imageOfTask.image?.jpegData(compressionQuality: 0.5) else { return }
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        
-        ref.putData(imageData, metadata: metadata) { metadata, error in
-            guard let _ = metadata else {
-                completion(.failure(error!))
-                return
-            }
-            ref.downloadURL { url, error in
-                guard let url = url else {
-                    completion(.failure(error!))
-                    return
-                }
-                completion(.success(url))
-            }
-        }
-    }
-    
     
     func whenPushNewPhoto() {
         if imageOfTask.image != UIImage(systemName: "photo.artframe") {
@@ -208,28 +188,105 @@ class TestViewController: UIViewController {
     }
     
     
+   
     
+   
     
-    
-    
-    
-    func downloadImage() {
-        let ref = Storage.storage().reference().child("users").child(user.uid).child("taskList").child(self.taskList.name).child(self.task.name).storage.reference(forURL: task.imageURL)
-       
-        let megaByte = Int64(15 * 1024 * 1024)
-        ref.getData(maxSize: megaByte) { data, error in
-            guard let imageData = data else { return }
-            let image = UIImage(data: imageData)
-            self.imageOfTask.image = image
-            print(("Вот ОНА ---> \(String(describing: self.task?.imageURL))") )
-            self.activityIndicator.stopAnimating()
-        }
-        
-    }
     
 }
 
     
+
+
+
+//MARK: - Work With FireStore
+extension TestViewController {
+    
+    func insertNewTask() {
+        DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
+        whenPushNewPhoto()
+        
+    }
+    
+    func deleteTask() {
+        DatabaseManager.shared.deleteTaskFromCollection(current: taskTextField.text ?? "", from: taskList.name, by: user)
+        deleteImage()
+    }
+    
+    func editTask() {
+        DatabaseManager.shared.editCollectionTask(by: user, in: taskList.name, oldTask: task.name, newTask: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
+            self.editImage()
+       
+        
+        
+    }
+}
+
+
+//MARK: - Work With Photo
+extension TestViewController {
+    func insertNewPhoto() {
+        DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
+            switch result {
+            case .success(let url):
+                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func deleteImage() {
+        DatabaseManager.shared.deletePhoto(user: user.uid, taskList: taskList.name, currentTask: task.name)
+    }
+    
+    
+    func editImage() {
+        DatabaseManager.shared.deletePhoto(user: user.uid, taskList: taskList.name, currentTask: task.name)
+        DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
+            switch result {
+            case .success(let url):
+                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func downloadImage() {
+        DatabaseManager.shared.downloadImage(user: user.uid, fromTask: self.taskList, task: self.task) { result in
+            switch result {
+            case .success(let image):
+                self.imageOfTask.image = image
+                self.activityIndicator.stopAnimating()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+}
+    
+    
+//MARK: - UIImagePickerController
+
+extension TestViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        imageOfTask.image = image
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+}
+    
+
+
+
 
 extension TestViewController: UITextFieldDelegate {
     
@@ -315,123 +372,6 @@ extension TestViewController: UITextFieldDelegate {
     }
 }
 
-
-//MARK: - Work With FireStore
-extension TestViewController {
-    
-    func insertNewTask() {
-        DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
-        print(taskTextField.text ?? "zero")
-    }
-    
-    func deleteTask() {
-        DatabaseManager.shared.deleteTaskFromCollection(current: taskTextField.text ?? "", from: taskList.name, by: user)
-    }
-    
-    func editTask() {
-        DatabaseManager.shared.editCollectionTask(by: user, in: taskList.name, oldTask: task.name, newTask: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
-    }
-}
-
-
-//MARK: - Work With Photo
-extension TestViewController {
-    func insertNewPhoto() {
-        DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
-            switch result {
-            case .success(let url):
-                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    
-    
-    
-    
-}
-    
-    
-//MARK: - UIImagePickerController
-
-extension TestViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        imageOfTask.image = image
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
-    }
-}
-    
-
-
-
-
-//MARK: - Show content settings
-
-//extension TestViewController: UITextFieldDelegate {
-//
-//
-//
-//    func registerForKeyboardNotification() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-//
-//
-//    }
-//
-//    @objc func keyboardWillShow(sender: NSNotification) {
-//        guard let userInfo = sender.userInfo,
-//              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-//              let currentTextField = UIResponder.currentFirst() as? UITextField  else { return }
-//
-//
-//        let keyboardTopY = keyboardFrame.cgRectValue.origin.y
-//        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
-//        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-//
-//        if textFieldBottomY > keyboardTopY {
-//            let textBoxY = convertedTextFieldFrame.origin.y
-//            let newFrameY = (textBoxY - keyboardTopY / 2) * -1
-//            view.frame.origin.y = newFrameY
-//        }
-//
-//    }
-//
-//
-//
-//    @objc func keyboardWillHide(sender: NSNotification) {
-//         self.view.frame.origin.y = 0
-//
-//    }
-//
-//
-//
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        switch textField {
-//        case emailTextField :
-//            passwordTextField.becomeFirstResponder()
-//        default:
-//            emailTextField.becomeFirstResponder()
-//
-//        }
-//        return true
-//    }
-//
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches , with:event)
-//        view.endEditing(true)
-//    }
-//}
-//
 
 
 
