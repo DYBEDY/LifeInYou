@@ -141,6 +141,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         newVC.taskList = taskList
         newVC.delegate = self
         newVC.url = ""
+        newVC.isComplete = task.isComplete
         
         self.navigationController?.present(newVC, animated: true)
     }
@@ -283,7 +284,7 @@ extension AllTasksViewController {
             if task.isComplete == false {
                 task.isComplete.toggle()
             }
-            DatabaseManager.shared.isDoneTask(by: self.user, fromTask: currentTask, task: task)
+            DatabaseManager.shared.isDoneTaskk(by: self.user, fromTask: currentTask, task: task)
         }
     }
     

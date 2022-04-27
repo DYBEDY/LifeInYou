@@ -83,6 +83,19 @@ class DatabaseManager {
             }
         }
         
+    func isDoneSecondTask(by user: User, fromTask: TaskList, task: Task) {
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(task.name)").setData([
+                "task" : task.name,
+                "completionDate" : task.completionDate,
+                "date" : task.date,
+                "isComplete" : task.isComplete,
+                "imageURL" : task.imageURL
+                
+            ])
+            
+        }
+    }
 
         
     func deleteTaskFromCollection(current task: String, from document: String, by user: User) {
@@ -95,7 +108,7 @@ class DatabaseManager {
 
         
         
-    func editCollectionTask(by user: User,in task: String, oldTask: String, newTask: String, completionDate: String) {
+    func editCollectionTask(by user: User,in task: String, oldTask: String, newTask: String, completionDate: String, isComplete: Bool) {
         let oldTask = Task(name: oldTask)
         let newTask = Task(name: newTask)
         let completionDate = Task(completionDate: completionDate)
@@ -107,7 +120,7 @@ class DatabaseManager {
                 "task" : newTask.name,
                 "completionDate" : completionDate.completionDate,
                 "date" : newTask.date,
-                "isComplete" : newTask.isComplete,
+                "isComplete" : isComplete,
                 "imageURL" : newTask.imageURL
             ])
         }
@@ -176,7 +189,7 @@ class DatabaseManager {
         
     }
     
-    func insertPhoto(by user: User, fromTask: String, task: String, completionDate: String, url: String) {
+    func insertPhoto(by user: User, fromTask: String, task: String, completionDate: String, isComplete: Bool, url: String) {
             let fromTask = TaskList(name: fromTask)
             let newTask = Task(name: task, completionDate: completionDate)
             newTask.imageURL = url
@@ -185,7 +198,7 @@ class DatabaseManager {
                     "task" : newTask.name,
                     "completionDate" : newTask.completionDate,
                     "date" : newTask.date,
-                    "isComplete" : newTask.isComplete,
+                    "isComplete" : isComplete,
                     "imageURL" : newTask.imageURL
                     
                 ])
@@ -252,7 +265,7 @@ class DatabaseManager {
     }
 
 
-    func isDoneTask(by user: User, fromTask: TaskList, task: Task) {
+    func isDoneTaskk(by user: User, fromTask: TaskList, task: Task) {
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(task.name)").setData([
                 "task" : task.name,

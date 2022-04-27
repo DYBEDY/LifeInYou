@@ -672,7 +672,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="264" id="AJq-3F-yFJ"/>
                                             <constraint firstAttribute="height" constant="32" id="LDR-gN-N3B"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -700,36 +700,104 @@
                                     <constraint firstAttribute="height" constant="123" id="9ID-Qx-1Sz"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="73Z-5k-Sc0">
-                                <rect key="frame" x="130.5" y="16" width="114.5" height="29"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rnp-mp-30d">
+                                <rect key="frame" x="36" y="490" width="303" height="1"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="29" id="3bX-nj-tRg"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="114.5" id="ylZ-A9-XRu"/>
+                                    <constraint firstAttribute="height" constant="1" id="FOf-YE-2kW"/>
+                                    <constraint firstAttribute="width" constant="303" id="RIl-Uw-SF0"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="73Z-5k-Sc0">
+                                <rect key="frame" x="26.5" y="53" width="322" height="204"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="322" id="WGY-Bi-nHT"/>
+                                    <constraint firstAttribute="height" constant="204" id="mUS-VB-cfS"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Добавить фото">
-                                    <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="12"/>
-                                </buttonConfiguration>
+                                <buttonConfiguration key="configuration" style="plain"/>
                                 <connections>
                                     <action selector="addPhotoPressed" destination="AsT-hH-Gtf" eventType="touchUpInside" id="UBC-IJ-L5j"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fHv-uc-7Bb">
+                                <rect key="frame" x="119" y="518" width="137.5" height="55"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VxD-W3-QHn">
+                                        <rect key="frame" x="0.0" y="0.0" width="137.5" height="26"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Дней до завершения" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8F-St-Uhs">
+                                                <rect key="frame" x="0.0" y="0.0" width="137.5" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="SfX-Tc-qNa"/>
+                                                    <constraint firstAttribute="width" constant="137.5" id="XGB-GF-xUJ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQK-VX-wPP">
+                                                <rect key="frame" x="10.5" y="24" width="116" height="2"/>
+                                                <color key="backgroundColor" systemColor="systemGrayColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="2" id="BxX-nh-s0g"/>
+                                                    <constraint firstAttribute="width" constant="116" id="Ing-Zc-UyL"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="456 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJf-vt-0OU">
+                                        <rect key="frame" x="50" y="34" width="37.5" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="R99-6q-cAr"/>
+                                            <constraint firstAttribute="height" constant="21" id="ss0-DO-RXK"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="137.5" id="L9R-5j-yhf"/>
+                                    <constraint firstAttribute="height" constant="55" id="zgP-DD-bcd"/>
+                                </constraints>
+                            </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0EB-go-B1t">
+                                <rect key="frame" x="122" y="12" width="131" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="131" id="4EC-7P-8GS"/>
+                                    <constraint firstAttribute="height" constant="30" id="CBa-gB-4GP"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                                <connections>
+                                    <action selector="isCompleteTapped:" destination="AsT-hH-Gtf" eventType="valueChanged" id="yHo-DO-8sg"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="M0g-ab-0dR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="cdv-NG-WYj" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="8ht-54-j7Q"/>
                             <constraint firstItem="JMY-Ac-Zt0" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="A4O-Yn-ShS"/>
-                            <constraint firstItem="73Z-5k-Sc0" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="I9h-cn-Mha"/>
+                            <constraint firstItem="rnp-mp-30d" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="CcI-B3-Zw8"/>
+                            <constraint firstItem="rnp-mp-30d" firstAttribute="top" secondItem="JMY-Ac-Zt0" secondAttribute="bottom" constant="8" symbolic="YES" id="DlI-sA-RZs"/>
+                            <constraint firstItem="73Z-5k-Sc0" firstAttribute="top" secondItem="3G3-P1-t7L" secondAttribute="topMargin" constant="53" id="Jij-6H-KYW"/>
                             <constraint firstItem="SfE-hu-ICr" firstAttribute="top" secondItem="M0g-ab-0dR" secondAttribute="top" constant="10" id="N9e-Zb-tfy"/>
+                            <constraint firstItem="0EB-go-B1t" firstAttribute="top" secondItem="M0g-ab-0dR" secondAttribute="top" constant="12" id="OYu-n0-2cb"/>
                             <constraint firstItem="dXE-Ju-DLY" firstAttribute="top" secondItem="3G3-P1-t7L" secondAttribute="topMargin" constant="53" id="RrA-AQ-Vcz"/>
                             <constraint firstItem="mHO-op-fFX" firstAttribute="top" secondItem="dXE-Ju-DLY" secondAttribute="bottom" constant="15" id="Vvs-Q8-x73"/>
-                            <constraint firstItem="SfE-hu-ICr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="73Z-5k-Sc0" secondAttribute="trailing" constant="8" symbolic="YES" id="YM7-Bi-Rsy"/>
+                            <constraint firstItem="fHv-uc-7Bb" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="XRW-AC-ayq"/>
+                            <constraint firstItem="M0g-ab-0dR" firstAttribute="bottom" secondItem="fHv-uc-7Bb" secondAttribute="bottom" constant="74" id="Xm3-DI-Yaf"/>
                             <constraint firstItem="SfE-hu-ICr" firstAttribute="trailing" secondItem="M0g-ab-0dR" secondAttribute="trailing" id="aHX-FO-gy2"/>
                             <constraint firstItem="dXE-Ju-DLY" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="cSp-J9-hUu"/>
+                            <constraint firstItem="SfE-hu-ICr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="M0g-ab-0dR" secondAttribute="leading" symbolic="YES" id="dO3-df-dXa"/>
                             <constraint firstItem="M0g-ab-0dR" firstAttribute="bottom" secondItem="cdv-NG-WYj" secondAttribute="bottom" constant="20" id="fIn-hB-0Bz"/>
                             <constraint firstItem="mHO-op-fFX" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="o4B-J3-VD3"/>
-                            <constraint firstItem="73Z-5k-Sc0" firstAttribute="top" secondItem="M0g-ab-0dR" secondAttribute="top" constant="16" id="s6N-4o-AVk"/>
+                            <constraint firstItem="73Z-5k-Sc0" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="ut1-r1-oYf"/>
+                            <constraint firstItem="0EB-go-B1t" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="wQa-OZ-q3f"/>
                             <constraint firstItem="JMY-Ac-Zt0" firstAttribute="top" secondItem="mHO-op-fFX" secondAttribute="bottom" constant="15" id="yeT-F2-33e"/>
                         </constraints>
                     </view>
@@ -737,9 +805,11 @@
                     <connections>
                         <outlet property="addPhotoButton" destination="73Z-5k-Sc0" id="bZ7-1q-RfK"/>
                         <outlet property="dateOfCompletionTextFied" destination="JWe-nA-kTp" id="Bow-Ic-PhH"/>
+                        <outlet property="daysToCompletionLabel" destination="iJf-vt-0OU" id="u8l-is-MWs"/>
                         <outlet property="doneButton" destination="cdv-NG-WYj" id="1Tg-Bg-sPF"/>
                         <outlet property="editButton" destination="SfE-hu-ICr" id="ykJ-e9-c2H"/>
                         <outlet property="imageOfTask" destination="dXE-Ju-DLY" id="sPo-KU-58l"/>
+                        <outlet property="isCompleteControl" destination="0EB-go-B1t" id="wLD-Rg-GZv"/>
                         <outlet property="taskTextField" destination="nag-rF-eKe" id="eVt-Z0-NN9"/>
                     </connections>
                 </viewController>
@@ -1105,6 +1175,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

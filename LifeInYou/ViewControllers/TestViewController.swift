@@ -39,7 +39,17 @@ class TestViewController: UIViewController {
     
     @IBOutlet var addPhotoButton: UIButton!
     
-  
+    @IBOutlet var isCompleteControl: UISegmentedControl! {
+        didSet {
+            isCompleteControl.setTitle("В работе", forSegmentAt: 0)
+            isCompleteControl.setTitle("Завершить", forSegmentAt: 1)
+            
+        }
+    }
+    
+    @IBOutlet var daysToCompletionLabel: UILabel!
+    
+    
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
@@ -54,6 +64,8 @@ class TestViewController: UIViewController {
     var task: Task!
     var url: String?
     
+    var isComplete: Bool!
+    
     var activityIndicator = UIActivityIndicatorView()
 
     
@@ -63,6 +75,7 @@ class TestViewController: UIViewController {
         super.viewDidLoad()
         taskTextField.text = task?.name ?? ""
         dateOfCompletionTextFied.text = task?.completionDate ?? ""
+        daysToCompletionLabel.text = getCountOfDaysToFinishTask(daysToFinish: dateOfCompletionTextFied.text ?? "x")
         completionDateofTask()
         setupActivityIndicator()
         setupVC()
@@ -80,12 +93,18 @@ class TestViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         delegate?.updateValue()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.dismiss(animated: true)
+        }
     }
     
     
     
  
-   
+    @IBAction func isCompleteTapped(_ sender: UISegmentedControl) {
+        isComplete.toggle()
+    }
+    
     
     
     @IBAction func addPhotoPressed() {
@@ -99,7 +118,7 @@ class TestViewController: UIViewController {
     
     @IBAction func editButtonPressed(_ sender: Any) {
         if editButton.titleLabel?.text == "Готово" {
-//            delegate?.updateValue()
+            delegate?.updateValue()
         }
         setupButton()
         
@@ -112,7 +131,7 @@ class TestViewController: UIViewController {
             activityIndicator = UIActivityIndicatorView(style: .medium)
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
             activityIndicator.center = view.center
-            activityIndicator.backgroundColor = .gray
+            activityIndicator.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.3)
             activityIndicator.layer.cornerRadius = 5
             activityIndicator.startAnimating()
             activityIndicator.hidesWhenStopped = true
@@ -123,7 +142,6 @@ class TestViewController: UIViewController {
                 self?.dismiss(animated: true)
                 
             }
-            
             
         } else {
             deleteTask()
@@ -147,12 +165,14 @@ class TestViewController: UIViewController {
     func setupVC() {
         if task?.name != nil && task?.imageURL != "" {
             doneButton.isHidden = true
+            isCompleteControl.isHidden = true
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
             addPhotoButton.isHidden = true
             downloadImage()
         } else if task?.name != nil && task?.imageURL == ""  {
             doneButton.isHidden = true
+            isCompleteControl.isHidden = true
             addPhotoButton.isHidden = true
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
@@ -162,6 +182,8 @@ class TestViewController: UIViewController {
         } else {
             doneButton.setTitle("Добавить задачу", for: .normal)
             imageOfTask.image = UIImage(systemName: "photo.artframe")
+            isCompleteControl.isHidden = true
+            editButton.isHidden = true
             self.activityIndicator.stopAnimating()
             
         }
@@ -172,6 +194,7 @@ class TestViewController: UIViewController {
         if actionForButton == false {
             editButton.setTitle("Готово", for: .normal)
             doneButton.isHidden = false
+            isCompleteControl.isHidden = false
             doneButton.setImage(UIImage(systemName: "trash"), for: .normal)
             doneButton.imageView?.tintColor = .red
             doneButton.setTitle("", for: .normal)
@@ -186,10 +209,25 @@ class TestViewController: UIViewController {
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
             addPhotoButton.isHidden = true
+            isCompleteControl.isHidden = true
+            
+            activityIndicator = UIActivityIndicatorView(style: .medium)
+            activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+            activityIndicator.center = view.center
+            activityIndicator.color = .white
+            activityIndicator.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+            activityIndicator.layer.cornerRadius = 5
+            activityIndicator.startAnimating()
+            activityIndicator.hidesWhenStopped = true
+            view.addSubview(activityIndicator)
             
             editTask()
-            whenPushNewPhoto()
-
+            delegate?.updateValue()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+                self?.dismiss(animated: true)
+            }
+          
         }
     }
     
@@ -204,7 +242,13 @@ class TestViewController: UIViewController {
     }
     
     
-   
+    func whenEditImage() {
+        if imageOfTask.image != UIImage(systemName: "photo.artframe") {
+            editImage()
+        } else {
+            return
+        }
+    }
     
    
     
@@ -230,12 +274,11 @@ extension TestViewController {
     }
     
     func editTask() {
-        DatabaseManager.shared.editCollectionTask(by: user, in: taskList.name, oldTask: task.name, newTask: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
-            self.editImage()
-       
-        
+        DatabaseManager.shared.editCollectionTask(by: user, in: taskList.name, oldTask: task.name, newTask: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "", isComplete: isComplete)
+            editImage()
         
     }
+    
 }
 
 
@@ -245,7 +288,7 @@ extension TestViewController {
         DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
             switch result {
             case .success(let url):
-                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
+                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", isComplete: self.isComplete, url: url.absoluteString)
             case .failure(let error):
                 print(error)
             }
@@ -262,7 +305,11 @@ extension TestViewController {
         DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
             switch result {
             case .success(let url):
-                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", url: url.absoluteString)
+                if self.imageOfTask.image != UIImage(systemName: "photo.artframe") {
+                DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", isComplete: self.isComplete, url: url.absoluteString)
+                } else {
+                    self.imageOfTask.image = UIImage(systemName: "photo.artframe")
+                }
             case .failure(let error):
                 print(error)
             }
@@ -308,16 +355,26 @@ extension TestViewController: UITextFieldDelegate {
     
     
     func completionDateofTask() {
+      
         dateOfCompletionTextFied.inputView = completionDatePicker
         completionDatePicker.datePickerMode = .date
         completionDatePicker.preferredDatePickerStyle = .wheels
         
-//        let minimumYear = Calendar.current.date(byAdding: .year, value: -80, to: Date())
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        
+        guard let dateOfFinish = dateFormatter.date(from: dateOfCompletionTextFied.text ?? "") else { return }
+
         let minimumYear = Date()
         let maximumYaer = Calendar.current.date(byAdding: .year, value: 80, to: Date())
         
         completionDatePicker.minimumDate = minimumYear
         completionDatePicker.maximumDate = maximumYaer
+        
+        if dateOfCompletionTextFied.text != "" {
+            completionDatePicker.date = dateOfFinish
+        }
+        
         
         completionDatePicker.addTarget(self, action: #selector(completionDate), for: .valueChanged)
     }
@@ -330,6 +387,21 @@ extension TestViewController: UITextFieldDelegate {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
         dateOfCompletionTextFied.text = formatter.string(from: completionDatePicker.date)
+        
+    }
+    
+    
+    
+    func getCountOfDaysToFinishTask(daysToFinish: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        
+        guard let dateOfFinish = dateFormatter.date(from: dateOfCompletionTextFied.text ?? "") else { return ""}
+        let dateInerval = Calendar.current.dateComponents([.day], from: Date(), to: dateOfFinish)
+        guard let days = dateInerval.day else { return ""}
+        let countOfDays = "\(days)"
+        return countOfDays
+        
     }
     
     //MARK: - Move TF when tapped
