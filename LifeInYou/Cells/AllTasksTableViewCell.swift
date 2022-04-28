@@ -81,7 +81,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
         
     }
     
-    
+
 
     
 }
@@ -97,30 +97,24 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TasksCollectionViewCell", for: indexPath) as! TasksCollectionViewCell
         let task = taskList.tasks[indexPath.item]
         
-       
+        cell.taskList = taskList
+        cell.task = task
+        cell.imageURL = URL(string: task.imageURL)
         
         if taskList.tasks.count != 0 {
             cell.nameOfTaskLabel.text = task.name
         }
         
-        if task.imageURL != "" {
-            DatabaseManager.shared.downloadImage(user: user.uid, fromTask: self.taskList, task: task) { result in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        cell.photoOfTask.image = image
-                        cell.indicator.stopAnimating()
-                    }
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        } else {
+        if task.imageURL == "" {
             cell.photoOfTask.image = nil
+            cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
             cell.indicator.stopAnimating()
-        }
+        } 
+            
+        
         
 //        cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
+        
         cell.layer.cornerRadius = 20
         cell.layer.borderWidth = 5
         cell.layer.borderColor = .init(red: 255/255, green: 250/255, blue: 205/255, alpha: 1)
@@ -157,7 +151,7 @@ extension AllTasksTableViewCell: UICollectionViewDelegateFlowLayout {
         let paddingWidth = 20 * (itemsPerRow )
         let avalibleWidth = ( collectionView.frame.width - 25 ) - paddingWidth
         let widthPerItem = avalibleWidth / itemsPerRow
-        let hightPerItem = (widthPerItem / 2) + 10
+        let hightPerItem = (widthPerItem / 2) + 35
 
         return CGSize(width: widthPerItem, height: hightPerItem)
 //        CGSize(width: 300, height: 150)
@@ -177,3 +171,33 @@ extension AllTasksTableViewCell: UICollectionViewDelegateFlowLayout {
         19
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+//        if task.imageURL != "" {
+            
+            
+            
+//            DatabaseManager.shared.downloadImage(user: user.uid, fromTask: self.taskList, task: task) { result in
+//                switch result {
+//                case .success(let image):
+//                    DispatchQueue.main.async {
+//                        cell.photoOfTask.image = image
+//                        cell.indicator.stopAnimating()
+//                    }
+//                case .failure(let error):
+//                    print(error)
+//                }
+//            }
+//        } else {
+//            cell.photoOfTask.image = nil
+//            cell.indicator.stopAnimating()
+//        }

@@ -722,31 +722,35 @@
                                                                                     <constraint firstAttribute="width" constant="20" id="The-1i-Yqy"/>
                                                                                 </constraints>
                                                                             </activityIndicatorView>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd8-kI-igx">
+                                                                                <rect key="frame" x="62" y="0.0" width="173" height="30"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="30" id="GKh-7j-jWD"/>
+                                                                                    <constraint firstAttribute="width" constant="173" id="rND-mJ-9If"/>
+                                                                                </constraints>
+                                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                                                <color key="textColor" red="0.0" green="0.94186474028087797" blue="0.93401586744520404" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                                                                            </label>
                                                                         </subviews>
                                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                         <constraints>
+                                                                            <constraint firstItem="Sd8-kI-igx" firstAttribute="centerX" secondItem="2c1-Yi-NEa" secondAttribute="centerX" id="JdF-xG-ahl"/>
+                                                                            <constraint firstItem="Sd8-kI-igx" firstAttribute="top" secondItem="2c1-Yi-NEa" secondAttribute="top" id="oCq-WT-zN2"/>
                                                                             <constraint firstItem="18G-bF-ri7" firstAttribute="centerX" secondItem="2c1-Yi-NEa" secondAttribute="centerX" id="oFA-p3-0x5"/>
                                                                             <constraint firstItem="18G-bF-ri7" firstAttribute="centerY" secondItem="2c1-Yi-NEa" secondAttribute="centerY" id="onu-N9-nm0"/>
                                                                         </constraints>
                                                                     </view>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd8-kI-igx">
-                                                                        <rect key="frame" x="0.0" y="8" width="297" height="20.5"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                        <color key="textColor" red="0.13719525290000001" green="0.3782025067" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="Sd8-kI-igx" firstAttribute="leading" secondItem="jfk-Qb-MCn" secondAttribute="leading" id="4NF-aZ-pOh"/>
                                                                     <constraint firstAttribute="trailing" secondItem="az0-xg-l3h" secondAttribute="trailing" id="4nJ-nm-MRv"/>
                                                                     <constraint firstItem="az0-xg-l3h" firstAttribute="top" secondItem="jfk-Qb-MCn" secondAttribute="top" id="Bdc-Xi-JS7"/>
                                                                     <constraint firstAttribute="trailing" secondItem="2c1-Yi-NEa" secondAttribute="trailing" id="JXY-sl-SpU"/>
                                                                     <constraint firstAttribute="bottom" secondItem="2c1-Yi-NEa" secondAttribute="bottom" id="Mof-7h-B7O"/>
                                                                     <constraint firstItem="2c1-Yi-NEa" firstAttribute="top" secondItem="jfk-Qb-MCn" secondAttribute="top" id="Q5b-rR-K2Y"/>
                                                                     <constraint firstItem="az0-xg-l3h" firstAttribute="leading" secondItem="jfk-Qb-MCn" secondAttribute="leading" id="aZM-lJ-kRg"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="Sd8-kI-igx" secondAttribute="trailing" id="hT9-0O-Gi4"/>
                                                                     <constraint firstItem="2c1-Yi-NEa" firstAttribute="leading" secondItem="jfk-Qb-MCn" secondAttribute="leading" id="m6V-IW-vdR"/>
-                                                                    <constraint firstItem="Sd8-kI-igx" firstAttribute="top" secondItem="jfk-Qb-MCn" secondAttribute="top" constant="8" id="rxq-wL-mjM"/>
                                                                     <constraint firstAttribute="bottom" secondItem="az0-xg-l3h" secondAttribute="bottom" id="ss3-dD-I4U"/>
                                                                 </constraints>
                                                             </collectionViewCellContentView>
@@ -861,7 +865,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFg-6s-Dme" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2239" y="806"/>
+            <point key="canvasLocation" x="2237.5999999999999" y="805.54722638680664"/>
         </scene>
         <!--Дни-->
         <scene sceneID="AfS-Iu-kSE">

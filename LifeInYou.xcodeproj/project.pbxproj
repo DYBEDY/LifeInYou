@@ -17,6 +17,7 @@
 		0660C362280E273600E1EB26 /* AllTasksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0660C361280E273600E1EB26 /* AllTasksTableViewCell.swift */; };
 		0660C364280E31C800E1EB26 /* TasksCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0660C363280E31C800E1EB26 /* TasksCollectionViewCell.swift */; };
 		0660C366280E32CC00E1EB26 /* TasksCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0660C365280E32CC00E1EB26 /* TasksCollectionReusableView.swift */; };
+		06869938281A186500BD2688 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06869937281A186500BD2688 /* ImageCache.swift */; };
 		06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8427C57B08000B6E5F /* AppDelegate.swift */; };
 		06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */; };
 		06D6EA8927C57B08000B6E5F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8827C57B08000B6E5F /* StartViewController.swift */; };
@@ -47,6 +48,7 @@
 		0660C361280E273600E1EB26 /* AllTasksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksTableViewCell.swift; sourceTree = "<group>"; };
 		0660C363280E31C800E1EB26 /* TasksCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCollectionViewCell.swift; sourceTree = "<group>"; };
 		0660C365280E32CC00E1EB26 /* TasksCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCollectionReusableView.swift; sourceTree = "<group>"; };
+		06869937281A186500BD2688 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		06D6EA8127C57B08000B6E5F /* LifeInYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeInYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06D6EA8427C57B08000B6E5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06D6EA8627C57B08000B6E5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				06D6EAA927C58343000B6E5F /* DatabaseManager.swift */,
+				06869937281A186500BD2688 /* ImageCache.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */,
 				0660C362280E273600E1EB26 /* AllTasksTableViewCell.swift in Sources */,
 				0620A8C928011386008AF338 /* SectionHeaderReusableView.swift in Sources */,
+				06869938281A186500BD2688 /* ImageCache.swift in Sources */,
 				06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */,
 				06D6EAA827C58317000B6E5F /* User.swift in Sources */,
 				06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */,

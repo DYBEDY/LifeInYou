@@ -70,7 +70,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     func updateTaskList(_ user: User, tableView: UITableView) {
 //        activityIndicator.isHidden = false
 //        activityIndicator.startAnimating()
-        self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
+        self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: false).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
