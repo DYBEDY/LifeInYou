@@ -92,9 +92,10 @@ class TasksCollectionViewCell: UICollectionViewCell {
     
     private func getImage(from url: URL, completion: @escaping(Result<UIImage, Error>) -> Void) {
         // Get image from cache
-        if let cachedImage = ImageCache.shared.object(forKey: url.lastPathComponent as NSString ) {
+        if let cachedImage = ImageCache.shared.object(forKey: url.absoluteString as NSString ) {
             print("Image from cache: ", url.lastPathComponent)
             completion(.success(cachedImage))
+            
             return
         }
         
@@ -106,7 +107,7 @@ class TasksCollectionViewCell: UICollectionViewCell {
 //                    cell.photoOfTask.image = image
 //                    cell.indicator.stopAnimating()
 //                }
-                ImageCache.shared.setObject(image, forKey: url.lastPathComponent as NSString)
+                ImageCache.shared.setObject(image, forKey: url.absoluteString as NSString)
                 print("Image from network: ", url.lastPathComponent)
                 completion(.success(image))
             case .failure(let error):
