@@ -42,6 +42,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
    
     let vcCell = AllTasksTableViewCell()
    
+    var ediImage: UIImage!
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
@@ -157,6 +158,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         
         newVC.taskList = taskList
         newVC.delegate = self
+        newVC.isComplete = false
         self.navigationController?.present(newVC, animated: true)
     }
     
@@ -295,6 +297,8 @@ extension AllTasksViewController {
         
         for secTask in task.tasks {
             DatabaseManager.shared.deleteSecondTask(current: secTask, from: task.name, by: self.user)
+            DatabaseManager.shared.deletePhoto(user: self.user.uid, taskList: task.name, currentTask: secTask.name)
+            
         }
         
         DatabaseManager.shared.delete(current: task.name, by: self.user)
@@ -323,12 +327,49 @@ extension AllTasksViewController {
             DatabaseManager.shared.inserNewTask(by: self.user, task: newTask.name)
             
             for task in oldTask.tasks {
-                DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: newTask.name, task: task.name, completionDate: task.completionDate)
                 DatabaseManager.shared.deleteSecondTask(current: task, from: oldTask.name, by: self.user)
+                DatabaseManager.shared.deletePhoto(user: self.user.uid, taskList: oldTask.name, currentTask: task.name)
+                DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: newTask.name, task: task.name, completionDate: task.completionDate)
+                DatabaseManager.shared.downloadImage(user: self.user.uid,
+                                                     fromTask: oldTask,
+                                                     task: task) { result in
+                    switch result {
+                        
+                    case .success(let image):
+                        self.ediImage = image
+                        DatabaseManager.shared.upload(user: self.user.uid,
+                                                      fromTask: newTask.name,
+                                                      task: task.name,
+                                                      photo: image) { result in
+                            switch result {
+                                
+                            case .success(let url):
+                                DatabaseManager.shared.insertPhoto(by: self.user,
+                                                                   fromTask: newTask.name,
+                                                                   task: task.name,
+                                                                   completionDate: task.completionDate,
+                                                                   isComplete: task.isComplete,
+                                                                   url: url.absoluteString)
+                                
+                            case .failure(let error):
+                                print(error)
+                            }
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+                
+                
+               
             }
             
-            taskText.name = task
-            self.tableView.reloadData()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
+                taskText.name = task
+                self?.tableView.reloadData()
+                self?.updateTaskList(self!.user, tableView: self!.tableView)
+            }
         }
         
         let cancelAction = UIAlertAction(title: "Отменить", style: .destructive)

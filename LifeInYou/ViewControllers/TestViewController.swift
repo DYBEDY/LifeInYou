@@ -42,12 +42,19 @@ class TestViewController: UIViewController {
     @IBOutlet var isCompleteControl: UISegmentedControl! {
         didSet {
             isCompleteControl.setTitle("В работе", forSegmentAt: 0)
-            isCompleteControl.setTitle("Завершить", forSegmentAt: 1)
+            isCompleteControl.setTitle("Выполнена", forSegmentAt: 1)
             
+            if isComplete == true {
+                isCompleteControl.selectedSegmentIndex = 1
+            } else {
+                isCompleteControl.selectedSegmentIndex = 0
+            }
         }
     }
     
     @IBOutlet var daysToCompletionLabel: UILabel!
+    
+    @IBOutlet var completionInfoStackView: UIStackView!
     
     
     let user: User! = {
@@ -166,6 +173,8 @@ class TestViewController: UIViewController {
         if task?.name != nil && task?.imageURL != "" {
             doneButton.isHidden = true
             isCompleteControl.isHidden = true
+//            completionInfoStackView.isHidden = false
+            whenShowStackView()
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
             addPhotoButton.isHidden = true
@@ -173,7 +182,10 @@ class TestViewController: UIViewController {
         } else if task?.name != nil && task?.imageURL == ""  {
             doneButton.isHidden = true
             isCompleteControl.isHidden = true
+//            completionInfoStackView.isHidden = false
+            whenShowStackView()
             addPhotoButton.isHidden = true
+            
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
             
@@ -184,6 +196,7 @@ class TestViewController: UIViewController {
             imageOfTask.image = UIImage(systemName: "photo.artframe")
             isCompleteControl.isHidden = true
             editButton.isHidden = true
+            completionInfoStackView.isHidden = true
             self.activityIndicator.stopAnimating()
             
         }
@@ -199,6 +212,7 @@ class TestViewController: UIViewController {
             doneButton.imageView?.tintColor = .red
             doneButton.setTitle("", for: .normal)
             addPhotoButton.isHidden = false
+            completionInfoStackView.isHidden = true
             taskTextField.isEnabled = true
             dateOfCompletionTextFied.isEnabled = true
             
@@ -210,6 +224,8 @@ class TestViewController: UIViewController {
             dateOfCompletionTextFied.isEnabled = false
             addPhotoButton.isHidden = true
             isCompleteControl.isHidden = true
+            completionInfoStackView.isHidden = false
+            
             
             activityIndicator = UIActivityIndicatorView(style: .medium)
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
@@ -223,6 +239,7 @@ class TestViewController: UIViewController {
             
             editTask()
             delegate?.updateValue()
+            daysToCompletionLabel.text = getCountOfDaysToFinishTask(daysToFinish: dateOfCompletionTextFied.text ?? "x")
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
                 self?.activityIndicator.stopAnimating()
                 self?.dismiss(animated: true)
@@ -247,6 +264,14 @@ class TestViewController: UIViewController {
             editImage()
         } else {
             return
+        }
+    }
+    
+    func whenShowStackView() {
+        if daysToCompletionLabel.text != "" {
+            completionInfoStackView.isHidden = false
+        } else {
+            completionInfoStackView.isHidden = true
         }
     }
     
@@ -360,10 +385,7 @@ extension TestViewController: UITextFieldDelegate {
         completionDatePicker.datePickerMode = .date
         completionDatePicker.preferredDatePickerStyle = .wheels
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy"
-        
-        guard let dateOfFinish = dateFormatter.date(from: dateOfCompletionTextFied.text ?? "") else { return }
+
 
         let minimumYear = Date()
         let maximumYaer = Calendar.current.date(byAdding: .year, value: 80, to: Date())
@@ -371,8 +393,15 @@ extension TestViewController: UITextFieldDelegate {
         completionDatePicker.minimumDate = minimumYear
         completionDatePicker.maximumDate = maximumYaer
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        
+        let dateOfFinish = dateFormatter.date(from: dateOfCompletionTextFied.text ?? "")
+        
         if dateOfCompletionTextFied.text != "" {
-            completionDatePicker.date = dateOfFinish
+            completionDatePicker.date = dateOfFinish ?? Date()
+        } else {
+            completionDatePicker.date = Date()
         }
         
         
@@ -424,10 +453,10 @@ extension TestViewController: UITextFieldDelegate {
         let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
         let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
         
-        if textFieldBottomY > keyboardTopY {
+        if textFieldBottomY >= keyboardTopY {
             let textBoxY = convertedTextFieldFrame.origin.y
             let newFrameY = (textBoxY - keyboardTopY / 2) * -1
-            view.frame.origin.y = newFrameY
+            self.view.frame.origin.y = newFrameY
             
         }
         

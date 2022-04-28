@@ -116,7 +116,7 @@ class DatabaseManager {
 
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(oldTask.name)").delete()
-            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").setData([
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").updateData([
                 "task" : newTask.name,
                 "completionDate" : completionDate.completionDate,
                 "date" : newTask.date,
@@ -125,6 +125,8 @@ class DatabaseManager {
             ])
         }
     }
+    
+ 
         
     
 //MARK: - Photo Methods
@@ -152,6 +154,36 @@ class DatabaseManager {
             }
         }
     }
+    
+    
+    func uploadPhoto(user: String, fromTask: String, task: String, completion: @escaping (Result<URL, Error>) -> Void) {
+        let fromTask = TaskList(name: fromTask)
+        let newTask = Task(name: task)
+        
+        let ref = Storage.storage().reference().child("users").child(user).child("taskList").child(fromTask.name).child(newTask.name)
+
+        guard let imageData = UIImage().jpegData(compressionQuality: 0.4) else { return }
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        ref.putData(imageData, metadata: metadata) { metadata, error in
+            guard let _ = metadata else {
+                completion(.failure(error!))
+                return
+            }
+        ref.downloadURL { url, error in
+                guard let url = url else {
+                    completion(.failure(error!))
+                    return
+                }
+                completion(.success(url))
+            }
+        }
+    }
+    
+    
+   
+    
 
     
     func downloadImage(user: String, fromTask: TaskList, task: Task, completion: @escaping (Result<UIImage, Error>) -> Void) {
@@ -183,6 +215,7 @@ class DatabaseManager {
         let ref = Storage.storage().reference().child("users").child(user).child("taskList").child(taskList.name).child(currentTask.name)
         DispatchQueue.main.async {
             ref.delete()
+            
         }
         
         
@@ -204,6 +237,9 @@ class DatabaseManager {
                 ])
             }
         }
+    
+
+    
     
     
     func editPhoto(user: String, taskList: String, currentTask: String) {
@@ -267,13 +303,14 @@ class DatabaseManager {
 
     func isDoneTaskk(by user: User, fromTask: TaskList, task: Task) {
         DispatchQueue.main.async {
-            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(task.name)").setData([
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(fromTask.name)").collection("tasks").document("\(task.name)").updateData([
                 "task" : task.name,
-                "note" : task.completionDate,
+                "completionDate" : task.completionDate,
                 "date" : task.date,
-                "isComplete" : task.isComplete
+                "isComplete" : task.isComplete,
+                "imageURL" : task.imageURL
+                
             ])
-
         }
     }
 
