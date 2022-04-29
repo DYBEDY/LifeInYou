@@ -649,7 +649,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vG7-gw-XcB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2237.5999999999999" y="1478.4107946026988"/>
+            <point key="canvasLocation" x="2238" y="1504"/>
         </scene>
         <!--Мои цели-->
         <scene sceneID="eh0-zr-vJL">
@@ -659,15 +659,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="409" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="h27-dm-eto">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="438" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="h27-dm-eto">
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AllTasksTableViewCell" rowHeight="409" id="IbB-LY-Zia" customClass="AllTasksTableViewCell" customModule="LifeInYou" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="375" height="409"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AllTasksTableViewCell" rowHeight="438" id="IbB-LY-Zia" customClass="AllTasksTableViewCell" customModule="LifeInYou" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="438"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IbB-LY-Zia" id="aWd-gC-jI6">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="409"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="438"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0OY-Vw-HLJ">
@@ -689,7 +689,7 @@
                                                     </constraints>
                                                 </view>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sWL-lj-sn9">
-                                                    <rect key="frame" x="0.0" y="198" width="375" height="202"/>
+                                                    <rect key="frame" x="0.0" y="195" width="375" height="202"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="350.5" id="06H-2a-hsg"/>
@@ -829,7 +829,7 @@
                                                 <constraint firstItem="sWL-lj-sn9" firstAttribute="leading" secondItem="aWd-gC-jI6" secondAttribute="leading" id="aZj-ex-DhU"/>
                                                 <constraint firstItem="yCL-z1-dxt" firstAttribute="leading" secondItem="aWd-gC-jI6" secondAttribute="leadingMargin" id="epZ-69-BNX"/>
                                                 <constraint firstAttribute="trailing" secondItem="sWL-lj-sn9" secondAttribute="trailing" id="lXy-lF-XZj"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="sWL-lj-sn9" secondAttribute="bottom" constant="-2" id="q9k-FF-G62"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="sWL-lj-sn9" secondAttribute="bottom" constant="30" id="q9k-FF-G62"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -860,7 +860,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="h27-dm-eto" id="k1G-3a-YFZ"/>
-                        <segue destination="AsT-hH-Gtf" kind="showDetail" id="nkQ-aF-CjB"/>
+                        <segue destination="AsT-hH-Gtf" kind="showDetail" identifier="settings" id="nkQ-aF-CjB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFg-6s-Dme" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

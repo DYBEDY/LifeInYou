@@ -70,7 +70,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     func updateTaskList(_ user: User, tableView: UITableView) {
 //        activityIndicator.isHidden = false
 //        activityIndicator.startAnimating()
-        self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: false).getDocuments { snapshot, error in
+        self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
@@ -323,26 +323,29 @@ extension AllTasksViewController {
             
             let newTask = TaskList(name: task)
             
-            DatabaseManager.shared.delete(current: oldTask.name, by: self.user)
-            DatabaseManager.shared.inserNewTask(by: self.user, task: newTask.name)
+//            DatabaseManager.shared.delete(current: oldTask.name, by: self.user)
+//            DatabaseManager.shared.inserNewTask(by: self.user, task: newTask.name)
+            DatabaseManager.shared.inserNewTaskwithOldDate(by: self.user, task: newTask.name, oldTask: oldTask.name)
             
             for task in oldTask.tasks {
                 DatabaseManager.shared.deleteSecondTask(current: task, from: oldTask.name, by: self.user)
                 DatabaseManager.shared.deletePhoto(user: self.user.uid, taskList: oldTask.name, currentTask: task.name)
                 DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: newTask.name, task: task.name, completionDate: task.completionDate)
+                
+                if task.imageURL != "" {
                 DatabaseManager.shared.downloadImage(user: self.user.uid,
                                                      fromTask: oldTask,
                                                      task: task) { result in
                     switch result {
-                        
+
                     case .success(let image):
-                        self.ediImage = image
+//                        self.ediImage = image
                         DatabaseManager.shared.upload(user: self.user.uid,
                                                       fromTask: newTask.name,
                                                       task: task.name,
                                                       photo: image) { result in
                             switch result {
-                                
+
                             case .success(let url):
                                 DatabaseManager.shared.insertPhoto(by: self.user,
                                                                    fromTask: newTask.name,
@@ -350,7 +353,7 @@ extension AllTasksViewController {
                                                                    completionDate: task.completionDate,
                                                                    isComplete: task.isComplete,
                                                                    url: url.absoluteString)
-                                
+
                             case .failure(let error):
                                 print(error)
                             }
@@ -359,9 +362,9 @@ extension AllTasksViewController {
                         print(error)
                     }
                 }
-                
-                
-               
+                }
+
+
             }
             
             

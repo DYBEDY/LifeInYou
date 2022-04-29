@@ -45,6 +45,31 @@ class DatabaseManager {
         
     }
     
+    func inserNewTaskwithOldDate(by user: User, task: String, oldTask: String) {
+        let newTask = TaskList(name: task)
+        let oldTask = TaskList(name: oldTask)
+        DispatchQueue.main.async {
+            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(oldTask.name)").getDocument { doc, error in
+                if error == nil {
+                    let data = doc?.data()
+                    self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(newTask.name)").setData(data ?? ["": ""])
+                    self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(newTask.name)").updateData([
+                        "task": newTask.name
+                    ])
+                    
+                    
+                    
+                    
+                    
+                    
+                    self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(oldTask.name)").delete()
+                }
+            }
+              
+        }
+        
+    }
+    
 
     func delete(current task: String, by user: User) {
         let oldTask = TaskList(name: task)

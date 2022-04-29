@@ -62,6 +62,15 @@ class TestViewController: UIViewController {
         return User(user: currentUser)
     }()
     
+    
+    var imageURL: URL? {
+        didSet {
+            imageOfTask.image = nil
+            updateImage()
+        }
+    }
+    
+    
     let completionDatePicker = UIDatePicker()
   
     var actionForButton = true
@@ -92,7 +101,7 @@ class TestViewController: UIViewController {
         taskTextField.delegate = self
         dateOfCompletionTextFied.delegate = self
         
-        
+       
         
     }
     
@@ -178,7 +187,9 @@ class TestViewController: UIViewController {
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
             addPhotoButton.isHidden = true
-            downloadImage()
+//            downloadImage()
+            imageURL = URL(string: task.imageURL)
+            updateImage()
         } else if task?.name != nil && task?.imageURL == ""  {
             doneButton.isHidden = true
             isCompleteControl.isHidden = true
@@ -353,7 +364,41 @@ extension TestViewController {
         }
     }
     
+    private func getImage(from url: URL, completion: @escaping(Result<UIImage, Error>) -> Void) {
+        if let cachedImage = ImageCache.shared.object(forKey: url.absoluteString as NSString) {
+            print("Image from cache --- \(url.lastPathComponent)")
+            completion(.success(cachedImage))
+            
+            return
+        }
+        
+        DatabaseManager.shared.downloadImage(user: user.uid, fromTask: taskList, task: task) { result in
+            switch result {
+                
+            case .success(let image):
+                ImageCache.shared.setObject(image, forKey: url.absoluteString as NSString)
+                print("Image from network --- \(url.lastPathComponent)")
+                completion(.success(image))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
     
+    private func updateImage() {
+        guard let url = imageURL else { return }
+        getImage(from: url) { result in
+            switch result {
+            case .success(let image):
+                if url == self.imageURL {
+                    self.imageOfTask.image = image
+                    self.activityIndicator.stopAnimating()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
     
     
