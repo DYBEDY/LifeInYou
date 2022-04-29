@@ -819,6 +819,16 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Дата создания: 01.05.2027" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U5g-Nm-krO">
+                                                    <rect key="frame" x="248" y="413" width="111" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="QE2-Hm-ilM"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="111" id="iM6-9x-Jd9"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="7"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="0OY-Vw-HLJ" secondAttribute="trailing" id="56i-xB-TcH"/>
@@ -827,14 +837,18 @@
                                                 <constraint firstItem="0OY-Vw-HLJ" firstAttribute="top" secondItem="aWd-gC-jI6" secondAttribute="top" id="Kc0-FE-uak"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="yCL-z1-dxt" secondAttribute="trailing" id="Pwh-6C-oSt"/>
                                                 <constraint firstItem="sWL-lj-sn9" firstAttribute="leading" secondItem="aWd-gC-jI6" secondAttribute="leading" id="aZj-ex-DhU"/>
+                                                <constraint firstItem="U5g-Nm-krO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aWd-gC-jI6" secondAttribute="leading" constant="20" symbolic="YES" id="cSQ-CX-twX"/>
                                                 <constraint firstItem="yCL-z1-dxt" firstAttribute="leading" secondItem="aWd-gC-jI6" secondAttribute="leadingMargin" id="epZ-69-BNX"/>
+                                                <constraint firstAttribute="bottom" secondItem="U5g-Nm-krO" secondAttribute="bottom" constant="4" id="g3e-CS-h8W"/>
                                                 <constraint firstAttribute="trailing" secondItem="sWL-lj-sn9" secondAttribute="trailing" id="lXy-lF-XZj"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="sWL-lj-sn9" secondAttribute="bottom" constant="30" id="q9k-FF-G62"/>
+                                                <constraint firstAttribute="trailing" secondItem="U5g-Nm-krO" secondAttribute="trailing" constant="16" id="zVt-Qb-b40"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="collectionOfTasks" destination="sWL-lj-sn9" id="IgN-p5-1ZR"/>
                                             <outlet property="completionTasksLabel" destination="bo7-jL-798" id="5wr-TN-XFD"/>
+                                            <outlet property="dateOfCreatedTaskLabel" destination="U5g-Nm-krO" id="yH9-Ff-jOg"/>
                                             <outlet property="progressOfCompletionTasks" destination="OA1-QM-9LD" id="Hb4-EK-7H4"/>
                                             <outlet property="taskNameLabel" destination="HyX-At-3ua" id="Ldw-NU-VEc"/>
                                         </connections>

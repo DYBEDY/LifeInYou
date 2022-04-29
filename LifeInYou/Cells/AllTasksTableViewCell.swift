@@ -27,6 +27,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
     @IBOutlet var progressOfCompletionTasks: UIProgressView!
     @IBOutlet var completionTasksLabel: UILabel!
     @IBOutlet var collectionOfTasks: UICollectionView!
+    @IBOutlet var dateOfCreatedTaskLabel: UILabel!
     
     
     var didSelectClosure: DidSelectClosure?
@@ -34,7 +35,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
     
     var delegate: AllTasksDelegate?
     var cellDelegate: AllTask3Delegate?
-    
+    let dateFormatter = DateFormatter()
     let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
     var taskList: TaskList! {
@@ -67,8 +68,11 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
         var current: [Task] {
             taskList.tasks.filter { $0.isComplete  }
         }
-        
-        
+//
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+       
+        dateOfCreatedTaskLabel.text = "Дата создния: \(taskList.date)"
+        print(taskList.date)
         
         let totalProgress = Float(current.count) / Float(taskList.tasks.count)
         progressOfCompletionTasks.setProgress(totalProgress, animated: true)

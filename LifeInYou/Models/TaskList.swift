@@ -17,7 +17,7 @@ class TaskList: Equatable {
     
     var name: String
     var userId: String
-    var date = Date()
+    var date: Date
     var tasks = [Task]()
     
     
@@ -28,16 +28,25 @@ class TaskList: Equatable {
 
     }
     
+    init(name: String, userId: String) {
+        self.name = name
+        self.userId = userId
+        self.date = Date()
+    }
     
     init(name: String) {
         self.name = name
         self.userId = ""
-
+        self.date = Date()
     }
+    
+    
+    
     init(name: String, tasks: [Task]) {
         self.name = name
         self.tasks = tasks
         self.userId = ""
+        self.date = Date()
 }
     init(name: String, date: Date) {
         self.name = name
