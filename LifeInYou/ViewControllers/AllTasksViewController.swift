@@ -57,6 +57,10 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         
         
         updateTaskList(user, tableView: tableView)
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+        
+        
     }
     
     
@@ -75,15 +79,20 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
+                      
                         self.taskLists = snapshot.documents.map { d in
-//
+                                
                             let task = TaskList(name: d["task"] as? String ?? "",
-                                                 userId: d["userId"] as? String ?? "",
-                                                 date: d["date"] as? Date ?? Date()
+                                                userId: d["userId"] as? String ?? ""
                                                 
+                                                
+                                            
                             )
                             
-                            print("\(task.name) ---- \(task.date)")
+                            let time = (d["date"] as? Timestamp)?.dateValue()
+                            task.date = time ?? Date()
+                            print("---------------------->\(task.date)")
+                            
                             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").order(by: "date", descending: true).getDocuments { snapshot, error in
                                 if error == nil {
                                     if let snapshot = snapshot {
@@ -97,10 +106,12 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
                                                         )
                                                                  
                                         }
-                                        
-                                        tableView.reloadData()
-                                        
-                                        print("========\(self.taskLists.count)=======")
+                                        DispatchQueue.main.async {
+                                            tableView.reloadData()
+                                            
+                                            print("========\(self.taskLists.count)=======")
+                                        }
+                                      
                                        
                                     }
 
@@ -124,17 +135,15 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateTaskList(user, tableView: tableView)
-        tableView.reloadData()
+//        updateTaskList(user, tableView: tableView)
+//        tableView.reloadData()
         
     }
     
    
     
    
-//    @IBAction  func unwindTest(for unwindSegue: UIStoryboardSegue, towards subsequentVC: AllTasksViewController) {
-//        self.updateTaskList(user, tableView: tableView)
-//}
+
     
  
     
@@ -176,22 +185,42 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
 }
 
+//MARK: - TableView methods
 
 extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         taskLists.count
+
+         
     }
     
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        taskLists.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView()
+//               headerView.backgroundColor = UIColor.red
+//               return headerView
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        50
+//    }
     
-   
-
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+    }
     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllTasksTableViewCell", for: indexPath) as! AllTasksTableViewCell
         let task = taskLists[indexPath.row]
+        cell.selectionStyle = .none
+//        cell.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+        cell.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
         cell.configure(with: task)
         cell.taskList = task
-//        cell.collectionOfTasks.reloadData()
+        
          
         cell.delegate = self
       
@@ -201,7 +230,10 @@ extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
             let currentTask = task.tasks[collIndex ?? 0]
             self.moveOnTaskViewController(tIndex: tabIndex ?? 0, cIndex: collIndex ?? 0, task: currentTask, taskList: task)
         }
-       
+      
+      
+         
+         
         return cell
     }
     
@@ -275,8 +307,11 @@ extension AllTasksViewController {
     
     private func saveFunc(taskList: String) {
         let newTask = TaskList(name: taskList)
-        self.taskLists.append(newTask)
-        self.tableView.insertRows(at: [IndexPath(row: self.taskLists.count - 1, section: 0)], with: .automatic)
+       
+        self.taskLists.insert(newTask, at: 0)
+        self.tableView.insertRows(at: [IndexPath(row: 0  , section: 0)], with: .automatic)
+
+        
         
         DatabaseManager.shared.inserNewTask(by: user, task: taskList)
         self.tableView.reloadData()

@@ -33,6 +33,8 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
     var didSelectClosure: DidSelectClosure?
     var index: Int?
     
+    var bool = false
+    
     var delegate: AllTasksDelegate?
     var cellDelegate: AllTask3Delegate?
     let dateFormatter = DateFormatter()
@@ -57,7 +59,20 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
         
         collectionOfTasks.delegate = self
         collectionOfTasks.dataSource = self
+      
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
        
+        
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 15, left: 4, bottom: 15, right: 4))
+        contentView.layer.cornerRadius = 5
+//        contentView.layer.borderWidth = 2
+//        contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.backgroundColor = .white
+        contentView.clipsToBounds = true
+        
     }
 
     
@@ -68,11 +83,16 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
         var current: [Task] {
             taskList.tasks.filter { $0.isComplete  }
         }
-//
+
         dateFormatter.dateFormat = "dd.MM.yyyy"
+        
+        let dateOfask = dateFormatter.string(from: taskList.date)
+    
+        dateOfCreatedTaskLabel.text = "Дата создния: \(dateOfask)"
        
-        dateOfCreatedTaskLabel.text = "Дата создния: \(taskList.date)"
-        print(taskList.date)
+       
+        
+        
         
         let totalProgress = Float(current.count) / Float(taskList.tasks.count)
         progressOfCompletionTasks.setProgress(totalProgress, animated: true)
@@ -138,6 +158,19 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         return UICollectionReusableView()
     }
     
+    
+    
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        if bool == true {
+//            return CGSize(width: 0, height: 0)
+//        } else {
+//            return CGSize(width: 50, height: 50)
+//        }
+//
+//
+//    }
+//
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         didSelectClosure?(index, indexPath.row)
@@ -153,9 +186,9 @@ extension AllTasksTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow: CGFloat = 1.2
         let paddingWidth = 20 * (itemsPerRow )
-        let avalibleWidth = ( collectionView.frame.width - 25 ) - paddingWidth
+        let avalibleWidth = ( collectionView.frame.width - 20 ) - paddingWidth
         let widthPerItem = avalibleWidth / itemsPerRow
-        let hightPerItem = (widthPerItem / 2) + 35
+        let hightPerItem = (widthPerItem / 2) + 50
 
         return CGSize(width: widthPerItem, height: hightPerItem)
 //        CGSize(width: 300, height: 150)

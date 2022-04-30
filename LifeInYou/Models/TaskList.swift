@@ -7,8 +7,8 @@
 
 
 import Foundation
-//import Firebase
-//import FirebaseFirestore
+import Firebase
+import FirebaseFirestore
 
 class TaskList: Equatable {
     static func == (lhs: TaskList, rhs: TaskList) -> Bool {

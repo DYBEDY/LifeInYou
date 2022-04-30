@@ -18,6 +18,15 @@ class TasksCollectionReusableView: UICollectionReusableView, AllTasksDelegate {
     var delegateTest: AllTasksDelegate?
     var taskList: TaskList?
     var index: Int?
+    
+    
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+      
+    }
  
     @IBAction func addButton() {
     
