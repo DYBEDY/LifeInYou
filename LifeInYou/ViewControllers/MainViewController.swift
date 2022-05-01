@@ -10,14 +10,13 @@ import UIKit
 
 class MainViewController: UIViewController {
    
-    
+    var books: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
     }
-    
   
-    
   
 }

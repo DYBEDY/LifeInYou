@@ -711,17 +711,13 @@
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="az0-xg-l3h">
                                                                         <rect key="frame" x="0.0" y="0.0" width="297" height="200"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                                                        </userDefinedRuntimeAttributes>
                                                                     </imageView>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2c1-Yi-NEa">
                                                                         <rect key="frame" x="0.0" y="0.0" width="297" height="200"/>
                                                                         <subviews>
-                                                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="18G-bF-ri7">
-                                                                                <rect key="frame" x="138.5" y="90" width="20" height="20"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="height" constant="20" id="3cp-nb-X7F"/>
-                                                                                    <constraint firstAttribute="width" constant="20" id="The-1i-Yqy"/>
-                                                                                </constraints>
-                                                                            </activityIndicatorView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd8-kI-igx">
                                                                                 <rect key="frame" x="62" y="0.0" width="173" height="30"/>
                                                                                 <constraints>
@@ -732,15 +728,19 @@
                                                                                 <color key="textColor" red="0.0" green="0.94186474028087797" blue="0.93401586744520404" alpha="1" colorSpace="calibratedRGB"/>
                                                                                 <nil key="highlightedColor"/>
                                                                                 <size key="shadowOffset" width="0.0" height="0.0"/>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                                                                </userDefinedRuntimeAttributes>
                                                                             </label>
                                                                         </subviews>
                                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                         <constraints>
                                                                             <constraint firstItem="Sd8-kI-igx" firstAttribute="centerX" secondItem="2c1-Yi-NEa" secondAttribute="centerX" id="JdF-xG-ahl"/>
                                                                             <constraint firstItem="Sd8-kI-igx" firstAttribute="top" secondItem="2c1-Yi-NEa" secondAttribute="top" id="oCq-WT-zN2"/>
-                                                                            <constraint firstItem="18G-bF-ri7" firstAttribute="centerX" secondItem="2c1-Yi-NEa" secondAttribute="centerX" id="oFA-p3-0x5"/>
-                                                                            <constraint firstItem="18G-bF-ri7" firstAttribute="centerY" secondItem="2c1-Yi-NEa" secondAttribute="centerY" id="onu-N9-nm0"/>
                                                                         </constraints>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                                                        </userDefinedRuntimeAttributes>
                                                                     </view>
                                                                 </subviews>
                                                                 <constraints>
@@ -756,7 +756,6 @@
                                                             </collectionViewCellContentView>
                                                             <size key="customSize" width="297" height="200"/>
                                                             <connections>
-                                                                <outlet property="indicator" destination="18G-bF-ri7" id="ZUH-qv-RS6"/>
                                                                 <outlet property="nameOfTaskLabel" destination="Sd8-kI-igx" id="tFl-OL-A3r"/>
                                                                 <outlet property="photoOfTask" destination="az0-xg-l3h" id="grD-jH-iGt"/>
                                                                 <outlet property="viewWithContent" destination="2c1-Yi-NEa" id="O7v-Uf-hzE"/>

@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
-
+import SkeletonView
 
 
 
@@ -22,18 +22,17 @@ protocol AllTask2Delegate {
 }
 
 
-protocol AllTask3Delegate {
-    func update()
-}
+//protocol AllTask3Delegate {
+//    func update()
+//}
 
 
-class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate, AllTask3Delegate {
-    func update() {
-        print("KOKOKOKOKOKOO")
-    }
+class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate {
+   
     
     
     @IBOutlet var tableView: UITableView!
+    
     
     
     var taskLists: [TaskList] = []
@@ -49,6 +48,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         return User(user: currentUser)
     }()
     
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,14 +56,27 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         tableView.dataSource = self
         
         
-        updateTaskList(user, tableView: tableView)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//
+//
+//            self.tableView.stopSkeletonAnimation()
+//            self.view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+//            self.tableView.reloadData()
+//        }
+        
+        
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         
+        tableView.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
+        
+      
+
         
     }
     
-    
+   
     
     
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -72,77 +85,78 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     
     func updateTaskList(_ user: User, tableView: UITableView) {
-//        activityIndicator.isHidden = false
-//        activityIndicator.startAnimating()
-        
+
+
         self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
-                      
+
                         self.taskLists = snapshot.documents.map { d in
-                                
+
                             let task = TaskList(name: d["task"] as? String ?? "",
                                                 userId: d["userId"] as? String ?? ""
-                                                
-                                                
-                                            
                             )
-                            
+
                             let time = (d["date"] as? Timestamp)?.dateValue()
                             task.date = time ?? Date()
-                            print("---------------------->\(task.date)")
-                            
+
                             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").order(by: "date", descending: true).getDocuments { snapshot, error in
                                 if error == nil {
                                     if let snapshot = snapshot {
                                         task.tasks = snapshot.documents.map { d in
-                                            
+
                                             return Task(name: d["task"] as? String ?? "",
                                                         completionDate: d["completionDate"] as? String ?? "",
                                                         date: d["date"] as? Date ?? Date(),
                                                         isComplete: d["isComplete"] as? Bool ?? false,
                                                         imageURL: d["imageURL"] as? String ?? "https://"
-                                                        )
-                                                                 
+                                            )
+
                                         }
-                                        DispatchQueue.main.async {
-                                            tableView.reloadData()
-                                            
-                                            print("========\(self.taskLists.count)=======")
-                                        }
-                                      
-                                       
+
+                                        tableView.reloadData()
+
+                                        print("========\(self.taskLists.count)=======")
+
                                     }
 
                                 }
                             }
-//                            self.activityIndicator.isHidden = true
-//                            self.activityIndicator.stopAnimating()
-                           
+
                             return task
-                            
+
                         }
 
                     }
                 }
             }
         }
-        
+
     }
     
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        updateTaskList(user, tableView: tableView)
-//        tableView.reloadData()
-        
+       
     }
+
     
-   
-    
-   
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        tableView.isSkeletonable = true
+//        tableView.showAnimatedGradientSkeleton()
+    }
+  
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        tableView.isSkeletonable = true
+//        tableView.showAnimatedGradientSkeleton()
+//
+//    }
 
     
  
@@ -187,30 +201,19 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
 
 //MARK: - TableView methods
 
-extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
+extension AllTasksViewController: UITableViewDelegate, SkeletonTableViewDataSource {
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         taskLists.count
-
          
     }
     
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        taskLists.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = UIView()
-//               headerView.backgroundColor = UIColor.red
-//               return headerView
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        50
-//    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.backgroundColor = UIColor.clear
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        "AllTasksTableViewCell"
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        cell.backgroundColor = UIColor.clear
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllTasksTableViewCell", for: indexPath) as! AllTasksTableViewCell
@@ -231,8 +234,7 @@ extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
             self.moveOnTaskViewController(tIndex: tabIndex ?? 0, cIndex: collIndex ?? 0, task: currentTask, taskList: task)
         }
       
-      
-         
+     
          
         return cell
     }

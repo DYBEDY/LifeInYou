@@ -29,6 +29,16 @@ class StartViewController: UIViewController {
    
     var activeTextField: UITextField!
     
+    
+    var taskLists: [TaskList] = []
+    
+    let db = Firestore.firestore()
+    
+    let user: User! = {
+        guard let currentUser = Auth.auth().currentUser else { return nil }
+        return User(user: currentUser)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        playVideo()
@@ -37,12 +47,21 @@ class StartViewController: UIViewController {
 //        passwordTextField.delegate = self
         
         infoLabel.alpha = 0
-        
+                
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-                if user != nil {
-                    self?.performSegue(withIdentifier: "tabBarSegue", sender: nil)
-                }
+            guard let currentUser = Auth.auth().currentUser else { return  }
+                let user = User(user: currentUser)
+               
+                self?.updateTaskList(user)
+
+                
             }
+        
+//        if user!= nil {
+//            updateTaskList(user)
+//        }
+//
+        
         
         registerForKeyboardNotification()
        
@@ -60,6 +79,88 @@ class StartViewController: UIViewController {
     }
     
     
+    func updateTaskList(_ user: User) {
+        
+        
+        self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
+            if error == nil {
+                if let snapshot = snapshot {
+                    DispatchQueue.main.async {
+                        
+                        self.taskLists = snapshot.documents.map { d in
+                            
+                            let task = TaskList(name: d["task"] as? String ?? "",
+                                                userId: d["userId"] as? String ?? ""
+                            )
+                            
+                            let time = (d["date"] as? Timestamp)?.dateValue()
+                            task.date = time ?? Date()
+                            
+                            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").order(by: "date", descending: true).getDocuments { snapshot, error in
+                                if error == nil {
+                                    if let snapshot = snapshot {
+                                        task.tasks = snapshot.documents.map { d in
+                                            
+                                            return Task(name: d["task"] as? String ?? "",
+                                                        completionDate: d["completionDate"] as? String ?? "",
+                                                        date: d["date"] as? Date ?? Date(),
+                                                        isComplete: d["isComplete"] as? Bool ?? false,
+                                                        imageURL: d["imageURL"] as? String ?? "https://"
+                                            )
+                                            
+                                        }
+                                        
+                                    
+                                        
+                                        print("========\(self.taskLists.count)=======")
+                                        
+                                    }
+                                    
+                                }
+                            }
+                            
+                            return task
+                            
+                        }
+                        Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+                                if user != nil {
+                                    self?.performSegue(withIdentifier: "tabBarSegue", sender: nil)
+                                }
+                            }
+                          
+                    }
+                }
+            }
+        }
+       
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let _ = segue.destination as? WelcomeViewController {
+            
+        } else if let  tabBarController = segue.destination as? UITabBarController {
+        
+        
+        
+        guard let viewControllers = tabBarController.viewControllers else { return }
+        
+        for controller in viewControllers {
+            if let nav = controller as? UINavigationController, let child = nav.topViewController as? MainViewController {
+                child.books = "blablabla"
+            } else {
+            let nav2 = controller as? UINavigationController
+                let child = nav2?.topViewController as? AllTasksViewController
+                child?.taskLists = taskLists
+                
+            }
+                
+           
+            
+        }
+            
+        }
+    }
     
     
 
@@ -92,7 +193,13 @@ class StartViewController: UIViewController {
                 return
             }
             if user != nil {
-                self?.performSegue(withIdentifier: "tabBarSegue", sender: nil)
+                guard let currentUser = Auth.auth().currentUser else { return  }
+                    let user = User(user: currentUser)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    self?.updateTaskList(user)
+                    self?.performSegue(withIdentifier: "tabBarSegue", sender: nil)
+                }
+                
                 return
             }
             self?.displayWarningLabel(with: "Пользователь не найден")

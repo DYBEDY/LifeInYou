@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import SkeletonView
 
 class TasksCollectionViewCell: UICollectionViewCell {
     @IBOutlet var nameOfTaskLabel: UILabel! {
@@ -32,13 +33,7 @@ class TasksCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var photoOfTask: UIImageView!
     
-    @IBOutlet var indicator: UIActivityIndicatorView! {
-        didSet {
-            indicator.color = .yellow
-            indicator.startAnimating()
-            indicator.hidesWhenStopped = true
-        }
-    }
+
     
     @IBOutlet var viewWithContent: UIView! {
         didSet {
@@ -70,6 +65,15 @@ class TasksCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         photoOfTask.contentMode = .scaleAspectFill
+        
+        contentView.isSkeletonable = true
+        contentView.showAnimatedGradientSkeleton()
+        
+        photoOfTask.isSkeletonable = true
+        photoOfTask.showAnimatedGradientSkeleton()
+        
+        viewWithContent.isSkeletonable = true
+        viewWithContent.showAnimatedGradientSkeleton()
        
     }
     
@@ -81,9 +85,19 @@ class TasksCollectionViewCell: UICollectionViewCell {
             case .success(let image):
                 if url == self.imageURL {
                     self.photoOfTask.image = image
-                    self.indicator.stopAnimating()
+                    
+                    self.contentView.stopSkeletonAnimation()
+                    self.contentView.hideSkeleton()
+                    
+                    self.photoOfTask.stopAnimating()
+                    self.photoOfTask.hideSkeleton()
+                    
+                    self.viewWithContent.stopSkeletonAnimation()
+                    self.viewWithContent.hideSkeleton()
                 }
+               
             case .failure(let error):
+               
                 print(error)
             }
         }
@@ -103,10 +117,6 @@ class TasksCollectionViewCell: UICollectionViewCell {
         DatabaseManager.shared.downloadImage(user: user.uid, fromTask: self.taskList, task: task) { result in
             switch result {
             case .success(let image):
-//                DispatchQueue.main.async {
-//                    cell.photoOfTask.image = image
-//                    cell.indicator.stopAnimating()
-//                }
                 ImageCache.shared.setObject(image, forKey: url.absoluteString as NSString)
                 print("Image from network: ", url.lastPathComponent)
                 completion(.success(image))

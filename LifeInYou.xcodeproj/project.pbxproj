@@ -148,9 +148,9 @@
 			children = (
 				06D6EA8827C57B08000B6E5F /* StartViewController.swift */,
 				06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */,
-				06D6EA9E27C5822E000B6E5F /* MainViewController.swift */,
 				0660C35F280E269E00E1EB26 /* AllTasksViewController.swift */,
 				0620A8CA2801D126008AF338 /* TestViewController.swift */,
+				06D6EA9E27C5822E000B6E5F /* MainViewController.swift */,
 				06144DD727E6AC410046AC72 /* TaskViewController.swift */,
 				06D6EAA027C58274000B6E5F /* TaskListViewController.swift */,
 			);

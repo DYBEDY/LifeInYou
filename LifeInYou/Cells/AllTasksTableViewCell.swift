@@ -13,11 +13,11 @@ typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> V
 
 
 
-class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate {
-    func update() {
-        cellDelegate?.update()
-        print("KOKOKO")
-    }
+class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
+//    func update() {
+//        cellDelegate?.update()
+//        print("KOKOKO")
+//    }
     
     
     
@@ -36,7 +36,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
     var bool = false
     
     var delegate: AllTasksDelegate?
-    var cellDelegate: AllTask3Delegate?
+//    var cellDelegate: AllTask3Delegate?
     let dateFormatter = DateFormatter()
     let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
@@ -59,7 +59,8 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
         
         collectionOfTasks.delegate = self
         collectionOfTasks.dataSource = self
-      
+       
+    
     }
     
     override func layoutSubviews() {
@@ -67,12 +68,14 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTask3Delegate
        
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 15, left: 4, bottom: 15, right: 4))
+        
         contentView.layer.cornerRadius = 5
 //        contentView.layer.borderWidth = 2
 //        contentView.layer.borderColor = UIColor.white.cgColor
         contentView.backgroundColor = .white
         contentView.clipsToBounds = true
         
+       
     }
 
     
@@ -114,6 +117,7 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         taskList.tasks.count == 0 ? 0 : taskList.tasks.count
+        
     }
     
     
@@ -124,7 +128,7 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         cell.taskList = taskList
         cell.task = task
         cell.imageURL = URL(string: task.imageURL)
-        
+    
         if taskList.tasks.count != 0 {
             cell.nameOfTaskLabel.text = task.name
         }
@@ -132,12 +136,17 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         if task.imageURL == "" {
             cell.photoOfTask.image = nil
             cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
-            cell.indicator.stopAnimating()
-        } 
             
-        
-        
-//        cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
+            cell.photoOfTask.stopSkeletonAnimation()
+            cell.viewWithContent.stopSkeletonAnimation()
+            cell.photoOfTask.stopSkeletonAnimation()
+            
+            cell.photoOfTask.hideSkeleton()
+            cell.viewWithContent.hideSkeleton()
+            cell.photoOfTask.hideSkeleton()
+        }
+            
+    
         
         cell.layer.cornerRadius = 20
         cell.layer.borderWidth = 5

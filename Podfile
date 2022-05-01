@@ -12,5 +12,6 @@ pod 'FirebaseUI/Auth'
 pod 'Firebase/Firestore'
 pod 'Firebase/Core'
 pod 'Firebase/Storage'
+pod 'SkeletonView'
 
 end
