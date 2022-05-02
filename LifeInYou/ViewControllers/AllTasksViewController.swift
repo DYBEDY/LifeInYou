@@ -21,6 +21,9 @@ protocol AllTask2Delegate {
     func updateValue()
 }
 
+protocol AllTasksShowMenuDelegate {
+    func showContextMenu(for button: UIButton, at indexPath: IndexPath)
+}
 
 //protocol AllTask3Delegate {
 //    func update()
@@ -39,8 +42,8 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     let db = Firestore.firestore()
    
-    let vcCell = AllTasksTableViewCell()
-   
+    
+    var vcCell: AllTasksTableViewCell?
     var ediImage: UIImage!
     
     let user: User! = {
@@ -71,8 +74,8 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         
         tableView.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
         
-      
-
+        
+        
         
     }
     
@@ -211,23 +214,22 @@ extension AllTasksViewController: UITableViewDelegate, SkeletonTableViewDataSour
         "AllTasksTableViewCell"
     }
     
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        cell.backgroundColor = UIColor.clear
-//    }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllTasksTableViewCell", for: indexPath) as! AllTasksTableViewCell
         let task = taskLists[indexPath.row]
         cell.selectionStyle = .none
-//        cell.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
         cell.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
-        cell.configure(with: task)
+        
+        cell.indexPath = indexPath
         cell.taskList = task
         
-         
-        cell.delegate = self
-      
         
+        cell.showDelegate = self
+        cell.configure(with: task)
+        cell.delegate = self
+       
         
         cell.didSelectClosure = { tabIndex, collIndex in
             let currentTask = task.tasks[collIndex ?? 0]
@@ -242,52 +244,52 @@ extension AllTasksViewController: UITableViewDelegate, SkeletonTableViewDataSour
 
 
     
-     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let task = taskLists[indexPath.row]
-        var completedTasks: [Task] {
-            task.tasks.filter { $0.isComplete  }
-        }
-        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
-            self.deleteFunc(at: indexPath)
-        }
-        
-        let editAction = UIContextualAction(style: .normal, title: "Изменить") { _, _, isDone in
-            self.editPressed(at: indexPath)
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            
-            isDone(true)
-        }
-        
-        
-        let doneAction = UIContextualAction(style: .normal, title: "Готово") { _, _, isDone in
-            //            StorageManager.shared.done(taskList)
-            self.doneTask(indexPath: indexPath)
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            isDone(true)
-        }
-        
-        editAction.backgroundColor = .orange
-        doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        
-        editAction.image = UIImage(systemName: "pencil.circle.fill")
-        doneAction.image = UIImage(systemName: "checkmark")
-        deleteAction.image = UIImage(systemName: "trash.fill")
-        
-        if task.tasks.count == completedTasks.count {
-            return UISwipeActionsConfiguration(actions: [editAction, deleteAction])
-        } else {
-            return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
-        }
-    }
-    
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    
-    @IBAction func addTapped(_ sender: UIBarButtonItem) {
-        showAlert()
-    }
+//     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let task = taskLists[indexPath.row]
+//        var completedTasks: [Task] {
+//            task.tasks.filter { $0.isComplete  }
+//        }
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
+//            self.deleteFunc(at: indexPath)
+//        }
+//
+//        let editAction = UIContextualAction(style: .normal, title: "Изменить") { _, _, isDone in
+//            self.editPressed(at: indexPath)
+//            tableView.reloadRows(at: [indexPath], with: .automatic)
+//
+//            isDone(true)
+//        }
+//
+//
+//        let doneAction = UIContextualAction(style: .normal, title: "Готово") { _, _, isDone in
+//            //            StorageManager.shared.done(taskList)
+//            self.doneTask(indexPath: indexPath)
+//            tableView.reloadRows(at: [indexPath], with: .automatic)
+//            isDone(true)
+//        }
+//
+//        editAction.backgroundColor = .orange
+//        doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+//
+//        editAction.image = UIImage(systemName: "pencil.circle.fill")
+//        doneAction.image = UIImage(systemName: "checkmark")
+//        deleteAction.image = UIImage(systemName: "trash.fill")
+//
+//        if task.tasks.count == completedTasks.count {
+//            return UISwipeActionsConfiguration(actions: [editAction, deleteAction])
+//        } else {
+//            return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
+//        }
+//    }
+//
+//     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
+//
+//
+//    @IBAction func addTapped(_ sender: UIBarButtonItem) {
+//        showAlert()
+//    }
     
     
 }
@@ -350,7 +352,10 @@ extension AllTasksViewController {
     
     
     func editPressed(at indexPath: IndexPath) {
-        editTaskAlert(with: "Изменить", and: "Хотите изменить цель?", and: indexPath)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.editTaskAlert(with: "Изменить", and: "Хотите изменить цель?", and: indexPath)
+        }
+    
         
     }
     
@@ -365,50 +370,54 @@ extension AllTasksViewController {
             
             let newTask = TaskList(name: task)
             
-//            DatabaseManager.shared.delete(current: oldTask.name, by: self.user)
-//            DatabaseManager.shared.inserNewTask(by: self.user, task: newTask.name)
-            DatabaseManager.shared.inserNewTaskwithOldDate(by: self.user, task: newTask.name, oldTask: oldTask.name)
             
-            for task in oldTask.tasks {
-                DatabaseManager.shared.deleteSecondTask(current: task, from: oldTask.name, by: self.user)
-                DatabaseManager.shared.deletePhoto(user: self.user.uid, taskList: oldTask.name, currentTask: task.name)
-                DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: newTask.name, task: task.name, completionDate: task.completionDate)
+            guard newTask.name != oldTask.name else { return }
+            
+            
+            DispatchQueue.main.async {
+                DatabaseManager.shared.inserNewTaskwithOldDate(by: self.user, task: newTask.name, oldTask: oldTask.name)
                 
-                if task.imageURL != "" {
-                DatabaseManager.shared.downloadImage(user: self.user.uid,
-                                                     fromTask: oldTask,
-                                                     task: task) { result in
-                    switch result {
+                for task in oldTask.tasks {
+                    DatabaseManager.shared.deleteSecondTask(current: task, from: oldTask.name, by: self.user)
+                    DatabaseManager.shared.deletePhoto(user: self.user.uid, taskList: oldTask.name, currentTask: task.name)
+                    DatabaseManager.shared.insertSecondTask(by: self.user, fromTask: newTask.name, task: task.name, completionDate: task.completionDate)
+                    
+                    if task.imageURL != "" {
+                    DatabaseManager.shared.downloadImage(user: self.user.uid,
+                                                         fromTask: oldTask,
+                                                         task: task) { result in
+                        switch result {
 
-                    case .success(let image):
-//                        self.ediImage = image
-                        DatabaseManager.shared.upload(user: self.user.uid,
-                                                      fromTask: newTask.name,
-                                                      task: task.name,
-                                                      photo: image) { result in
-                            switch result {
+                        case .success(let image):
+    //                        self.ediImage = image
+                            DatabaseManager.shared.upload(user: self.user.uid,
+                                                          fromTask: newTask.name,
+                                                          task: task.name,
+                                                          photo: image) { result in
+                                switch result {
 
-                            case .success(let url):
-                                DatabaseManager.shared.insertPhoto(by: self.user,
-                                                                   fromTask: newTask.name,
-                                                                   task: task.name,
-                                                                   completionDate: task.completionDate,
-                                                                   isComplete: task.isComplete,
-                                                                   url: url.absoluteString)
+                                case .success(let url):
+                                    DatabaseManager.shared.insertPhoto(by: self.user,
+                                                                       fromTask: newTask.name,
+                                                                       task: task.name,
+                                                                       completionDate: task.completionDate,
+                                                                       isComplete: task.isComplete,
+                                                                       url: url.absoluteString)
 
-                            case .failure(let error):
-                                print(error)
+                                case .failure(let error):
+                                    print(error)
+                                }
                             }
+                        case .failure(let error):
+                            print(error)
                         }
-                    case .failure(let error):
-                        print(error)
                     }
-                }
-                }
+                    }
 
 
+                }
             }
-            
+         
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
                 taskText.name = task
@@ -429,6 +438,58 @@ extension AllTasksViewController {
     
     
 }
+
+
+
+extension AllTasksViewController: AllTasksShowMenuDelegate {
+    
+    
+    func showContextMenu(for button: UIButton, at indexPath: IndexPath) {
+        button.menu = addMenuItems(at: indexPath)
+        button.showsMenuAsPrimaryAction = true
+    }
+    
+    
+    func addMenuItems(at indexPath: IndexPath) -> UIMenu {
+     
+        let secondMenu = UIMenu(title: "" , options: .displayInline, children: [
+            UIAction(title: "Удалить цель",
+                     image: UIImage(systemName: "trash.fill")?.maskWithColor(color: .red),
+                     handler: { (_) in
+                self.deleteFunc(at: indexPath)
+            })
+        ])
+        
+        let menuItem = UIMenu(title: "", options: .displayInline, children: [
+        
+            UIAction(title: "Изменить",
+                     image: UIImage(systemName: "scribble.variable")?.maskWithColor(color: .yellow),
+                     handler: { (_) in
+                self.editPressed(at: indexPath)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                
+            }),
+        
+            UIAction(title: "Завершить", image: UIImage(systemName: "checkmark")?.maskWithColor(color: .green), handler: { (_) in
+                self.doneTask(indexPath: indexPath)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                
+            }),
+            
+            
+            secondMenu
+        ])
+        
+        return menuItem
+    }
+    
+    
+}
+
+
+
+
+
 
 
 

@@ -30,8 +30,6 @@ class TasksCollectionReusableView: UICollectionReusableView, AllTasksDelegate {
  
     @IBAction func addButton() {
     
-//        delegateTest?.moveOntheNextView(index ?? 0, taskList: taskList ?? TaskList(name: ""))
-//        moveOntheNextView(taskList: taskList ?? TaskList(name: "NOPe"))
         presentSecondView(taskList: taskList ?? TaskList(name: "Nope"))
     }
     

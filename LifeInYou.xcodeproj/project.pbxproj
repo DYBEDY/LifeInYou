@@ -34,6 +34,7 @@
 		06D6EAAD27C583A1000B6E5F /* ExtensionWorkWithDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */; };
 		06D6EAB027C583D5000B6E5F /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAAF27C583D5000B6E5F /* AlertController.swift */; };
 		06D6EAB227C58DFD000B6E5F /* testVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EAB127C58DFA000B6E5F /* testVideo.mp4 */; };
+		06DB5A26281F700C004EB4B7 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB5A25281F700C004EB4B7 /* UIImageExtension.swift */; };
 		6AD08F09363A0F6FACFC1258 /* Pods_LifeInYou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE0A7DA42FD6B3C4F5966E2 /* Pods_LifeInYou.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionWorkWithDate.swift; sourceTree = "<group>"; };
 		06D6EAAF27C583D5000B6E5F /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		06D6EAB127C58DFA000B6E5F /* testVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testVideo.mp4; sourceTree = "<group>"; };
+		06DB5A25281F700C004EB4B7 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		20DED25DC1E86322DBD017B1 /* Pods-LifeInYou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeInYou.debug.xcconfig"; path = "Target Support Files/Pods-LifeInYou/Pods-LifeInYou.debug.xcconfig"; sourceTree = "<group>"; };
 		6BE0A7DA42FD6B3C4F5966E2 /* Pods_LifeInYou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LifeInYou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E0F1020024956D3890EAEA3 /* Pods-LifeInYou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeInYou.release.xcconfig"; path = "Target Support Files/Pods-LifeInYou/Pods-LifeInYou.release.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			children = (
 				06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */,
 				06D6EAAF27C583D5000B6E5F /* AlertController.swift */,
+				06DB5A25281F700C004EB4B7 /* UIImageExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				06D6EA9F27C5822E000B6E5F /* MainViewController.swift in Sources */,
 				0660C366280E32CC00E1EB26 /* TasksCollectionReusableView.swift in Sources */,
 				06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */,
+				06DB5A26281F700C004EB4B7 /* UIImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

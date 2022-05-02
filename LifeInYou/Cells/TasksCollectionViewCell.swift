@@ -78,6 +78,8 @@ class TasksCollectionViewCell: UICollectionViewCell {
     }
     
     
+    
+    
     private func updateImage() {
         guard let url = imageURL else { return }
         getImage(from: url) { result in

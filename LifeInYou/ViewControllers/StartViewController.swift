@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 import FirebaseAuth
 import Firebase
+import SkeletonView
 
 
 class StartViewController: UIViewController {
@@ -18,6 +19,7 @@ class StartViewController: UIViewController {
     @IBOutlet var passwordTextField: UITextField!
     
     @IBOutlet var loginButton: UIButton!
+    @IBOutlet var registerButton: UIButton!
     
     @IBOutlet var textStack: UIStackView!
     @IBOutlet var buttonStack: UIStackView!
@@ -79,9 +81,9 @@ class StartViewController: UIViewController {
     }
     
     
+    
+    
     func updateTaskList(_ user: User) {
-        
-        
         self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
@@ -110,29 +112,24 @@ class StartViewController: UIViewController {
                                             
                                         }
                                         
-                                    
-                                        
                                         print("========\(self.taskLists.count)=======")
                                         
                                     }
                                     
                                 }
                             }
-                            
                             return task
-                            
                         }
                         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-                                if user != nil {
-                                    self?.performSegue(withIdentifier: "tabBarSegue", sender: nil)
-                                }
+                            if user != nil {
+                                self?.performSegue(withIdentifier: "tabBarSegue", sender: nil)
                             }
-                          
+                        }
                     }
                 }
             }
         }
-       
+        
     }
     
     

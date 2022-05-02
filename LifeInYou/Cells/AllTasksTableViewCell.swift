@@ -14,29 +14,27 @@ typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> V
 
 
 class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
-//    func update() {
-//        cellDelegate?.update()
-//        print("KOKOKO")
-//    }
     
     
-    
-    
-    
+  
     @IBOutlet var taskNameLabel: UILabel!
     @IBOutlet var progressOfCompletionTasks: UIProgressView!
     @IBOutlet var completionTasksLabel: UILabel!
     @IBOutlet var collectionOfTasks: UICollectionView!
     @IBOutlet var dateOfCreatedTaskLabel: UILabel!
     
+    @IBOutlet var showContextMenuButton: UIButton!
     
     var didSelectClosure: DidSelectClosure?
     var index: Int?
+    var indexPath: IndexPath!
     
     var bool = false
     
     var delegate: AllTasksDelegate?
-//    var cellDelegate: AllTask3Delegate?
+    var showDelegate: AllTasksShowMenuDelegate?
+
+    
     let dateFormatter = DateFormatter()
     let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
@@ -60,8 +58,10 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
         collectionOfTasks.delegate = self
         collectionOfTasks.dataSource = self
        
-    
+        
     }
+    
+   
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -70,8 +70,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 15, left: 4, bottom: 15, right: 4))
         
         contentView.layer.cornerRadius = 5
-//        contentView.layer.borderWidth = 2
-//        contentView.layer.borderColor = UIColor.white.cgColor
+
         contentView.backgroundColor = .white
         contentView.clipsToBounds = true
         
@@ -80,6 +79,10 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
 
     
 
+    func oooo() {
+        showDelegate?.showContextMenu(for: showContextMenuButton, at: indexPath)
+    }
+   
     
     
     func configure(with taskList: TaskList) {
@@ -94,12 +97,12 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
         dateOfCreatedTaskLabel.text = "Дата создния: \(dateOfask)"
        
        
-        
-        
-        
         let totalProgress = Float(current.count) / Float(taskList.tasks.count)
         progressOfCompletionTasks.setProgress(totalProgress, animated: true)
         completionTasksLabel.text = "\(current.count) из \(taskList.tasks.count)"
+        
+        
+        showDelegate?.showContextMenu(for: showContextMenuButton, at: indexPath)
     }
     
 
@@ -108,10 +111,12 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
         
     }
     
-
-
+   
+   
     
 }
+
+//MARK: - Collection Methods
 
 extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
