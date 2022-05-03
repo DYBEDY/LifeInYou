@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06144DD427E54F0D0046AC72 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06144DD327E54F0D0046AC72 /* TableViewCell.swift */; };
 		06144DD827E6AC410046AC72 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06144DD727E6AC410046AC72 /* TaskViewController.swift */; };
 		0620A8C52800DED5008AF338 /* NewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8C42800DED5008AF338 /* NewTableViewCell.swift */; };
 		0620A8C72800E6B5008AF338 /* NewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8C62800E6B5008AF338 /* NewCollectionViewCell.swift */; };
@@ -39,7 +38,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		06144DD327E54F0D0046AC72 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		06144DD727E6AC410046AC72 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		0620A8C42800DED5008AF338 /* NewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTableViewCell.swift; sourceTree = "<group>"; };
 		0620A8C62800E6B5008AF338 /* NewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -89,7 +87,6 @@
 		0620A8C32800DC9B008AF338 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				06144DD327E54F0D0046AC72 /* TableViewCell.swift */,
 				0660C361280E273600E1EB26 /* AllTasksTableViewCell.swift */,
 				0660C363280E31C800E1EB26 /* TasksCollectionViewCell.swift */,
 				0660C365280E32CC00E1EB26 /* TasksCollectionReusableView.swift */,
@@ -321,7 +318,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06144DD427E54F0D0046AC72 /* TableViewCell.swift in Sources */,
 				06144DD827E6AC410046AC72 /* TaskViewController.swift in Sources */,
 				0660C360280E269E00E1EB26 /* AllTasksViewController.swift in Sources */,
 				06D6EAA627C582FC000B6E5F /* TaskList.swift in Sources */,

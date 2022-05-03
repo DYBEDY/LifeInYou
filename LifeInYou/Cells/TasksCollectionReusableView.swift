@@ -7,7 +7,8 @@
 
 import UIKit
 
-class TasksCollectionReusableView: UICollectionReusableView, AllTasksDelegate {
+class TasksCollectionReusableView: UICollectionReusableView {
+   
     
     
     @IBOutlet var addButtonText: UIButton!
@@ -30,12 +31,11 @@ class TasksCollectionReusableView: UICollectionReusableView, AllTasksDelegate {
  
     @IBAction func addButton() {
     
-        presentSecondView(taskList: taskList ?? TaskList(name: "Nope"))
+        delegateTest?.presentSecondView(taskList: taskList ?? TaskList(name: "Nope"))
     }
     
     
     
-    func presentSecondView(taskList: TaskList) {
-        delegateTest?.presentSecondView(taskList: taskList)
-    }
+
+    
 }

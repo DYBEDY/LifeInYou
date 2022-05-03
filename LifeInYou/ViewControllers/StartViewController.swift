@@ -53,7 +53,7 @@ class StartViewController: UIViewController {
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
             guard let currentUser = Auth.auth().currentUser else { return  }
                 let user = User(user: currentUser)
-               
+               print(user)
                 self?.updateTaskList(user)
 
                 

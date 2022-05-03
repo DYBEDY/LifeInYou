@@ -11,17 +11,12 @@ import FirebaseFirestore
 
 typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> Void)
 
-protocol AllTest {
-    func showTwxt()
-}
 
-class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTest {
+
+class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
    
-    func showTwxt() {
-        print("BLA BLA BLA BLA BLA")
-    }
     
-
+    
     @IBOutlet var taskNameLabel: UILabel!
     @IBOutlet var progressOfCompletionTasks: UIProgressView!
     @IBOutlet var completionTasksLabel: UILabel!
@@ -38,7 +33,8 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTest {
     
     var delegate: AllTasksDelegate?
     var showDelegate: AllTasksShowMenuDelegate?
-
+    
+   
     
     let dateFormatter = DateFormatter()
     let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
@@ -56,14 +52,14 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTest {
     }()
     
    
-    var vc = AllTasksViewController()
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
         
         collectionOfTasks.delegate = self
         collectionOfTasks.dataSource = self
-        
+   
         
     }
     
@@ -89,9 +85,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTest {
         }
 
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        
         let dateOfask = dateFormatter.string(from: taskList.date)
-    
         dateOfCreatedTaskLabel.text = "Дата создния: \(dateOfask)"
        
        
@@ -99,9 +93,10 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTest {
         progressOfCompletionTasks.setProgress(totalProgress, animated: true)
         completionTasksLabel.text = "\(current.count) из \(taskList.tasks.count)"
         
-     
+        
         
         showDelegate?.showContextMenu(for: showContextMenuButton, at: indexPath)
+        
         
     }
     
@@ -114,8 +109,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTest {
         
     }
     
-
-   
+  
     
 }
 
@@ -136,25 +130,12 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         cell.task = task
         cell.imageURL = URL(string: task.imageURL)
         
+        
         if taskList.tasks.count != 0 {
             cell.nameOfTaskLabel.text = task.name
         }
         
-        if task.imageURL == "" {
-            cell.photoOfTask.image = nil
-            cell.backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
-            
-            cell.photoOfTask.stopSkeletonAnimation()
-            cell.viewWithContent.stopSkeletonAnimation()
-            cell.photoOfTask.stopSkeletonAnimation()
-            
-            cell.photoOfTask.hideSkeleton()
-            cell.viewWithContent.hideSkeleton()
-            cell.photoOfTask.hideSkeleton()
-        }
-            
     
-        
         cell.layer.cornerRadius = 20
         cell.layer.borderWidth = 5
         cell.layer.borderColor = .init(red: 255/255, green: 250/255, blue: 205/255, alpha: 1)

@@ -12,14 +12,8 @@ import SkeletonView
 
 
 
-
 class TasksCollectionViewCell: UICollectionViewCell {
-    
-    
-    
-
-    
-    
+ 
     @IBOutlet var nameOfTaskLabel: UILabel! {
         didSet {
            
@@ -56,8 +50,23 @@ class TasksCollectionViewCell: UICollectionViewCell {
     
     var imageURL: URL? {
         didSet {
-            photoOfTask.image = nil
             updateImage()
+            
+            if imageURL?.absoluteString == "" {
+                photoOfTask.image = nil
+                backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
+                
+                photoOfTask.stopSkeletonAnimation()
+                viewWithContent.stopSkeletonAnimation()
+                photoOfTask.stopSkeletonAnimation()
+                
+                photoOfTask.hideSkeleton()
+                viewWithContent.hideSkeleton()
+                photoOfTask.hideSkeleton()
+                
+            }
+//            photoOfTask.image = nil
+            
         }
     }
     
@@ -69,7 +78,7 @@ class TasksCollectionViewCell: UICollectionViewCell {
     var taskList: TaskList!
     var task: Task!
 
-    var tablCell: AllTasksTableViewCell?
+    
         
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -84,6 +93,8 @@ class TasksCollectionViewCell: UICollectionViewCell {
         
         viewWithContent.isSkeletonable = true
         viewWithContent.showAnimatedGradientSkeleton()
+        
+         
        
     }
     
@@ -143,6 +154,7 @@ class TasksCollectionViewCell: UICollectionViewCell {
     }
     
 }
+
 
 
 

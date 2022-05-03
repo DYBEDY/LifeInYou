@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
+import SkeletonView
 
 
 
@@ -252,10 +253,12 @@ class TestViewController: UIViewController {
             daysToCompletionLabel.text = getCountOfDaysToFinishTask(daysToFinish: dateOfCompletionTextFied.text ?? "x")
             
             editTask()
-           
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                self?.delegate?.updateValue()
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
-                self?.delegate?.updateValue()
                 self?.activityIndicator.stopAnimating()
                 self?.dismiss(animated: true)
             }
@@ -303,20 +306,31 @@ class TestViewController: UIViewController {
 extension TestViewController {
     
     func insertNewTask() {
-        DatabaseManager.shared.insertSecondTask(by: user, fromTask: taskList.name, task: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "")
+        DatabaseManager.shared.insertSecondTask(by: user,
+                                                fromTask: taskList.name,
+                                                task: taskTextField.text ?? "",
+                                                completionDate: dateOfCompletionTextFied.text ?? "")
         whenPushNewPhoto()
         
     }
     
     func deleteTask() {
-        DatabaseManager.shared.deleteTaskFromCollection(current: taskTextField.text ?? "", from: taskList.name, by: user)
+        DatabaseManager.shared.deleteTaskFromCollection(current: taskTextField.text ?? "",
+                                                        from: taskList.name,
+                                                        by: user)
         deleteImage()
     }
     
     func editTask() {
-        DatabaseManager.shared.editCollectionTask(by: user, in: taskList.name, oldTask: task.name, newTask: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "", isComplete: isComplete)
+        DatabaseManager.shared.editCollectionTask(by: user,
+                                                  in: taskList.name,
+                                                  oldTask: task.name,
+                                                  newTask: taskTextField.text ?? "",
+                                                  completionDate: dateOfCompletionTextFied.text ?? "",
+                                                  isComplete: isComplete)
         
         editImage()
+      
         
     }
     

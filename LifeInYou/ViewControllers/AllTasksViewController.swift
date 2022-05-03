@@ -14,6 +14,8 @@ import SkeletonView
 
 protocol AllTasksDelegate {
     func presentSecondView(taskList: TaskList)
+    
+    
 }
 
 
@@ -24,26 +26,31 @@ protocol AllTask2Delegate {
 protocol AllTasksShowMenuDelegate {
     func showContextMenu(for button: UIButton, at indexPath: IndexPath)
     
-   
 }
 
 
 
 
-class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate {
-    
 
+
+
+class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate {
+  
+   
     
+  
+    
+    
+   
     @IBOutlet var tableView: UITableView!
     
-    
-    
+
     var taskLists: [TaskList] = []
     
     let db = Firestore.firestore()
    
-    var allTestDelegate: AllTest?
-    var cell = AllTasksTableViewCell()
+    
+    
     
     var ediImage: UIImage!
     
@@ -64,8 +71,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         
         tableView.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
         
-        cell.vc = self
-        allTestDelegate?.showTwxt()
+        
         
         
     }
@@ -79,7 +85,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     
     func updateTaskList(_ user: User, tableView: UITableView) {
-        
+     
         self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
@@ -108,13 +114,15 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
 
                                         }
 
-                                        tableView.reloadData()
+//                                        tableView.reloadData()
+                                       
 
                                         print("========\(self.taskLists.count)=======")
 
                                     }
-
+//                                    tableView.reloadData()
                                 }
+                                tableView.reloadData()
                             }
 
                             return task
@@ -196,6 +204,7 @@ extension AllTasksViewController: UITableViewDelegate, SkeletonTableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllTasksTableViewCell", for: indexPath) as! AllTasksTableViewCell
         let task = taskLists[indexPath.row]
+      
         cell.selectionStyle = .none
         cell.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
         
@@ -217,56 +226,6 @@ extension AllTasksViewController: UITableViewDelegate, SkeletonTableViewDataSour
          
         return cell
     }
-    
-
-
-    
-//     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let task = taskLists[indexPath.row]
-//        var completedTasks: [Task] {
-//            task.tasks.filter { $0.isComplete  }
-//        }
-//        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
-//            self.deleteFunc(at: indexPath)
-//        }
-//
-//        let editAction = UIContextualAction(style: .normal, title: "Изменить") { _, _, isDone in
-//            self.editPressed(at: indexPath)
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
-//
-//            isDone(true)
-//        }
-//
-//
-//        let doneAction = UIContextualAction(style: .normal, title: "Готово") { _, _, isDone in
-//            //            StorageManager.shared.done(taskList)
-//            self.doneTask(indexPath: indexPath)
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
-//            isDone(true)
-//        }
-//
-//        editAction.backgroundColor = .orange
-//        doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-//
-//        editAction.image = UIImage(systemName: "pencil.circle.fill")
-//        doneAction.image = UIImage(systemName: "checkmark")
-//        deleteAction.image = UIImage(systemName: "trash.fill")
-//
-//        if task.tasks.count == completedTasks.count {
-//            return UISwipeActionsConfiguration(actions: [editAction, deleteAction])
-//        } else {
-//            return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
-//        }
-//    }
-//
-//     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-//
-//
-//    @IBAction func addTapped(_ sender: UIBarButtonItem) {
-//        showAlert()
-//    }
     
     
 }
@@ -420,6 +379,7 @@ extension AllTasksViewController {
 
 extension AllTasksViewController: AllTasksShowMenuDelegate {
    
+    
     func showContextMenu(for button: UIButton, at indexPath: IndexPath) {
         button.menu = addMenuItems(at: indexPath)
         button.showsMenuAsPrimaryAction = true
