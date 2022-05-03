@@ -254,15 +254,6 @@ class TestViewController: UIViewController {
             
             editTask()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                self?.delegate?.updateValue()
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
-                self?.activityIndicator.stopAnimating()
-                self?.dismiss(animated: true)
-            }
-          
         }
     }
     
@@ -365,6 +356,15 @@ extension TestViewController {
                 } else {
                     self.imageOfTask.image = UIImage(systemName: "photo.artframe")
                 }
+                self.delegate?.updateValue()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    self.activityIndicator.stopAnimating()
+                    self.dismiss(animated: true)
+                })
+                    
+                
+                
             case .failure(let error):
                 print(error)
             }
