@@ -23,16 +23,16 @@ protocol AllTask2Delegate {
 
 protocol AllTasksShowMenuDelegate {
     func showContextMenu(for button: UIButton, at indexPath: IndexPath)
+    
+   
 }
 
-//protocol AllTask3Delegate {
-//    func update()
-//}
+
 
 
 class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate {
-   
     
+
     
     @IBOutlet var tableView: UITableView!
     
@@ -42,8 +42,9 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     let db = Firestore.firestore()
    
+    var allTestDelegate: AllTest?
+    var cell = AllTasksTableViewCell()
     
-    var vcCell: AllTasksTableViewCell?
     var ediImage: UIImage!
     
     let user: User! = {
@@ -58,23 +59,13 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         tableView.delegate = self
         tableView.dataSource = self
         
-        
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//
-//
-//            self.tableView.stopSkeletonAnimation()
-//            self.view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
-//            self.tableView.reloadData()
-//        }
-        
-        
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         
         tableView.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
         
-        
+        cell.vc = self
+        allTestDelegate?.showTwxt()
         
         
     }
@@ -88,8 +79,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     
     func updateTaskList(_ user: User, tableView: UITableView) {
-
-
+        
         self.db.collection("users").document("\(user.uid)").collection("taskList").order(by: "date", descending: true).getDocuments { snapshot, error in
             if error == nil {
                 if let snapshot = snapshot {
@@ -146,20 +136,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     }
 
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-//        tableView.isSkeletonable = true
-//        tableView.showAnimatedGradientSkeleton()
-    }
-  
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//        tableView.isSkeletonable = true
-//        tableView.showAnimatedGradientSkeleton()
-//
-//    }
+ 
 
     
  
@@ -442,8 +419,7 @@ extension AllTasksViewController {
 
 
 extension AllTasksViewController: AllTasksShowMenuDelegate {
-    
-    
+   
     func showContextMenu(for button: UIButton, at indexPath: IndexPath) {
         button.menu = addMenuItems(at: indexPath)
         button.showsMenuAsPrimaryAction = true
@@ -483,7 +459,7 @@ extension AllTasksViewController: AllTasksShowMenuDelegate {
         return menuItem
     }
     
-    
+
 }
 
 

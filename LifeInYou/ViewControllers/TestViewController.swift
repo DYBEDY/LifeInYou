@@ -108,10 +108,10 @@ class TestViewController: UIViewController {
    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        delegate?.updateValue()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.dismiss(animated: true)
-        }
+//        delegate?.updateValue()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//            self.dismiss(animated: true)
+//        }
        
     }
     
@@ -249,10 +249,13 @@ class TestViewController: UIViewController {
             activityIndicator.hidesWhenStopped = true
             view.addSubview(activityIndicator)
             
-            editTask()
-            delegate?.updateValue()
             daysToCompletionLabel.text = getCountOfDaysToFinishTask(daysToFinish: dateOfCompletionTextFied.text ?? "x")
+            
+            editTask()
+           
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
+                self?.delegate?.updateValue()
                 self?.activityIndicator.stopAnimating()
                 self?.dismiss(animated: true)
             }
@@ -312,7 +315,8 @@ extension TestViewController {
     
     func editTask() {
         DatabaseManager.shared.editCollectionTask(by: user, in: taskList.name, oldTask: task.name, newTask: taskTextField.text ?? "", completionDate: dateOfCompletionTextFied.text ?? "", isComplete: isComplete)
-            editImage()
+        
+        editImage()
         
     }
     
@@ -342,7 +346,7 @@ extension TestViewController {
         DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
             switch result {
             case .success(let url):
-                if self.imageOfTask.image != UIImage(systemName: "photo.artframe") {
+                if self.imageOfTask.image != UIImage(systemName: "photo.artframe")  {
                 DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", isComplete: self.isComplete, url: url.absoluteString)
                 } else {
                     self.imageOfTask.image = UIImage(systemName: "photo.artframe")

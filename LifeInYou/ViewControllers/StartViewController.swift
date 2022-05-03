@@ -112,8 +112,6 @@ class StartViewController: UIViewController {
                                             
                                         }
                                         
-                                        print("========\(self.taskLists.count)=======")
-                                        
                                     }
                                     
                                 }

@@ -10,7 +10,16 @@ import Firebase
 import FirebaseFirestore
 import SkeletonView
 
+
+
+
 class TasksCollectionViewCell: UICollectionViewCell {
+    
+    
+    
+
+    
+    
     @IBOutlet var nameOfTaskLabel: UILabel! {
         didSet {
            
@@ -59,7 +68,8 @@ class TasksCollectionViewCell: UICollectionViewCell {
     
     var taskList: TaskList!
     var task: Task!
-    
+
+    var tablCell: AllTasksTableViewCell?
         
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -77,6 +87,8 @@ class TasksCollectionViewCell: UICollectionViewCell {
        
     }
     
+    
+  
     
     
     
@@ -123,9 +135,14 @@ class TasksCollectionViewCell: UICollectionViewCell {
                 print("Image from network: ", url.lastPathComponent)
                 completion(.success(image))
             case .failure(let error):
-                completion(.failure(error))            }
+                completion(.failure(error))
+                
+            }
         }
         
     }
     
 }
+
+
+

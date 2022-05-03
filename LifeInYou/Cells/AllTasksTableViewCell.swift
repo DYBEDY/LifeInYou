@@ -11,12 +11,17 @@ import FirebaseFirestore
 
 typealias DidSelectClosure = ((_ tableIndex: Int?, _ collectionIndex: Int?) -> Void)
 
+protocol AllTest {
+    func showTwxt()
+}
 
+class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate, AllTest {
+   
+    func showTwxt() {
+        print("BLA BLA BLA BLA BLA")
+    }
+    
 
-class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
-    
-    
-  
     @IBOutlet var taskNameLabel: UILabel!
     @IBOutlet var progressOfCompletionTasks: UIProgressView!
     @IBOutlet var completionTasksLabel: UILabel!
@@ -51,13 +56,14 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
     }()
     
    
+    var vc = AllTasksViewController()
 
     override func awakeFromNib() {
         super.awakeFromNib()
         
         collectionOfTasks.delegate = self
         collectionOfTasks.dataSource = self
-       
+        
         
     }
     
@@ -68,9 +74,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
        
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 15, left: 4, bottom: 15, right: 4))
-        
         contentView.layer.cornerRadius = 5
-
         contentView.backgroundColor = .white
         contentView.clipsToBounds = true
         
@@ -79,12 +83,6 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
 
     
 
-    func oooo() {
-        showDelegate?.showContextMenu(for: showContextMenuButton, at: indexPath)
-    }
-   
-    
-    
     func configure(with taskList: TaskList) {
         var current: [Task] {
             taskList.tasks.filter { $0.isComplete  }
@@ -101,17 +99,22 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
         progressOfCompletionTasks.setProgress(totalProgress, animated: true)
         completionTasksLabel.text = "\(current.count) из \(taskList.tasks.count)"
         
+     
         
         showDelegate?.showContextMenu(for: showContextMenuButton, at: indexPath)
+        
     }
     
 
+    
+//MARK: - Delegate methods
+    
     func presentSecondView(taskList: TaskList) {
         delegate?.presentSecondView(taskList: taskList)
         
     }
     
-   
+
    
     
 }
@@ -129,11 +132,10 @@ extension AllTasksTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TasksCollectionViewCell", for: indexPath) as! TasksCollectionViewCell
         let task = taskList.tasks[indexPath.item]
-        
         cell.taskList = taskList
         cell.task = task
         cell.imageURL = URL(string: task.imageURL)
-    
+        
         if taskList.tasks.count != 0 {
             cell.nameOfTaskLabel.text = task.name
         }
@@ -233,22 +235,4 @@ extension AllTasksTableViewCell: UICollectionViewDelegateFlowLayout {
 
 
 
-//        if task.imageURL != "" {
-            
-            
-            
-//            DatabaseManager.shared.downloadImage(user: user.uid, fromTask: self.taskList, task: task) { result in
-//                switch result {
-//                case .success(let image):
-//                    DispatchQueue.main.async {
-//                        cell.photoOfTask.image = image
-//                        cell.indicator.stopAnimating()
-//                    }
-//                case .failure(let error):
-//                    print(error)
-//                }
-//            }
-//        } else {
-//            cell.photoOfTask.image = nil
-//            cell.indicator.stopAnimating()
-//        }
+
