@@ -56,12 +56,6 @@ class DatabaseManager {
                     self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(newTask.name)").updateData([
                         "task": newTask.name
                     ])
-                    
-                    
-                    
-                    
-                    
-                    
                     self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(oldTask.name)").delete()
                 }
             }
@@ -77,18 +71,7 @@ class DatabaseManager {
     }
     
     
-    func editTask(by user: User, oldTask: String, newTask: String) {
-        let oldTask = TaskList(name: oldTask)
-        let newTask = TaskList(name: newTask)
-        DispatchQueue.main.async {
-            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(oldTask.name)").delete()
-            self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(newTask.name)").setData([
-                "task" : newTask.name,
-                "userid": user.uid,
-                "date" : newTask.date
-            ], merge: true)
-        }
-    }
+
     
    
 //    MARK: - New Task Methods

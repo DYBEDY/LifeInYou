@@ -50,9 +50,7 @@ class TasksCollectionViewCell: UICollectionViewCell {
     
     var imageURL: URL? {
         didSet {
-            updateImage()
-            
-            if imageURL?.absoluteString == "" {
+            if imageURL == nil {
                 photoOfTask.image = nil
                 backgroundColor = UIColor(ciColor: CIColor(red: 147/255, green: 211/255, blue: 4/255, alpha: 0.4))
                 
@@ -64,8 +62,10 @@ class TasksCollectionViewCell: UICollectionViewCell {
                 viewWithContent.hideSkeleton()
                 photoOfTask.hideSkeleton()
                 
+            } else {
+                updateImage()
             }
-//            photoOfTask.image = nil
+
             
         }
     }

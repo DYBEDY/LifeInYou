@@ -610,6 +610,14 @@
                                     <constraint firstAttribute="height" constant="55" id="zgP-DD-bcd"/>
                                 </constraints>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehK-BT-rDC">
+                                <rect key="frame" x="23.5" y="53" width="328" height="204"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="204" id="oyj-c2-raV"/>
+                                    <constraint firstAttribute="width" constant="328" id="qZF-Tt-qhF"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="M0g-ab-0dR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -621,8 +629,10 @@
                             <constraint firstItem="73Z-5k-Sc0" firstAttribute="top" secondItem="3G3-P1-t7L" secondAttribute="topMargin" constant="53" id="Jij-6H-KYW"/>
                             <constraint firstItem="SfE-hu-ICr" firstAttribute="top" secondItem="M0g-ab-0dR" secondAttribute="top" constant="10" id="N9e-Zb-tfy"/>
                             <constraint firstItem="0EB-go-B1t" firstAttribute="top" secondItem="M0g-ab-0dR" secondAttribute="top" constant="12" id="OYu-n0-2cb"/>
+                            <constraint firstItem="ehK-BT-rDC" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="PeE-zQ-pL9"/>
                             <constraint firstItem="dXE-Ju-DLY" firstAttribute="top" secondItem="3G3-P1-t7L" secondAttribute="topMargin" constant="53" id="RrA-AQ-Vcz"/>
                             <constraint firstItem="mHO-op-fFX" firstAttribute="top" secondItem="dXE-Ju-DLY" secondAttribute="bottom" constant="15" id="Vvs-Q8-x73"/>
+                            <constraint firstItem="ehK-BT-rDC" firstAttribute="top" secondItem="SfE-hu-ICr" secondAttribute="bottom" constant="8" symbolic="YES" id="WwJ-HD-q2d"/>
                             <constraint firstItem="fHv-uc-7Bb" firstAttribute="centerX" secondItem="3G3-P1-t7L" secondAttribute="centerX" id="XRW-AC-ayq"/>
                             <constraint firstItem="M0g-ab-0dR" firstAttribute="bottom" secondItem="fHv-uc-7Bb" secondAttribute="bottom" constant="74" id="Xm3-DI-Yaf"/>
                             <constraint firstItem="SfE-hu-ICr" firstAttribute="trailing" secondItem="M0g-ab-0dR" secondAttribute="trailing" id="aHX-FO-gy2"/>
@@ -638,19 +648,25 @@
                     <navigationItem key="navigationItem" id="veb-Bd-0e2"/>
                     <connections>
                         <outlet property="addPhotoButton" destination="73Z-5k-Sc0" id="bZ7-1q-RfK"/>
+                        <outlet property="completionDateOfTaskLAbel" destination="G7v-cw-PKJ" id="8gt-YX-cZe"/>
                         <outlet property="completionInfoStackView" destination="fHv-uc-7Bb" id="BeZ-GV-Pz6"/>
                         <outlet property="dateOfCompletionTextFied" destination="JWe-nA-kTp" id="Bow-Ic-PhH"/>
+                        <outlet property="daysTextLabel" destination="O8F-St-Uhs" id="RQn-ve-hBT"/>
                         <outlet property="daysToCompletionLabel" destination="iJf-vt-0OU" id="u8l-is-MWs"/>
                         <outlet property="doneButton" destination="cdv-NG-WYj" id="1Tg-Bg-sPF"/>
                         <outlet property="editButton" destination="SfE-hu-ICr" id="ykJ-e9-c2H"/>
                         <outlet property="imageOfTask" destination="dXE-Ju-DLY" id="sPo-KU-58l"/>
+                        <outlet property="infoLabel" destination="0XS-lp-Uov" id="P96-xZ-AOp"/>
                         <outlet property="isCompleteControl" destination="0EB-go-B1t" id="wLD-Rg-GZv"/>
+                        <outlet property="lineView" destination="rnp-mp-30d" id="YbH-WD-f3R"/>
+                        <outlet property="nameOfTaskLabel" destination="ZaT-lJ-qcQ" id="8tq-E2-Q4H"/>
                         <outlet property="taskTextField" destination="nag-rF-eKe" id="eVt-Z0-NN9"/>
+                        <outlet property="viewForSkeleton" destination="ehK-BT-rDC" id="0T7-9i-niW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vG7-gw-XcB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2238" y="1504"/>
+            <point key="canvasLocation" x="2237.5999999999999" y="1503.5982008995504"/>
         </scene>
         <!--Мои цели-->
         <scene sceneID="eh0-zr-vJL">

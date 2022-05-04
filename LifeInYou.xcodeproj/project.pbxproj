@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06073C022821D14A00BF4E74 /* ExtensionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06073C012821D14A00BF4E74 /* ExtensionProtocol.swift */; };
 		06144DD827E6AC410046AC72 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06144DD727E6AC410046AC72 /* TaskViewController.swift */; };
 		0620A8C52800DED5008AF338 /* NewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8C42800DED5008AF338 /* NewTableViewCell.swift */; };
 		0620A8C72800E6B5008AF338 /* NewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8C62800E6B5008AF338 /* NewCollectionViewCell.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06073C012821D14A00BF4E74 /* ExtensionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionProtocol.swift; sourceTree = "<group>"; };
 		06144DD727E6AC410046AC72 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		0620A8C42800DED5008AF338 /* NewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTableViewCell.swift; sourceTree = "<group>"; };
 		0620A8C62800E6B5008AF338 /* NewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				06D6EAAC27C583A1000B6E5F /* ExtensionWorkWithDate.swift */,
 				06D6EAAF27C583D5000B6E5F /* AlertController.swift */,
 				06DB5A25281F700C004EB4B7 /* UIImageExtension.swift */,
+				06073C012821D14A00BF4E74 /* ExtensionProtocol.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				06D6EAAA27C58343000B6E5F /* DatabaseManager.swift in Sources */,
 				06D6EAB027C583D5000B6E5F /* AlertController.swift in Sources */,
 				0620A8C52800DED5008AF338 /* NewTableViewCell.swift in Sources */,
+				06073C022821D14A00BF4E74 /* ExtensionProtocol.swift in Sources */,
 				0620A8C72800E6B5008AF338 /* NewCollectionViewCell.swift in Sources */,
 				06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */,
 				06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */,

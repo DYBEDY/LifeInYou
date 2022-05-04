@@ -28,6 +28,16 @@ class TestViewController: UIViewController {
     }
         
     
+    @IBOutlet var viewForSkeleton: UIView! {
+        didSet {
+            viewForSkeleton.backgroundColor = UIColor(red: 0,
+                                                      green: 0,
+                                                      blue: 0,
+                                                      alpha: 0)
+            viewForSkeleton.bringSubviewToFront(addPhotoButton)
+        }
+        
+    }
     
     @IBOutlet var taskTextField: UITextField!
     @IBOutlet var dateOfCompletionTextFied: UITextField!
@@ -57,6 +67,18 @@ class TestViewController: UIViewController {
     
     @IBOutlet var completionInfoStackView: UIStackView!
     
+    @IBOutlet var nameOfTaskLabel: UILabel!
+    
+    @IBOutlet var completionDateOfTaskLAbel: UILabel!
+    
+    @IBOutlet var infoLabel: UILabel!
+    
+    @IBOutlet var daysTextLabel: UILabel!
+    
+    
+    @IBOutlet var lineView: UIView!
+    
+    
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
@@ -76,25 +98,21 @@ class TestViewController: UIViewController {
   
     var actionForButton = true
     
-    var delegate: AllTask2Delegate?
+    var delegate: AllTasksDelegate?
     var taskList: TaskList!
     var task: Task!
     var url: String?
     
     var isComplete: Bool!
     
-    var activityIndicator = UIActivityIndicatorView()
-
-    
-    
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         taskTextField.text = task?.name ?? ""
         dateOfCompletionTextFied.text = task?.completionDate ?? ""
         daysToCompletionLabel.text = getCountOfDaysToFinishTask(daysToFinish: dateOfCompletionTextFied.text ?? "x")
         completionDateofTask()
-        setupActivityIndicator()
+       
         setupVC()
         
         
@@ -103,20 +121,10 @@ class TestViewController: UIViewController {
         dateOfCompletionTextFied.delegate = self
         
        
-        
     }
     
    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        delegate?.updateValue()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            self.dismiss(animated: true)
-//        }
-       
-    }
-    
-    
+
     
  
     @IBAction func isCompleteTapped(_ sender: UISegmentedControl) {
@@ -145,22 +153,6 @@ class TestViewController: UIViewController {
     @IBAction func doneButtonPressed() {
         if doneButton.titleLabel?.text == "Добавить задачу" {
             insertNewTask()
-            delegate?.updateValue()
-            activityIndicator = UIActivityIndicatorView(style: .medium)
-            activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-            activityIndicator.center = view.center
-            activityIndicator.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.3)
-            activityIndicator.layer.cornerRadius = 5
-            activityIndicator.startAnimating()
-            activityIndicator.hidesWhenStopped = true
-            view.addSubview(activityIndicator)
-            self.view.addSubview(self.activityIndicator)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-               
-                self?.dismiss(animated: true)
-                
-            }
-            
         } else {
             deleteTask()
             delegate?.updateValue()
@@ -169,33 +161,20 @@ class TestViewController: UIViewController {
     }
     
     
-    func setupActivityIndicator() {
-        activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-        
-        activityIndicator.center = imageOfTask.center
-        activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
-        view.addSubview(activityIndicator)
-    }
-    
     
     func setupVC() {
         if task?.name != nil && task?.imageURL != "" {
             doneButton.isHidden = true
             isCompleteControl.isHidden = true
-//            completionInfoStackView.isHidden = false
             whenShowStackView()
             taskTextField.isEnabled = false
             dateOfCompletionTextFied.isEnabled = false
             addPhotoButton.isHidden = true
-//            downloadImage()
             imageURL = URL(string: task.imageURL)
             updateImage()
         } else if task?.name != nil && task?.imageURL == ""  {
             doneButton.isHidden = true
             isCompleteControl.isHidden = true
-//            completionInfoStackView.isHidden = false
             whenShowStackView()
             addPhotoButton.isHidden = true
             
@@ -203,14 +182,13 @@ class TestViewController: UIViewController {
             dateOfCompletionTextFied.isEnabled = false
             
             imageOfTask.image = UIImage(systemName: "photo.artframe")
-            self.activityIndicator.stopAnimating()
         } else {
             doneButton.setTitle("Добавить задачу", for: .normal)
             imageOfTask.image = UIImage(systemName: "photo.artframe")
             isCompleteControl.isHidden = true
             editButton.isHidden = true
             completionInfoStackView.isHidden = true
-            self.activityIndicator.stopAnimating()
+            
             
         }
     }
@@ -238,18 +216,7 @@ class TestViewController: UIViewController {
             addPhotoButton.isHidden = true
             isCompleteControl.isHidden = true
             completionInfoStackView.isHidden = false
-            
-            
-            activityIndicator = UIActivityIndicatorView(style: .medium)
-            activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-            activityIndicator.center = view.center
-            activityIndicator.color = .white
-            activityIndicator.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
-            activityIndicator.layer.cornerRadius = 5
-            activityIndicator.startAnimating()
-            activityIndicator.hidesWhenStopped = true
-            view.addSubview(activityIndicator)
-            
+    
             daysToCompletionLabel.text = getCountOfDaysToFinishTask(daysToFinish: dateOfCompletionTextFied.text ?? "x")
             
             editTask()
@@ -257,15 +224,6 @@ class TestViewController: UIViewController {
         }
     }
     
-    
-    
-    func whenPushNewPhoto() {
-        if imageOfTask.image != UIImage(systemName: "photo.artframe") {
-            insertNewPhoto()
-        } else {
-            return
-        }
-    }
     
     
     func whenEditImage() {
@@ -301,7 +259,8 @@ extension TestViewController {
                                                 fromTask: taskList.name,
                                                 task: taskTextField.text ?? "",
                                                 completionDate: dateOfCompletionTextFied.text ?? "")
-        whenPushNewPhoto()
+
+        insertNewPhoto()
         
     }
     
@@ -331,10 +290,53 @@ extension TestViewController {
 //MARK: - Work With Photo
 extension TestViewController {
     func insertNewPhoto() {
+        startSkeletonAnimation(for: taskTextField,
+                               dateOfCompletionTextFied,
+                               doneButton,
+                               editButton,
+                               addPhotoButton,
+                               isCompleteControl,
+                               lineView,
+                               daysToCompletionLabel,
+                               nameOfTaskLabel,
+                               completionDateOfTaskLAbel,
+                               infoLabel,
+                               completionInfoStackView,
+                               viewForSkeleton,
+                               daysTextLabel)
+        
         DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
             switch result {
             case .success(let url):
+                if self.imageOfTask.image != UIImage(systemName: "photo.artframe") && self.imageOfTask.image != nil {
                 DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", isComplete: self.isComplete, url: url.absoluteString)
+                } else {
+                    self.imageOfTask.image = UIImage(systemName: "photo.artframe")
+                    
+                 
+                }
+             
+                self.delegate?.updateValue()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.startSkeletonAnimation(for: self.taskTextField,
+                                                self.dateOfCompletionTextFied,
+                                                self.doneButton,
+                                                self.editButton,
+                                                self.addPhotoButton,
+                                                self.isCompleteControl,
+                                                self.lineView,
+                                                self.daysToCompletionLabel,
+                                                self.nameOfTaskLabel,
+                                                self.completionDateOfTaskLAbel,
+                                                self.infoLabel,
+                                                self.completionInfoStackView,
+                                                self.viewForSkeleton,
+                                                self.daysTextLabel)
+                    
+                    self.dismiss(animated: true)
+                }
+                
             case .failure(let error):
                 print(error)
             }
@@ -347,24 +349,72 @@ extension TestViewController {
     
     
     func editImage() {
+        startSkeletonAnimation(for: taskTextField,
+                               dateOfCompletionTextFied,
+                               doneButton,
+                               editButton,
+                               addPhotoButton,
+                               isCompleteControl,
+                               lineView,
+                               daysToCompletionLabel,
+                               nameOfTaskLabel,
+                               completionDateOfTaskLAbel,
+                               infoLabel,
+                               completionInfoStackView,
+                               viewForSkeleton,
+                               daysTextLabel)
+        
         DatabaseManager.shared.deletePhoto(user: user.uid, taskList: taskList.name, currentTask: task.name)
         DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
             switch result {
             case .success(let url):
-                if self.imageOfTask.image != UIImage(systemName: "photo.artframe")  {
+                if self.imageOfTask.image != UIImage(systemName: "photo.artframe") && self.imageOfTask.image != nil {
                 DatabaseManager.shared.insertPhoto(by: self.user, fromTask: self.taskList.name, task: self.taskTextField.text ?? "", completionDate: self.dateOfCompletionTextFied.text ?? "", isComplete: self.isComplete, url: url.absoluteString)
                 } else {
-                    self.imageOfTask.image = UIImage(systemName: "photo.artframe")
+                    self.delegate?.updateValue()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                        self.imageOfTask.image = UIImage(systemName: "photo.artframe")
+                        self.startSkeletonAnimation(for: self.taskTextField,
+                                                    self.dateOfCompletionTextFied,
+                                                    self.doneButton,
+                                                    self.editButton,
+                                                    self.addPhotoButton,
+                                                    self.isCompleteControl,
+                                                    self.lineView,
+                                                    self.daysToCompletionLabel,
+                                                    self.nameOfTaskLabel,
+                                                    self.completionDateOfTaskLAbel,
+                                                    self.infoLabel,
+                                                    self.completionInfoStackView,
+                                                    self.viewForSkeleton,
+                                                    self.daysTextLabel)
+                        
+                        
+                        self.dismiss(animated: true)
+                    })
                 }
+                
                 self.delegate?.updateValue()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                    self.activityIndicator.stopAnimating()
+                    self.startSkeletonAnimation(for: self.taskTextField,
+                                                self.dateOfCompletionTextFied,
+                                                self.doneButton,
+                                                self.editButton,
+                                                self.addPhotoButton,
+                                                self.isCompleteControl,
+                                                self.lineView,
+                                                self.daysToCompletionLabel,
+                                                self.nameOfTaskLabel,
+                                                self.completionDateOfTaskLAbel,
+                                                self.infoLabel,
+                                                self.completionInfoStackView,
+                                                self.viewForSkeleton,
+                                                self.daysTextLabel)
+                    
                     self.dismiss(animated: true)
                 })
                     
-                
-                
             case .failure(let error):
                 print(error)
             }
@@ -376,7 +426,6 @@ extension TestViewController {
             switch result {
             case .success(let image):
                 self.imageOfTask.image = image
-                self.activityIndicator.stopAnimating()
             case .failure(let error):
                 print(error)
             }
@@ -411,13 +460,14 @@ extension TestViewController {
             case .success(let image):
                 if url == self.imageURL {
                     self.imageOfTask.image = image
-                    self.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
                 print(error)
             }
         }
     }
+    
+    
 }
     
     
@@ -556,3 +606,27 @@ extension TestViewController: UITextFieldDelegate {
 
 
 
+extension TestViewController {
+    
+    func startSkeletonAnimation(for items: UIView...) {
+        let gradient = SkeletonGradient(baseColor: UIColor.peterRiver)
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topBottom)
+        SkeletonAppearance.default.multilineHeight = 20
+    
+        for item in items {
+            item.skeletonCornerRadius = 10
+            item.isSkeletonable = true
+            item.showAnimatedGradientSkeleton(usingGradient: gradient, animation: animation, transition: .none)
+        }
+    }
+    
+    func stopSkeletonAnimation(for items: UIView...) {
+        for item in items {
+            
+            item.stopSkeletonAnimation()
+            item.hideSkeleton()
+        }
+    }
+    
+    
+}

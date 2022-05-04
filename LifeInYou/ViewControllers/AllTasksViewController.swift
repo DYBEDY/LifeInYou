@@ -11,22 +11,20 @@ import FirebaseFirestore
 import SkeletonView
 
 
-
-protocol AllTasksDelegate {
-    func presentSecondView(taskList: TaskList)
-    
-    
-}
+//
+//protocol AllTasksDelegate {
+//    func presentSecondView(taskList: TaskList)
+//}
 
 
-protocol AllTask2Delegate {
-    func updateValue()
-}
-
-protocol AllTasksShowMenuDelegate {
-    func showContextMenu(for button: UIButton, at indexPath: IndexPath)
-    
-}
+//protocol AllTask2Delegate {
+//    func updateValue()
+//}
+//
+//protocol AllTasksShowMenuDelegate {
+//    func showContextMenu(for button: UIButton, at indexPath: IndexPath)
+//
+//}
 
 
 
@@ -34,33 +32,22 @@ protocol AllTasksShowMenuDelegate {
 
 
 
-class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTasksDelegate, AllTask2Delegate {
+
+class AllTasksViewController: UIViewController, UICollectionViewDelegate {
   
-   
-    
-  
-    
-    
-   
     @IBOutlet var tableView: UITableView!
-    
-
-    var taskLists: [TaskList] = []
-    
-    let db = Firestore.firestore()
-   
-    
-    
-    
-    var ediImage: UIImage!
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
         return User(user: currentUser)
     }()
     
- 
     
+    var taskLists: [TaskList] = []
+    
+    let db = Firestore.firestore()
+   
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -71,17 +58,15 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
         
         tableView.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
         
-        
-        
-        
     }
     
    
     
-    
     @IBAction func addButtonPressed(_ sender: Any) {
         showAlert()
     }
+    
+    
     
     
     func updateTaskList(_ user: User, tableView: UITableView) {
@@ -111,24 +96,13 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
                                                         isComplete: d["isComplete"] as? Bool ?? false,
                                                         imageURL: d["imageURL"] as? String ?? "https://"
                                             )
-
                                         }
-
-//                                        tableView.reloadData()
-                                       
-
-                                        print("========\(self.taskLists.count)=======")
-
                                     }
-//                                    tableView.reloadData()
                                 }
                                 tableView.reloadData()
                             }
-
                             return task
-
                         }
-
                     }
                 }
             }
@@ -138,52 +112,7 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate, AllTas
     
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-       
-    }
 
-    
- 
-
-    
- 
-    
-    
-    func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task, taskList: TaskList) {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
-       
-        newVC.task = task
-        newVC.taskList = taskList
-        newVC.delegate = self
-        newVC.url = ""
-        newVC.isComplete = task.isComplete
-        
-        self.navigationController?.present(newVC, animated: true)
-    }
-    
-
-    
-    func presentSecondView(taskList: TaskList) {
-        print(taskList.name)
-        
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
-        
-        
-        newVC.taskList = taskList
-        newVC.delegate = self
-        newVC.isComplete = false
-        self.navigationController?.present(newVC, animated: true)
-    }
-    
-    
-    func updateValue() {
-        updateTaskList(user, tableView: tableView)
-    }
-    
-  
     
 }
 
@@ -212,18 +141,15 @@ extension AllTasksViewController: UITableViewDelegate, SkeletonTableViewDataSour
         cell.taskList = task
         
         
-        cell.showDelegate = self
-        cell.configure(with: task)
         cell.delegate = self
+        cell.configure(with: task)
+
        
-        
         cell.didSelectClosure = { tabIndex, collIndex in
             let currentTask = task.tasks[collIndex ?? 0]
             self.moveOnTaskViewController(tIndex: tabIndex ?? 0, cIndex: collIndex ?? 0, task: currentTask, taskList: task)
         }
-      
-     
-         
+        
         return cell
     }
     
@@ -325,7 +251,6 @@ extension AllTasksViewController {
                         switch result {
 
                         case .success(let image):
-    //                        self.ediImage = image
                             DatabaseManager.shared.upload(user: self.user.uid,
                                                           fromTask: newTask.name,
                                                           task: task.name,
@@ -376,9 +301,42 @@ extension AllTasksViewController {
 }
 
 
+//MARK: - Delegate Methods
 
-extension AllTasksViewController: AllTasksShowMenuDelegate {
-   
+extension AllTasksViewController: AllTasksDelegate {
+    
+    func moveOnTaskViewController(tIndex: Int, cIndex: Int, task: Task, taskList: TaskList) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
+        
+        newVC.task = task
+        newVC.taskList = taskList
+        newVC.delegate = self
+        newVC.url = ""
+        newVC.isComplete = task.isComplete
+        
+        self.navigationController?.present(newVC, animated: true)
+    }
+    
+    
+    func presentSecondView(taskList: TaskList) {
+        print(taskList.name)
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let newVC = storyBoard.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController else { return }
+        
+        
+        newVC.taskList = taskList
+        newVC.delegate = self
+        newVC.isComplete = false
+        self.navigationController?.present(newVC, animated: true)
+    }
+    
+    
+    func updateValue() {
+        updateTaskList(user, tableView: tableView)
+    }
+    
     
     func showContextMenu(for button: UIButton, at indexPath: IndexPath) {
         button.menu = addMenuItems(at: indexPath)
@@ -387,25 +345,27 @@ extension AllTasksViewController: AllTasksShowMenuDelegate {
     
     
     func addMenuItems(at indexPath: IndexPath) -> UIMenu {
-     
+        
         let secondMenu = UIMenu(title: "" , options: .displayInline, children: [
             UIAction(title: "Удалить цель",
-                     image: UIImage(systemName: "trash.fill")?.maskWithColor(color: .red),
+                     image: UIImage(systemName: "trash")?.maskWithColor(color: .red),
+                     attributes: .destructive,
                      handler: { (_) in
-                self.deleteFunc(at: indexPath)
-            })
+                         self.deleteFunc(at: indexPath)
+                     })
         ])
         
-        let menuItem = UIMenu(title: "", options: .displayInline, children: [
         
+        let menuItem = UIMenu(title: "", options: .displayInline, children: [
+            
             UIAction(title: "Изменить",
                      image: UIImage(systemName: "scribble.variable")?.maskWithColor(color: .yellow),
                      handler: { (_) in
-                self.editPressed(at: indexPath)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                
-            }),
-        
+                         self.editPressed(at: indexPath)
+                         self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                         
+                     }),
+            
             UIAction(title: "Завершить", image: UIImage(systemName: "checkmark")?.maskWithColor(color: .green), handler: { (_) in
                 self.doneTask(indexPath: indexPath)
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -418,14 +378,6 @@ extension AllTasksViewController: AllTasksShowMenuDelegate {
         
         return menuItem
     }
-    
-
 }
-
-
-
-
-
-
 
 

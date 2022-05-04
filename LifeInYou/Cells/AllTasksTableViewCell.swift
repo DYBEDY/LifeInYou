@@ -32,9 +32,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
     var bool = false
     
     var delegate: AllTasksDelegate?
-    var showDelegate: AllTasksShowMenuDelegate?
-    
-   
+
     
     let dateFormatter = DateFormatter()
     let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
@@ -95,7 +93,7 @@ class AllTasksTableViewCell: UITableViewCell, AllTasksDelegate {
         
         
         
-        showDelegate?.showContextMenu(for: showContextMenuButton, at: indexPath)
+        delegate?.showContextMenu(for: showContextMenuButton, at: indexPath)
         
         
     }
