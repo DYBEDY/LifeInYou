@@ -118,7 +118,7 @@ class DatabaseManager {
     func editCollectionTask(by user: User,in task: String, oldTask: String, newTask: String, completionDate: String, isComplete: Bool) {
         let oldTask = Task(name: oldTask)
         let newTask = Task(name: newTask)
-        let completionDate = Task(completionDate: completionDate)
+        
         let task = TaskList(name: task)
 
         DispatchQueue.main.async {
@@ -128,7 +128,6 @@ class DatabaseManager {
                     self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").setData(data ?? ["" : ""])
                     self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").updateData([
                         "task" : newTask.name,
-                        "completionDate" : completionDate.completionDate,
                         "isComplete" : isComplete,
                         "imageURL" : newTask.imageURL
                     ])

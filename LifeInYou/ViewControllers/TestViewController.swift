@@ -23,7 +23,7 @@ class TestViewController: UIViewController {
         didSet {
             imageOfTask.layer.cornerRadius = 20
             imageOfTask.contentMode = .scaleAspectFill
-            
+          
         }
     }
         
@@ -33,8 +33,8 @@ class TestViewController: UIViewController {
             viewForSkeleton.backgroundColor = UIColor(red: 0,
                                                       green: 0,
                                                       blue: 0,
-                                                      alpha: 0)
-            viewForSkeleton.bringSubviewToFront(addPhotoButton)
+                                                      alpha: 0.5)
+           
         }
         
     }
@@ -79,6 +79,7 @@ class TestViewController: UIViewController {
     @IBOutlet var lineView: UIView!
     
     
+    @IBOutlet var skeletonView: UIView!
     
     let user: User! = {
         guard let currentUser = Auth.auth().currentUser else { return nil }
@@ -215,7 +216,7 @@ class TestViewController: UIViewController {
             dateOfCompletionTextFied.isEnabled = false
             addPhotoButton.isHidden = true
             isCompleteControl.isHidden = true
-            completionInfoStackView.isHidden = false
+            completionInfoStackView.isHidden = true
     
             daysToCompletionLabel.text = getCountOfDaysToFinishTask(daysToFinish: dateOfCompletionTextFied.text ?? "x")
             
@@ -225,14 +226,10 @@ class TestViewController: UIViewController {
     }
     
     
+
     
-    func whenEditImage() {
-        if imageOfTask.image != UIImage(systemName: "photo.artframe") {
-            editImage()
-        } else {
-            return
-        }
-    }
+    
+    
     
     func whenShowStackView() {
         if daysToCompletionLabel.text != "" {
@@ -272,17 +269,16 @@ extension TestViewController {
     }
     
     func editTask() {
-        DatabaseManager.shared.editCollectionTask(by: user,
-                                                  in: taskList.name,
-                                                  oldTask: task.name,
-                                                  newTask: taskTextField.text ?? "",
-                                                  completionDate: dateOfCompletionTextFied.text ?? "",
-                                                  isComplete: isComplete)
+            DatabaseManager.shared.editCollectionTask(by: user,
+                                                      in: taskList.name,
+                                                      oldTask: task.name,
+                                                      newTask: taskTextField.text ?? "",
+                                                      completionDate: dateOfCompletionTextFied.text ?? "",
+                                                      isComplete: isComplete)
+
+            editImage()
         
-        editImage()
-      
-        
-    }
+}
     
 }
 
@@ -302,7 +298,7 @@ extension TestViewController {
                                completionDateOfTaskLAbel,
                                infoLabel,
                                completionInfoStackView,
-                               viewForSkeleton,
+                               skeletonView,
                                daysTextLabel)
         
         DatabaseManager.shared.upload(user: user.uid, fromTask: taskList.name, task: taskTextField.text ?? "", photo: imageOfTask.image ?? UIImage()) { result in
@@ -331,7 +327,7 @@ extension TestViewController {
                                                 self.completionDateOfTaskLAbel,
                                                 self.infoLabel,
                                                 self.completionInfoStackView,
-                                                self.viewForSkeleton,
+                                                self.skeletonView,
                                                 self.daysTextLabel)
                     
                     self.dismiss(animated: true)
@@ -361,7 +357,7 @@ extension TestViewController {
                                completionDateOfTaskLAbel,
                                infoLabel,
                                completionInfoStackView,
-                               viewForSkeleton,
+                               skeletonView,
                                daysTextLabel)
         
         DatabaseManager.shared.deletePhoto(user: user.uid, taskList: taskList.name, currentTask: task.name)
@@ -386,7 +382,7 @@ extension TestViewController {
                                                     self.completionDateOfTaskLAbel,
                                                     self.infoLabel,
                                                     self.completionInfoStackView,
-                                                    self.viewForSkeleton,
+                                                    self.skeletonView,
                                                     self.daysTextLabel)
                         
                         
@@ -409,7 +405,7 @@ extension TestViewController {
                                                 self.completionDateOfTaskLAbel,
                                                 self.infoLabel,
                                                 self.completionInfoStackView,
-                                                self.viewForSkeleton,
+                                                self.skeletonView,
                                                 self.daysTextLabel)
                     
                     self.dismiss(animated: true)
@@ -609,18 +605,22 @@ extension TestViewController: UITextFieldDelegate {
 extension TestViewController {
     
     func startSkeletonAnimation(for items: UIView...) {
+  
+       
         let gradient = SkeletonGradient(baseColor: UIColor.peterRiver)
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topBottom)
-        SkeletonAppearance.default.multilineHeight = 20
+        SkeletonAppearance.default.textLineHeight = .relativeToFont
+ 
     
         for item in items {
-            item.skeletonCornerRadius = 10
+            item.skeletonCornerRadius = 5
             item.isSkeletonable = true
             item.showAnimatedGradientSkeleton(usingGradient: gradient, animation: animation, transition: .none)
         }
     }
     
     func stopSkeletonAnimation(for items: UIView...) {
+    
         for item in items {
             
             item.stopSkeletonAnimation()
