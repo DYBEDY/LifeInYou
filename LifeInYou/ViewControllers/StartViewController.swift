@@ -141,8 +141,9 @@ class StartViewController: UIViewController {
         guard let viewControllers = tabBarController.viewControllers else { return }
         
         for controller in viewControllers {
-            if let nav = controller as? UINavigationController, let child = nav.topViewController as? MainViewController {
-                child.books = "blablabla"
+            if let nav = controller as? UINavigationController,
+               let _ = nav.topViewController as? MainViewController {
+                
             } else {
             let nav2 = controller as? UINavigationController
                 let child = nav2?.topViewController as? AllTasksViewController
