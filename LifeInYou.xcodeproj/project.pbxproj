@@ -24,7 +24,7 @@
 		06D6EA9127C57B0A000B6E5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8F27C57B0A000B6E5F /* LaunchScreen.storyboard */; };
 		06D6EA9927C57B84000B6E5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */; };
 		06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */; };
-		06D6EA9F27C5822E000B6E5F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9E27C5822E000B6E5F /* MainViewController.swift */; };
+		06D6EA9F27C5822E000B6E5F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9E27C5822E000B6E5F /* HomeViewController.swift */; };
 		06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA027C58274000B6E5F /* TaskListViewController.swift */; };
 		06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA227C582D1000B6E5F /* WelcomeSettingsModel.swift */; };
 		06D6EAA627C582FC000B6E5F /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA527C582FC000B6E5F /* TaskList.swift */; };
@@ -57,7 +57,7 @@
 		06D6EA9227C57B0A000B6E5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		06D6EA9E27C5822E000B6E5F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		06D6EA9E27C5822E000B6E5F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		06D6EAA027C58274000B6E5F /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		06D6EAA227C582D1000B6E5F /* WelcomeSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSettingsModel.swift; sourceTree = "<group>"; };
 		06D6EAA527C582FC000B6E5F /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 				06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */,
 				0660C35F280E269E00E1EB26 /* AllTasksViewController.swift */,
 				0620A8CA2801D126008AF338 /* TestViewController.swift */,
-				06D6EA9E27C5822E000B6E5F /* MainViewController.swift */,
+				06D6EA9E27C5822E000B6E5F /* HomeViewController.swift */,
 				06144DD727E6AC410046AC72 /* TaskViewController.swift */,
 				06D6EAA027C58274000B6E5F /* TaskListViewController.swift */,
 			);
@@ -337,7 +337,7 @@
 				06646AD428235738006D4AB9 /* CalendarModel.swift in Sources */,
 				06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */,
 				06D6EAAD27C583A1000B6E5F /* ExtensionWorkWithDate.swift in Sources */,
-				06D6EA9F27C5822E000B6E5F /* MainViewController.swift in Sources */,
+				06D6EA9F27C5822E000B6E5F /* HomeViewController.swift in Sources */,
 				0660C366280E32CC00E1EB26 /* TasksCollectionReusableView.swift in Sources */,
 				06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */,
 				06DB5A26281F700C004EB4B7 /* UIImageExtension.swift in Sources */,

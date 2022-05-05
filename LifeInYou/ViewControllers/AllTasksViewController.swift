@@ -58,6 +58,9 @@ class AllTasksViewController: UIViewController, UICollectionViewDelegate {
         
         tableView.backgroundColor = UIColor(hue: 146/360, saturation: 0, brightness: 0.79, alpha: 1)
         
+       
+   
+        
     }
     
    

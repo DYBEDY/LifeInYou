@@ -142,7 +142,7 @@ class StartViewController: UIViewController {
         
         for controller in viewControllers {
             if let nav = controller as? UINavigationController,
-               let _ = nav.topViewController as? MainViewController {
+               let _ = nav.topViewController as? HomeViewController {
                 
             } else {
             let nav2 = controller as? UINavigationController

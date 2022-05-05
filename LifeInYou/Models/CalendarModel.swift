@@ -46,6 +46,7 @@ class CalendarModel {
     
     func firstOfMonth(date: Date) -> Date {
         let components = calendar.dateComponents([.year, .month], from: date)
+        
         return calendar.date(from: components)! - 1
     }
     

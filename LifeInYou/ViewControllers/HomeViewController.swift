@@ -8,7 +8,7 @@
 import UIKit
 
 
-class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet var calendarCollectionView: UICollectionView!
     
@@ -71,8 +71,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             count += 1
         }
         
-//        let days = totalSquares.filter { $0 != "+" }
-//        print(days)
+
         
         monthLabel.text = CalendarModel().monthString(date: selectedDate) + " " + CalendarModel().yearString(date: selectedDate)
         calendarCollectionView.reloadData()
