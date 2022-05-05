@@ -115,24 +115,28 @@ class DatabaseManager {
     }
 
         
-    func editCollectionTask(by user: User,in task: String, oldTask: String, newTask: String, completionDate: String, isComplete: Bool) {
+    func editCollectionTask(by user: User,in task: String, oldTask: String, newTask: String?, completionDate: String, isComplete: Bool) {
         let oldTask = Task(name: oldTask)
-        let newTask = Task(name: newTask)
+        let newTask = Task(name: newTask ?? "")
+    
         
         let task = TaskList(name: task)
 
         DispatchQueue.main.async {
             self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(oldTask.name)").getDocument { doc, error in
                 if error == nil {
+                    self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(oldTask.name)").delete()
+                    
                     let data = doc?.data()
                     self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").setData(data ?? ["" : ""])
                     self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(newTask.name)").updateData([
                         "task" : newTask.name,
                         "isComplete" : isComplete,
+                        "completionDate" : completionDate,
                         "imageURL" : newTask.imageURL
                     ])
                     
-                    self.db.collection("users").document("\(user.uid)").collection("taskList").document("\(task.name)").collection("tasks").document("\(oldTask.name)").delete()
+                    
                     
                 }
             }

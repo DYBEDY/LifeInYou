@@ -275,8 +275,7 @@ extension TestViewController {
                                                       newTask: taskTextField.text ?? "",
                                                       completionDate: dateOfCompletionTextFied.text ?? "",
                                                       isComplete: isComplete)
-
-            editImage()
+                    editImage()
         
 }
     
