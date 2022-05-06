@@ -161,7 +161,7 @@ class StartViewController: UIViewController {
     
 
     
-    @IBAction  func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: StartViewController) {
+    @IBAction  func unwindToStartVC(for unwindSegue: UIStoryboardSegue, towards subsequentVC: StartViewController) {
     do {
         try Auth.auth().signOut()
         } catch {

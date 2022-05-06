@@ -38,7 +38,24 @@ class CalendarModel {
         let range = calendar.range(of: .day, in: .month, for: date)!
         return range.count
     }
+    
+    func daysInPreviousMonth(date: Date) -> Int {
+        let previousMonth = calendar.date(byAdding: .month, value: -1, to: date)!
+        
+        let range = calendar.range(of: .day, in: .month, for: previousMonth)!
+        return range.count
+    }
 
+    func daysInFutureMonth(date: Date) -> Int {
+        let futureMonth = calendar.date(byAdding: .month, value: 1, to: date)!
+        
+        let range = calendar.range(of: .day, in: .month, for: futureMonth)!
+        return range.count
+    }
+
+    
+    
+    
     func dayOfMonth(date: Date) -> Int {
         let components = calendar.dateComponents([.day], from: date)
         return components.day!

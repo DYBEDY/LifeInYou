@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		06073C022821D14A00BF4E74 /* ExtensionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06073C012821D14A00BF4E74 /* ExtensionProtocol.swift */; };
 		06144DD827E6AC410046AC72 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06144DD727E6AC410046AC72 /* TaskViewController.swift */; };
+		0616205228248ABB00AC34E5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0616205128248ABB00AC34E5 /* HomeViewController.swift */; };
+		0616205428248D8C00AC34E5 /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0616205328248D8C00AC34E5 /* CalendarTableViewCell.swift */; };
+		06162056282492EA00AC34E5 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06162055282492EA00AC34E5 /* CalendarCollectionViewCell.swift */; };
 		0620A8CB2801D126008AF338 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620A8CA2801D126008AF338 /* TestViewController.swift */; };
 		0660C360280E269E00E1EB26 /* AllTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0660C35F280E269E00E1EB26 /* AllTasksViewController.swift */; };
 		0660C362280E273600E1EB26 /* AllTasksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0660C361280E273600E1EB26 /* AllTasksTableViewCell.swift */; };
 		0660C364280E31C800E1EB26 /* TasksCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0660C363280E31C800E1EB26 /* TasksCollectionViewCell.swift */; };
 		0660C366280E32CC00E1EB26 /* TasksCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0660C365280E32CC00E1EB26 /* TasksCollectionReusableView.swift */; };
-		06646AD22823543E006D4AB9 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06646AD12823543E006D4AB9 /* CalendarCollectionViewCell.swift */; };
 		06646AD428235738006D4AB9 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06646AD328235738006D4AB9 /* CalendarModel.swift */; };
 		06869938281A186500BD2688 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06869937281A186500BD2688 /* ImageCache.swift */; };
 		06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA8427C57B08000B6E5F /* AppDelegate.swift */; };
@@ -24,7 +26,6 @@
 		06D6EA9127C57B0A000B6E5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA8F27C57B0A000B6E5F /* LaunchScreen.storyboard */; };
 		06D6EA9927C57B84000B6E5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */; };
 		06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */; };
-		06D6EA9F27C5822E000B6E5F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EA9E27C5822E000B6E5F /* HomeViewController.swift */; };
 		06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA027C58274000B6E5F /* TaskListViewController.swift */; };
 		06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA227C582D1000B6E5F /* WelcomeSettingsModel.swift */; };
 		06D6EAA627C582FC000B6E5F /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D6EAA527C582FC000B6E5F /* TaskList.swift */; };
@@ -40,12 +41,14 @@
 /* Begin PBXFileReference section */
 		06073C012821D14A00BF4E74 /* ExtensionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionProtocol.swift; sourceTree = "<group>"; };
 		06144DD727E6AC410046AC72 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
+		0616205128248ABB00AC34E5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0616205328248D8C00AC34E5 /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
+		06162055282492EA00AC34E5 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0620A8CA2801D126008AF338 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		0660C35F280E269E00E1EB26 /* AllTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksViewController.swift; sourceTree = "<group>"; };
 		0660C361280E273600E1EB26 /* AllTasksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksTableViewCell.swift; sourceTree = "<group>"; };
 		0660C363280E31C800E1EB26 /* TasksCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCollectionViewCell.swift; sourceTree = "<group>"; };
 		0660C365280E32CC00E1EB26 /* TasksCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCollectionReusableView.swift; sourceTree = "<group>"; };
-		06646AD12823543E006D4AB9 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		06646AD328235738006D4AB9 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		06869937281A186500BD2688 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		06D6EA8127C57B08000B6E5F /* LifeInYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeInYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,7 +60,6 @@
 		06D6EA9227C57B0A000B6E5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06D6EA9827C57B84000B6E5F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		06D6EA9E27C5822E000B6E5F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		06D6EAA027C58274000B6E5F /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		06D6EAA227C582D1000B6E5F /* WelcomeSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSettingsModel.swift; sourceTree = "<group>"; };
 		06D6EAA527C582FC000B6E5F /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
@@ -90,7 +92,8 @@
 				0660C361280E273600E1EB26 /* AllTasksTableViewCell.swift */,
 				0660C363280E31C800E1EB26 /* TasksCollectionViewCell.swift */,
 				0660C365280E32CC00E1EB26 /* TasksCollectionReusableView.swift */,
-				06646AD12823543E006D4AB9 /* CalendarCollectionViewCell.swift */,
+				0616205328248D8C00AC34E5 /* CalendarTableViewCell.swift */,
+				06162055282492EA00AC34E5 /* CalendarCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -147,7 +150,7 @@
 				06D6EA9B27C57F79000B6E5F /* WelcomeViewController.swift */,
 				0660C35F280E269E00E1EB26 /* AllTasksViewController.swift */,
 				0620A8CA2801D126008AF338 /* TestViewController.swift */,
-				06D6EA9E27C5822E000B6E5F /* HomeViewController.swift */,
+				0616205128248ABB00AC34E5 /* HomeViewController.swift */,
 				06144DD727E6AC410046AC72 /* TaskViewController.swift */,
 				06D6EAA027C58274000B6E5F /* TaskListViewController.swift */,
 			);
@@ -321,23 +324,24 @@
 				06144DD827E6AC410046AC72 /* TaskViewController.swift in Sources */,
 				0660C360280E269E00E1EB26 /* AllTasksViewController.swift in Sources */,
 				06D6EAA627C582FC000B6E5F /* TaskList.swift in Sources */,
+				0616205428248D8C00AC34E5 /* CalendarTableViewCell.swift in Sources */,
 				0660C364280E31C800E1EB26 /* TasksCollectionViewCell.swift in Sources */,
 				06D6EA8927C57B08000B6E5F /* StartViewController.swift in Sources */,
 				0620A8CB2801D126008AF338 /* TestViewController.swift in Sources */,
 				06D6EAAA27C58343000B6E5F /* DatabaseManager.swift in Sources */,
 				06D6EAB027C583D5000B6E5F /* AlertController.swift in Sources */,
-				06646AD22823543E006D4AB9 /* CalendarCollectionViewCell.swift in Sources */,
 				06073C022821D14A00BF4E74 /* ExtensionProtocol.swift in Sources */,
 				06D6EA9C27C57F79000B6E5F /* WelcomeViewController.swift in Sources */,
+				0616205228248ABB00AC34E5 /* HomeViewController.swift in Sources */,
 				06D6EA8527C57B08000B6E5F /* AppDelegate.swift in Sources */,
 				0660C362280E273600E1EB26 /* AllTasksTableViewCell.swift in Sources */,
+				06162056282492EA00AC34E5 /* CalendarCollectionViewCell.swift in Sources */,
 				06869938281A186500BD2688 /* ImageCache.swift in Sources */,
 				06D6EA8727C57B08000B6E5F /* SceneDelegate.swift in Sources */,
 				06D6EAA827C58317000B6E5F /* User.swift in Sources */,
 				06646AD428235738006D4AB9 /* CalendarModel.swift in Sources */,
 				06D6EAA327C582D1000B6E5F /* WelcomeSettingsModel.swift in Sources */,
 				06D6EAAD27C583A1000B6E5F /* ExtensionWorkWithDate.swift in Sources */,
-				06D6EA9F27C5822E000B6E5F /* HomeViewController.swift in Sources */,
 				0660C366280E32CC00E1EB26 /* TasksCollectionReusableView.swift in Sources */,
 				06D6EAA127C58274000B6E5F /* TaskListViewController.swift in Sources */,
 				06DB5A26281F700C004EB4B7 /* UIImageExtension.swift in Sources */,
