@@ -43,11 +43,8 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        playVideo()
-        
-//        emailTextField.delegate = self
-//        passwordTextField.delegate = self
-        
+        playVideo()
+            
         infoLabel.alpha = 0
                 
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
@@ -55,16 +52,8 @@ class StartViewController: UIViewController {
                 let user = User(user: currentUser)
                print(user)
                 self?.updateTaskList(user)
-
-                
             }
-        
-//        if user!= nil {
-//            updateTaskList(user)
-//        }
-//
-        
-        
+                
         registerForKeyboardNotification()
        
     }
@@ -75,7 +64,6 @@ class StartViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        playVideo()
         emailTextField.text = ""
         passwordTextField.text = ""
     }

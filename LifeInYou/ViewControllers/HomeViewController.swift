@@ -13,10 +13,11 @@ class HomeViewController: UIViewController {
     
     @IBOutlet var monthLabel: UILabel!
     
-    
-    
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet var daysStackView: UIStackView!
+    
+    let sectionInserts = UIEdgeInsets(top: 10, left: 3, bottom: 10, right: 3)
     
     var selectedDate = Date()
     var totalSquares = [String]()
@@ -29,7 +30,7 @@ class HomeViewController: UIViewController {
         
         calendarCollectionView.delegate = self
         calendarCollectionView.dataSource = self
-        
+//        setCellsView()
         setMonthView()
         
     }
@@ -47,17 +48,6 @@ class HomeViewController: UIViewController {
                setMonthView()
     }
     
-    
-    
-    
-    func setCellsView() {
-        let width = (calendarCollectionView.frame.size.width - 2) / 8
-        let height = (calendarCollectionView.frame.size.height - 2) / 8
-        
-        let flowLayout = calendarCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        flowLayout.itemSize = CGSize(width: width, height: height)
-    }
-    
 
     func setMonthView() {
         totalSquares.removeAll()
@@ -65,42 +55,77 @@ class HomeViewController: UIViewController {
         let daysInMonth = CalendarModel().daysInMonth(date: selectedDate)
         let firstDayOfMonth = CalendarModel().firstOfMonth(date: selectedDate)
         let startingSpaces = CalendarModel().weekDay(date: firstDayOfMonth )
-        let daysInthePreviousMonth = CalendarModel().daysInPreviousMonth(date: selectedDate)
 
-        
         var count = 1
-        var futureDays = 1
-        var pastDays = (daysInthePreviousMonth - startingSpaces) + 1
-        
-        
+
         while count <= 42 {
-            if count <= startingSpaces {
-                totalSquares.append(String(pastDays))
-                pastDays += 1
-            
-            } else if count - startingSpaces > daysInMonth {
-                totalSquares.append(String(futureDays))
-                futureDays += 1
-                
+
+            if count <= startingSpaces || count - startingSpaces > daysInMonth {
+                totalSquares.append("")
+
             } else {
                 totalSquares.append(String(count - startingSpaces))
             }
-        count += 1
-            
+
+            count += 1
         }
+
+monthLabel.text = CalendarModel().monthString(date: selectedDate) + " " + CalendarModel().yearString(date: selectedDate)
+calendarCollectionView.reloadData()
+}
+
         
-        monthLabel.text = CalendarModel().monthString(date: selectedDate) + " " + CalendarModel().yearString(date: selectedDate)
-        calendarCollectionView.reloadData()
+//        let daysInMonth = CalendarModel().daysInMonth(date: selectedDate)
+//        let firstDayOfMonth = CalendarModel().firstOfMonth(date: selectedDate)
+//        let startingSpaces = CalendarModel().weekDay(date: firstDayOfMonth )
+//        let daysInthePreviousMonth = CalendarModel().daysInPreviousMonth(date: selectedDate)
+//
+//
+//        var count = 1
+//        var futureDays = 1
+//        var pastDays = (daysInthePreviousMonth - startingSpaces) + 1
+//
+//
+//        while count <= 42 {
+//            if count <= startingSpaces {
+//                totalSquares.append(String(pastDays))
+//                pastDays += 1
+//
+//            } else if count - startingSpaces > daysInMonth {
+//                totalSquares.append(String(futureDays))
+//                futureDays += 1
+//
+//            } else {
+//                totalSquares.append(String(count - startingSpaces))
+//            }
+//        count += 1
+//
+//        }
+        
+//        totalSquares.removeAll()
+
+  
+
+
+    
+    func setupCell(cell: CalendarCollectionViewCell) {
+        let currentDay = String(CalendarModel().dayOfMonth(date: selectedDate))
+        let currentMonthLabel = CalendarModel().monthString(date: selectedDate) + " " + CalendarModel().yearString(date: selectedDate)
+        let currentMonth = CalendarModel().monthString(date: Date()) + " " + CalendarModel().yearString(date: Date())
+        
+        
+        if cell.numberOfDay.text == currentDay && monthLabel.text == currentMonthLabel && currentMonthLabel == currentMonth {
+            cell.backgroundColor = .red
+        } else {
+            cell.backgroundColor = .white
+        }
+    }
+    
 }
 
 
-}
-
-
-
     
-    
-    
+
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -112,7 +137,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = calendarCollectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as! CalendarCollectionViewCell
         
         cell.numberOfDay.text = totalSquares[indexPath.item]
@@ -120,23 +144,52 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.layer.masksToBounds = true
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor.greenSea.cgColor
+        
+        setupCell(cell: cell)
+        
         return cell
 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let cell = calendarCollectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as! CalendarCollectionViewCell
-        let cell = collectionView.cellForItem(at: indexPath)
-        
-        cell?.backgroundColor = UIColor.red
-       
-    
-        
+        let _ = collectionView.cellForItem(at: indexPath)
+
     }
  
 }
     
     
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemsPerRow: CGFloat = 8
+        let paddingWidth = 6 * (itemsPerRow)
+        let avalibleWidth = ( daysStackView.bounds.width ) - paddingWidth
+        let widthPerItem = avalibleWidth / itemsPerRow
+        let hightPerItem = widthPerItem
+
+        return CGSize(width: widthPerItem, height: hightPerItem)
+    }
+
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInserts
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        sectionInserts.left
+
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        8
+    }
+    
+    
+    
+    
+    
+}
 
     
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
